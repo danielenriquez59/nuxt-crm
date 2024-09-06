@@ -49,6 +49,13 @@ const rows = computed(() => {
     updatedAt: interaction.updatedAt ? new Date(interaction.updatedAt).toLocaleString() : '',
   }))
 })
+
+const handleDeleteItem = (item) => {
+  // Implement your deletion logic here
+  console.log('Delete item:', item)
+  // You might want to call a method from your useNotes composable here
+  // For example: deleteNote(item.id)
+}
 </script>
 
 <template>
@@ -58,6 +65,7 @@ const rows = computed(() => {
       :loading="loading"
       v-model="page"
       :page-count="pageCount"
+      @delete-item="handleDeleteItem"
     >
       <template #header>
         <h2>Interactions</h2>

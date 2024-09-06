@@ -49,6 +49,13 @@ const rows = computed(() => {
 const page = ref(1)
 const pageCount = 5
 
+const handleDeleteItem = (item) => {
+  // Implement your deletion logic here
+  console.log('Delete item:', item)
+  // You might want to call a method from your useNotes composable here
+  // For example: deleteNote(item.id)
+}
+
 </script>
 <template>
     <BaseTable 
@@ -57,6 +64,7 @@ const pageCount = 5
       :loading="loading"
       v-model="page"
       :page-count="pageCount"
+      @delete-item="handleDeleteItem"
     >
       <template #header>
         <h2>Notes</h2>

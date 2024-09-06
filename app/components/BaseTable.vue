@@ -24,7 +24,7 @@ const props = defineProps({
 
 
 const search = ref('')
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'delete-item'])
 
 const page = computed({
   get: () => props.modelValue,
@@ -62,6 +62,19 @@ const handleAddRow = (newRowData) => {
   // You might want to emit an event here or call a method passed as a prop
 }
 
+const columnsWithDelete = computed(() => [
+  ...props.columns,
+  {
+    key: 'delete',
+    label: 'Delete',
+    icon: 'i-heroicons-trash'
+  }
+])
+
+const handleDeleteClick = (item) => {
+  emit('delete-item', item)
+}
+
 </script>
 
 <template>
@@ -87,41 +100,47 @@ const handleAddRow = (newRowData) => {
         </UTooltip>
           </div>
           <UTable
-        v-if="isTableVisible"
-        :columns="columns"
-        :rows="displayedRows"
-        :loading="loading"
-        :ui="{
-          td: {
-            base: {
-              replace: 'whitespace-nowrap py-0 px-0',
-              'text-xs min-w-content max-w-[20vw] overflow-x-auto outline outline-gray-50 outline-1': true
-            },
+      v-if="isTableVisible"
+      :columns="columnsWithDelete"
+      :rows="displayedRows"
+      :loading="loading"
+      :ui="{
+        td: {
+          base: {
+            replace: 'whitespace-nowrap py-0 px-0',
+            'text-xs min-w-content max-w-[20vw] overflow-x-auto outline outline-gray-50 outline-1': true
           },
-          tr: {
-            base: 'hover:bg-zinc-50 dark:hover:bg-gray-800/50 py-0',
-          },
-        }"
-          >
-        <template #loading-state>
-          <div class="flex items-center justify-center h-32">
-            <USkeleton
-              v-for="i in 5"
-              :key="i"
-              class="h-8 w-full m-2"
-            />
-            <slot name="loading-text"></slot>
-          </div>
-        </template>
-        <template #empty-state>
-          <div class="flex flex-col items-center justify-center h-32">
-            <slot name="empty-text"></slot>
-          </div>
-        </template>
-        <template #default-cell="{ row, column }">
-           {{ formatCase(row[column.key]) }}
-          </template>
-          </UTable>
+        },
+        tr: {
+          base: 'hover:bg-zinc-50 dark:hover:bg-gray-800/50 py-0',
+        },
+      }"
+    >
+      <template #loading-state>
+        <div class="flex items-center justify-center h-32">
+          <USkeleton
+            v-for="i in 5"
+            :key="i"
+            class="h-8 w-full m-2"
+          />
+          <slot name="loading-text"></slot>
+        </div>
+      </template>
+      <template #empty-state>
+        <div class="flex flex-col items-center justify-center h-32">
+          <slot name="empty-text"></slot>
+        </div>
+      </template>
+      <template #delete-data="{ row }">
+        <UButton
+          color="red"
+          variant="ghost"
+          icon="i-heroicons-trash"
+          size="xs"
+          @click="handleDeleteClick(row)"
+        />
+      </template>
+    </UTable>
     </UCard>
 
 </template>
