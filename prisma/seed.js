@@ -7,7 +7,7 @@ async function main() {
   // Create Companies
   const companies = []
   for (let i = 0; i < 5; i++) {
-    const company = await prisma.company.create({
+    const company = await prisma.companies.create({
       data: {
         name: faker.company.name(),
         city: faker.location.city(),
@@ -23,7 +23,7 @@ async function main() {
   // Create Customers
   const customers = []
   for (let i = 0; i < 20; i++) {
-    const customer = await prisma.customer.create({
+    const customer = await prisma.customers.create({
       data: {
         companyId: faker.helpers.arrayElement(companies).id,
         email: faker.internet.email(),
@@ -36,7 +36,7 @@ async function main() {
 
   // Create Interactions
   for (let i = 0; i < 10; i++) {
-    await prisma.interaction.create({
+    await prisma.interactions.create({
       data: {
         method: faker.helpers.arrayElement(['call', 'email', 'meeting']),
         relatedCustomerIds: faker.helpers.arrayElements(customers, { min: 1, max: 3 }).map(c => c.id.toString()),
@@ -46,7 +46,7 @@ async function main() {
 
   // Create Notes
   for (let i = 0; i < 15; i++) {
-    await prisma.note.create({
+    await prisma.notes.create({
       data: {
         body: faker.lorem.paragraph(),
         relatedCustomerIds: faker.helpers.arrayElements(customers, { min: 1, max: 3 }).map(c => c.id.toString()),

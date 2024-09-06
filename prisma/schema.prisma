@@ -13,7 +13,7 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Company {
+model Companies {
   name String
   id String @id @default(cuid())
   createdAt DateTime @default(now())
@@ -25,7 +25,7 @@ model Company {
   websiteUrl    String                       // Required field for the website URL
 }
 
-model Customer {
+model Customers {
   id              Int      @id @default(autoincrement()) // Assuming 'id' as a unique identifier
   companyId       String                                 // Foreign key or reference to the company (assuming a String type for Firebase's id format)
   createdAt       DateTime @default(now())               // Automatically sets the current timestamp
@@ -35,13 +35,13 @@ model Customer {
   status          String                                 // The status of the customer, required
 }
 
-model Interaction {
+model Interactions {
   id                 Int      @id @default(autoincrement()) // Assuming 'id' as a unique identifier
   method             String                                 // The method of interaction (e.g., "call")
   relatedCustomerIds String[]                               // An array of related customer IDs (assuming they are strings)
 }
 
-model Note {
+model Notes {
   id                 Int      @id @default(autoincrement()) // Assuming 'id' as a unique identifier
   body               String                                 // The content of the note (e.g., "this is a message")
   relatedCustomerIds String[]                               // An array of related customer IDs (assuming they are strings)
