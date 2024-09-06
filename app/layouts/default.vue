@@ -13,43 +13,31 @@ const links = [{
     shortcuts: ['G', 'H']
   }
 }, {
-  id: 'inbox',
-  label: 'Inbox',
-  icon: 'i-heroicons-inbox',
-  to: '/inbox',
-  badge: '4',
+  id: 'history',
+  label: 'History',
+  icon: 'i-heroicons-clock',
+  to: '/history',
   tooltip: {
-    text: 'Inbox',
+    text: 'History',
     shortcuts: ['G', 'I']
   }
 }, {
-  id: 'users',
-  label: 'Users',
-  icon: 'i-heroicons-user-group',
-  to: '/users',
+  id: 'customers',
+  label: 'Customers',
+  icon: 'i-heroicons-users',
+  to: '/customers',
   tooltip: {
-    text: 'Users',
-    shortcuts: ['G', 'U']
+    text: 'Customers',
+    shortcuts: ['G', 'C']
   }
 }, {
-  id: 'settings',
-  label: 'Settings',
-  to: '/settings',
-  icon: 'i-heroicons-cog-8-tooth',
-  children: [{
-    label: 'General',
-    to: '/settings',
-    exact: true
-  }, {
-    label: 'Members',
-    to: '/settings/members'
-  }, {
-    label: 'Notifications',
-    to: '/settings/notifications'
-  }],
+  id: 'companies',
+  label: 'Companies',
+  icon: 'i-heroicons-building-office',
+  to: '/companies',
   tooltip: {
-    text: 'Settings',
-    shortcuts: ['G', 'S']
+    text: 'Companies',
+    shortcuts: ['G', 'O']
   }
 }]
 
@@ -108,11 +96,6 @@ const colors = computed(() => defaultColors.value.map(color => ({ ...color, acti
         <UDashboardSidebarLinks :links="links" />
 
         <UDivider />
-
-        <UDashboardSidebarLinks
-          :links="[{ label: 'Colors', draggable: true, children: colors }]"
-          @update:links="colors => defaultColors = colors"
-        />
 
         <div class="flex-1" />
 
