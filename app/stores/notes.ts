@@ -4,7 +4,7 @@ export const useNoteStore = defineStore('notes', {
   state: () => ({
     notes: [],
     loading: false,
-    error: null
+    error: null,
   }),
 
   actions: {
@@ -42,7 +42,7 @@ export const useNoteStore = defineStore('notes', {
       try {
         const response = await $fetch('/api/notes', {
           method: 'POST',
-          body: note
+          body: note,
         })
         this.notes.push(response)
         return response
@@ -60,9 +60,9 @@ export const useNoteStore = defineStore('notes', {
       try {
         const response = await $fetch(`/api/notes/${note.id}`, {
           method: 'PUT',
-          body: note
+          body: note,
         })
-        const index = this.notes.findIndex(n => n.id === note.id)
+        const index = this.notes.findIndex((n) => n.id === note.id)
         if (index !== -1) {
           this.notes[index] = response
         }
@@ -80,13 +80,13 @@ export const useNoteStore = defineStore('notes', {
       this.error = null
       try {
         await $fetch(`/api/notes/${id}`, { method: 'DELETE' })
-        this.notes = this.notes.filter(n => n.id !== id)
+        this.notes = this.notes.filter((n) => n.id !== id)
       } catch (e) {
         console.error(`Error deleting note ${id}:`, e)
         this.error = e
       } finally {
         this.loading = false
       }
-    }
-  }
+    },
+  },
 })

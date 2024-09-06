@@ -20,7 +20,7 @@ export default eventHandler(async (event) => {
         if (noteId) {
           // Get a single note
           const note = await prisma.note.findUnique({
-            where: { id: parseInt(noteId) }
+            where: { id: parseInt(noteId) },
           })
           if (!note) {
             throw createError({
@@ -67,7 +67,7 @@ export default eventHandler(async (event) => {
       try {
         const body = await readBody(event)
         const noteId = getRouterParam(event, 'id')
-        
+
         if (!noteId) {
           throw createError({
             statusCode: 400,
@@ -83,7 +83,6 @@ export default eventHandler(async (event) => {
           },
         })
         return updatedNote
-        
       } catch (error) {
         console.error('Error updating note:', error)
         throw createError({
@@ -95,7 +94,7 @@ export default eventHandler(async (event) => {
     case 'DELETE':
       try {
         const noteId = getRouterParam(event, 'id')
-        
+
         if (!noteId) {
           throw createError({
             statusCode: 400,
@@ -115,7 +114,7 @@ export default eventHandler(async (event) => {
           statusMessage: 'Failed to delete note',
         })
       }
-      
+
     default:
       throw createError({
         statusCode: 405,

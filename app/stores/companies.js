@@ -4,7 +4,7 @@ export const useCompanyStore = defineStore('companies', {
   state: () => ({
     companies: [],
     loading: false,
-    error: null
+    error: null,
   }),
 
   actions: {
@@ -42,7 +42,7 @@ export const useCompanyStore = defineStore('companies', {
       try {
         const response = await $fetch('/api/companies', {
           method: 'POST',
-          body: company
+          body: company,
         })
         this.companies.push(response)
         return response
@@ -60,9 +60,9 @@ export const useCompanyStore = defineStore('companies', {
       try {
         const response = await $fetch(`/api/companies/${company.id}`, {
           method: 'PUT',
-          body: company
+          body: company,
         })
-        const index = this.companies.findIndex(c => c.id === company.id)
+        const index = this.companies.findIndex((c) => c.id === company.id)
         if (index !== -1) {
           this.companies[index] = response
         }
@@ -80,19 +80,19 @@ export const useCompanyStore = defineStore('companies', {
       this.error = null
       try {
         await $fetch(`/api/companies/${id}`, { method: 'DELETE' })
-        this.companies = this.companies.filter(c => c.id !== id)
+        this.companies = this.companies.filter((c) => c.id !== id)
       } catch (e) {
         console.error('Error deleting company:', e)
         this.error = e
       } finally {
         this.loading = false
       }
-    }
+    },
   },
 
   getters: {
     getCompanyById: (state) => (id) => {
-      return state.companies.find(company => company.id === id)
-    }
-  }
+      return state.companies.find((company) => company.id === id)
+    },
+  },
 })

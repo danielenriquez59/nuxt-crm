@@ -11,7 +11,8 @@
     "lint": "eslint .",
     "typecheck": "nuxt typecheck",
     "seed": "node prisma/seed.js",
-    "cleardb": "node prisma/cleardb.js"
+    "cleardb": "node prisma/cleardb.js",
+    "format": "prettier --write '**/*.{js,ts,vue,md,json}'"
   },
   "dependencies": {
     "@faker-js/faker": "^9.0.0",
@@ -19,6 +20,7 @@
     "@iconify-json/simple-icons": "^1.1.114",
     "@nuxt/fonts": "^0.7.2",
     "@nuxt/ui-pro": "^1.4.1",
+    "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@pinia/nuxt": "^0.5.4",
     "@prisma/client": "^5.19.1",
     "@supabase/supabase-js": "^2.45.3",
@@ -26,6 +28,8 @@
     "@unovis/vue": "^1.4.4",
     "@vueuse/nuxt": "^10.11.1",
     "date-fns": "^3.6.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "nuxt": "^3.12.4",
     "prisma": "^5.19.1",
     "v-calendar": "^3.1.2"
@@ -33,6 +37,7 @@
   "devDependencies": {
     "@nuxt/eslint": "^0.5.1",
     "eslint": "^9.9.0",
+    "prettier": "^3.3.3",
     "vue-tsc": "^2.0.29"
   }
 }

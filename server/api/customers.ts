@@ -4,31 +4,27 @@ async function getAllCustomers() {
   try {
     // This is where Prisma actually queries your Supabase database
     const customers = await prisma.customers.findMany()
-    
-    return customers
 
+    return customers
   } catch (error) {
     console.error('Error fetching customers:', error)
     throw error
-
   } finally {
     await prisma.$disconnect()
   }
 }
 
 export default eventHandler(async (event) => {
-        
   const method = getMethod(event)
 
   switch (method) {
-
     case 'GET':
       try {
         const customerId = getRouterParam(event, 'id')
         if (customerId) {
           // Get a single customer
           const customer = await prisma.customers.findUnique({
-            where: { id: parseInt(customerId) }
+            where: { id: parseInt(customerId) },
           })
           if (!customer) {
             throw createError({
@@ -37,7 +33,6 @@ export default eventHandler(async (event) => {
             })
           }
           return customer
-
         } else {
           // Get all customers
           const customers = await getAllCustomers()
@@ -79,7 +74,7 @@ export default eventHandler(async (event) => {
       try {
         const body = await readBody(event)
         const customerId = getRouterParam(event, 'id')
-        
+
         if (!customerId) {
           throw createError({
             statusCode: 400,
@@ -97,7 +92,6 @@ export default eventHandler(async (event) => {
           },
         })
         return updatedCustomer
-
       } catch (error) {
         console.error('Error updating customer:', error)
         throw createError({
@@ -110,7 +104,7 @@ export default eventHandler(async (event) => {
       // Handle deleting a customer
       try {
         const customerId = getRouterParam(event, 'id')
-        
+
         if (!customerId) {
           throw createError({
             statusCode: 400,

@@ -2,55 +2,48 @@
 export default defineNuxtConfig({
   serverDir: 'server',
   devtools: {
-    enabled: true
+    enabled: true,
   },
   runtimeConfig: {
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
-      supabaseKey: process.env.SUPABASE_ANON_KEY
-    }
+      supabaseKey: process.env.SUPABASE_ANON_KEY,
+    },
   },
 
   extends: ['@nuxt/ui-pro'],
 
-  modules: [
-    '@nuxt/eslint',
-    '@nuxt/fonts',
-    '@nuxt/ui',
-    '@vueuse/nuxt',
-    '@pinia/nuxt'
-  ],
+  modules: ['@nuxt/eslint', '@nuxt/fonts', '@nuxt/ui', '@vueuse/nuxt', '@pinia/nuxt'],
 
   ui: {
-    safelistColors: ['primary', 'red', 'orange', 'green']
+    safelistColors: ['primary', 'red', 'orange', 'green'],
   },
 
   colorMode: {
-    disableTransition: true
+    disableTransition: true,
   },
 
   routeRules: {
     // Temporary workaround for prerender regression. see https://github.com/nuxt/nuxt/issues/27490
-    '/': { prerender: true }
+    '/': { prerender: true },
   },
 
-
   typescript: {
-    strict: false
+    strict: false,
   },
 
   future: {
-    compatibilityVersion: 4
+    compatibilityVersion: 4,
   },
 
   eslint: {
     config: {
       stylistic: {
         commaDangle: 'never',
-        braceStyle: '1tbs'
-      }
-    }
+        braceStyle: '1tbs',
+      },
+    },
   },
 
-  compatibilityDate: '2024-07-11'
+  compatibilityDate: '2024-07-11',
 })

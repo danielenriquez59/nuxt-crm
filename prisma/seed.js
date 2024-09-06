@@ -43,7 +43,9 @@ async function main() {
     await prisma.interactions.create({
       data: {
         method: faker.helpers.arrayElement(['call', 'email', 'meeting']),
-        relatedCustomerIds: faker.helpers.arrayElements(customers, { min: 1, max: 3 }).map(c => c.id.toString()),
+        relatedCustomerIds: faker.helpers
+          .arrayElements(customers, { min: 1, max: 3 })
+          .map((c) => c.id.toString()),
         createdAt: faker.date.recent(),
         updatedAt: faker.date.recent(),
       },
@@ -55,7 +57,9 @@ async function main() {
     await prisma.notes.create({
       data: {
         body: faker.lorem.paragraph(),
-        relatedCustomerIds: faker.helpers.arrayElements(customers, { min: 1, max: 3 }).map(c => c.id.toString()),
+        relatedCustomerIds: faker.helpers
+          .arrayElements(customers, { min: 1, max: 3 })
+          .map((c) => c.id.toString()),
         createdAt: faker.date.recent(),
         updatedAt: faker.date.recent(),
       },

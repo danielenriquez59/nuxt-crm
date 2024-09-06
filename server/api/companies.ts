@@ -20,7 +20,7 @@ export default eventHandler(async (event) => {
         if (companyId) {
           // Get a single company
           const company = await prisma.company.findUnique({
-            where: { id: companyId }
+            where: { id: companyId },
           })
           if (!company) {
             throw createError({
@@ -49,15 +49,15 @@ export default eventHandler(async (event) => {
       try {
         const body = await readBody(event)
         if (!body.name) {
-            throw createError({
-              statusCode: 400,
-              statusMessage: 'Name is required',
-            })
-          }
+          throw createError({
+            statusCode: 400,
+            statusMessage: 'Name is required',
+          })
+        }
         const newCompany = await prisma.company.create({
           data: {
             name: body.name,
-            city: body.city || "",
+            city: body.city || '',
             country: body.country,
             employeeIds: body.employeeIds || [],
             isEvaluation: body.isEvaluation ?? false,
@@ -77,7 +77,7 @@ export default eventHandler(async (event) => {
       try {
         const body = await readBody(event)
         const companyId = getRouterParam(event, 'id')
-        
+
         if (!companyId) {
           throw createError({
             statusCode: 400,
@@ -109,7 +109,7 @@ export default eventHandler(async (event) => {
     case 'DELETE':
       try {
         const companyId = getRouterParam(event, 'id')
-        
+
         if (!companyId) {
           throw createError({
             statusCode: 400,
@@ -129,7 +129,7 @@ export default eventHandler(async (event) => {
           statusMessage: 'Failed to delete company',
         })
       }
-      
+
     default:
       throw createError({
         statusCode: 405,

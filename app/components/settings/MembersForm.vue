@@ -5,7 +5,7 @@ const emit = defineEmits(['close'])
 
 const state = reactive({
   role: 'member',
-  email: undefined
+  email: undefined,
 })
 
 // https://ui.nuxt.com/components/form
@@ -31,22 +31,11 @@ async function onSubmit(event: FormSubmitEvent<any>) {
     class="space-y-4"
     @submit="onSubmit"
   >
-    <UFormGroup
-      label="Email"
-      name="email"
-    >
-      <UInput
-        v-model="state.email"
-        type="email"
-        placeholder="john.doe@example.com"
-        autofocus
-      />
+    <UFormGroup label="Email" name="email">
+      <UInput v-model="state.email" type="email" placeholder="john.doe@example.com" autofocus />
     </UFormGroup>
 
-    <UFormGroup
-      label="Role"
-      name="role"
-    >
+    <UFormGroup label="Role" name="role">
       <USelectMenu
         v-model="state.role"
         :options="['member', 'owner']"
@@ -55,17 +44,8 @@ async function onSubmit(event: FormSubmitEvent<any>) {
     </UFormGroup>
 
     <div class="flex justify-end gap-3">
-      <UButton
-        label="Cancel"
-        color="gray"
-        variant="ghost"
-        @click="emit('close')"
-      />
-      <UButton
-        type="submit"
-        label="Save"
-        color="black"
-      />
+      <UButton label="Cancel" color="gray" variant="ghost" @click="emit('close')" />
+      <UButton type="submit" label="Save" color="black" />
     </div>
   </UForm>
 </template>

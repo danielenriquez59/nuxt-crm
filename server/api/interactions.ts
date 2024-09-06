@@ -20,7 +20,7 @@ export default eventHandler(async (event) => {
         if (interactionId) {
           // Get a single interaction
           const interaction = await prisma.interaction.findUnique({
-            where: { id: parseInt(interactionId) }
+            where: { id: parseInt(interactionId) },
           })
           if (!interaction) {
             throw createError({
@@ -67,7 +67,7 @@ export default eventHandler(async (event) => {
       try {
         const body = await readBody(event)
         const interactionId = getRouterParam(event, 'id')
-        
+
         if (!interactionId) {
           throw createError({
             statusCode: 400,
@@ -83,7 +83,6 @@ export default eventHandler(async (event) => {
           },
         })
         return updatedinteraction
-        
       } catch (error) {
         console.error('Error updating interaction:', error)
         throw createError({
@@ -95,7 +94,7 @@ export default eventHandler(async (event) => {
     case 'DELETE':
       try {
         const interactionId = getRouterParam(event, 'id')
-        
+
         if (!interactionId) {
           throw createError({
             statusCode: 400,
@@ -115,7 +114,7 @@ export default eventHandler(async (event) => {
           statusMessage: 'Failed to delete interaction',
         })
       }
-      
+
     default:
       throw createError({
         statusCode: 405,

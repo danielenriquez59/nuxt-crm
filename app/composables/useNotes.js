@@ -25,14 +25,14 @@ export const useNotes = () => {
     return store.getNoteById(id)
   }
 
-  return { 
-    notes, 
-    loading, 
-    error, 
-    fetchNotes, 
-    addNote, 
-    updateNote, 
-    deleteNote, 
-    getNoteById 
+  return {
+    notes,
+    loading,
+    error,
+    fetchNotes,
+    addNote,
+    updateNote,
+    deleteNote,
+    getNoteById,
   }
 }

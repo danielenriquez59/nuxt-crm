@@ -1,13 +1,5 @@
 <script setup>
- const { 
-    notes, 
-    loading, 
-    error, 
-    fetchNotes, 
-    addNotes, 
-    updateNotes, 
-    deleteNotes 
-  } = useNotes()
+const { notes, loading, error, fetchNotes, addNotes, updateNotes, deleteNotes } = useNotes()
 
 // Fetch notes when the component is mounted
 onMounted(() => {
@@ -43,10 +35,12 @@ const rows = computed(() => {
   if (!Array.isArray(notes.value)) {
     return []
   }
-  return notes.value.map(note => ({
+  return notes.value.map((note) => ({
     id: note.id,
     body: note.body,
-    relatedCustomerIds: Array.isArray(note.relatedCustomerIds) ? note.relatedCustomerIds.join(', ') : '',
+    relatedCustomerIds: Array.isArray(note.relatedCustomerIds)
+      ? note.relatedCustomerIds.join(', ')
+      : '',
     createdAt: note.createdAt ? new Date(note.createdAt).toLocaleString() : '',
     updatedAt: note.updatedAt ? new Date(note.updatedAt).toLocaleString() : '',
   }))
@@ -57,19 +51,25 @@ const rows = computed(() => {
   <UDashboardPage>
     <UDashboardPanel grow>
       <AppNav />
-
       <UDashboardToolbar>
         <template #left>
           <h1 class="text-2xl font-bold">Notes Dashboard</h1>
         </template>
       </UDashboardToolbar>
-
       <UDashboardPanelContent>
         <div class="mt-4">
           <UTable
             :columns="columns"
             :rows="rows"
             :loading="loading"
+            :ui="{
+              td: {
+                base: 'py-3 px-4', // Adjust padding here
+              },
+              tr: {
+                base: 'hover:bg-gray-50 dark:hover:bg-gray-800/50', // Optional: adjust hover effect
+              },
+            }"
           >
             <template #loading-state>
               <div class="flex items-center justify-center h-32">

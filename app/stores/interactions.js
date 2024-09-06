@@ -79,4 +79,11 @@ export const useInteractionStore = defineStore('interactions', {
       this.loading = true
       this.error = null
       try {
-        await
+        await $fetch(`/api/interactions/${id}`, { method: 'DELETE' })
+        this.interactions = this.interactions.filter(n => n.id !== id)
+      } catch (e) {
+        console.error(`Error deleting interaction ${id}:`, e)
+        this.error = e
+      } finally {
+        this.loading = false
+      }

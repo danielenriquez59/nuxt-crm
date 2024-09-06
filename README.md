@@ -1,6 +1,7 @@
 # CRM Dashboard
 
 # Techstack
+
 - Nuxt 3
 - Supabase
 - Prisma

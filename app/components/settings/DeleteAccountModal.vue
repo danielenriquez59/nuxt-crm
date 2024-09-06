@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const model = defineModel({
-  type: Boolean
+  type: Boolean,
 })
 
 const toast = useToast()
@@ -12,7 +12,11 @@ function onDelete() {
 
   setTimeout(() => {
     loading.value = false
-    toast.add({ icon: 'i-heroicons-check-circle', title: 'Your account has been deleted', color: 'red' })
+    toast.add({
+      icon: 'i-heroicons-check-circle',
+      title: 'Your account has been deleted',
+      color: 'red',
+    })
     model.value = false
   }, 2000)
 }
@@ -28,25 +32,16 @@ function onDelete() {
     :close-button="null"
     :ui="{
       icon: {
-        base: 'text-red-500 dark:text-red-400'
+        base: 'text-red-500 dark:text-red-400',
       } as any,
       footer: {
-        base: 'ml-16'
-      } as any
+        base: 'ml-16',
+      } as any,
     }"
   >
     <template #footer>
-      <UButton
-        color="red"
-        label="Delete"
-        :loading="loading"
-        @click="onDelete"
-      />
-      <UButton
-        color="white"
-        label="Cancel"
-        @click="model = false"
-      />
+      <UButton color="red" label="Delete" :loading="loading" @click="onDelete" />
+      <UButton color="white" label="Cancel" @click="model = false" />
     </template>
   </UDashboardModal>
 </template>

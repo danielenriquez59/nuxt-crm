@@ -1,9 +1,5 @@
 <template>
-    <div>
-        History
-    </div>
+  <div>History</div>
 </template>
 
-<script setup>
-
-</script>
+<script setup></script>

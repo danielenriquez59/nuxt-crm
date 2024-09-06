@@ -4,7 +4,7 @@ export const useCustomerStore = defineStore('customers', {
   state: () => ({
     customers: [],
     loading: false,
-    error: null
+    error: null,
   }),
 
   actions: {
@@ -42,7 +42,7 @@ export const useCustomerStore = defineStore('customers', {
       try {
         const response = await $fetch('/api/customers', {
           method: 'POST',
-          body: customer
+          body: customer,
         })
         this.customers.push(response)
         return response
@@ -60,9 +60,9 @@ export const useCustomerStore = defineStore('customers', {
       try {
         const response = await $fetch(`/api/customers/${customer.id}`, {
           method: 'PUT',
-          body: customer
+          body: customer,
         })
-        const index = this.customers.findIndex(c => c.id === customer.id)
+        const index = this.customers.findIndex((c) => c.id === customer.id)
         if (index !== -1) {
           this.customers[index] = response
         }
@@ -80,19 +80,19 @@ export const useCustomerStore = defineStore('customers', {
       this.error = null
       try {
         await $fetch(`/api/customers/${id}`, { method: 'DELETE' })
-        this.customers = this.customers.filter(c => c.id !== id)
+        this.customers = this.customers.filter((c) => c.id !== id)
       } catch (e) {
         console.error('Error deleting customer:', e)
         this.error = e
       } finally {
         this.loading = false
       }
-    }
+    },
   },
 
   getters: {
     getCustomerById: (state) => (id) => {
-      return state.customers.find(customer => customer.id === id)
-    }
-  }
+      return state.customers.find((customer) => customer.id === id)
+    },
+  },
 })

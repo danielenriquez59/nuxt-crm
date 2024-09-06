@@ -1,21 +1,26 @@
 <script setup lang="ts">
 import type { User } from '~/types'
 
-const defaultColumns = [{
-  key: 'id',
-  label: '#'
-}, {
-  key: 'name',
-  label: 'Name',
-  sortable: true
-}, {
-  key: 'email',
-  label: 'Email',
-  sortable: true
-},  {
-  key: 'status',
-  label: 'Status'
-}]
+const defaultColumns = [
+  {
+    key: 'id',
+    label: '#',
+  },
+  {
+    key: 'name',
+    label: 'Name',
+    sortable: true,
+  },
+  {
+    key: 'email',
+    label: 'Email',
+    sortable: true,
+  },
+  {
+    key: 'status',
+    label: 'Status',
+  },
+]
 
 const q = ref('')
 const selected = ref<User[]>([])
@@ -26,9 +31,17 @@ const sort = ref({ column: 'id', direction: 'asc' as const })
 const input = ref<{ input: HTMLInputElement }>()
 const isNewUserModalOpen = ref(false)
 
-const columns = computed(() => defaultColumns.filter(column => selectedColumns.value.includes(column)))
+const columns = computed(() =>
+  defaultColumns.filter((column) => selectedColumns.value.includes(column))
+)
 
-const query = computed(() => ({ q: q.value, statuses: selectedStatuses.value, locations: selectedLocations.value, sort: sort.value.column, order: sort.value.direction }))
+const query = computed(() => ({
+  q: q.value,
+  statuses: selectedStatuses.value,
+  locations: selectedLocations.value,
+  sort: sort.value.column,
+  order: sort.value.direction,
+}))
 
 const { data: users, pending } = await useFetch<User[]>('/api/users', { query, default: () => [] })
 
@@ -47,7 +60,7 @@ const defaultStatuses = users.value.reduce((acc, user) => {
 }, [] as string[])
 
 function onSelect(row: User) {
-  const index = selected.value.findIndex(item => item.id === row.id)
+  const index = selected.value.findIndex((item) => item.id === row.id)
   if (index === -1) {
     selected.value.push(row)
   } else {
@@ -58,17 +71,14 @@ function onSelect(row: User) {
 defineShortcuts({
   '/': () => {
     input.value?.input?.focus()
-  }
+  },
 })
 </script>
 
 <template>
   <UDashboardPage>
     <UDashboardPanel grow>
-      <UDashboardNavbar
-        title="Users"
-        :badge="users.length"
-      >
+      <UDashboardNavbar title="Users" :badge="users.length">
         <template #right>
           <UInput
             ref="input"
@@ -113,9 +123,7 @@ defineShortcuts({
             multiple
             class="hidden lg:block"
           >
-            <template #label>
-              Display
-            </template>
+            <template #label> Display </template>
           </USelectMenu>
         </template>
       </UDashboardToolbar>
@@ -143,11 +151,7 @@ defineShortcuts({
       >
         <template #name-data="{ row }">
           <div class="flex items-center gap-3">
-            <UAvatar
-              v-bind="row.avatar"
-              :alt="row.name"
-              size="xs"
-            />
+            <UAvatar v-bind="row.avatar" :alt="row.name" size="xs" />
 
             <span class="text-gray-900 dark:text-white font-medium">{{ row.name }}</span>
           </div>
@@ -156,7 +160,9 @@ defineShortcuts({
         <template #status-data="{ row }">
           <UBadge
             :label="row.status"
-            :color="row.status === 'subscribed' ? 'green' : row.status === 'bounced' ? 'orange' : 'red'"
+            :color="
+              row.status === 'subscribed' ? 'green' : row.status === 'bounced' ? 'orange' : 'red'
+            "
             variant="subtle"
             class="capitalize"
           />

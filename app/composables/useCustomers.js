@@ -25,14 +25,14 @@ export const useCustomers = () => {
     return store.getCustomerById(id)
   }
 
-  return { 
-    customers, 
-    loading, 
-    error, 
-    fetchCustomers, 
-    addCustomer, 
-    updateCustomer, 
-    deleteCustomer, 
-    getCustomerById 
+  return {
+    customers,
+    loading,
+    error,
+    fetchCustomers,
+    addCustomer,
+    updateCustomer,
+    deleteCustomer,
+    getCustomerById,
   }
 }

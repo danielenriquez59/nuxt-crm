@@ -8,12 +8,12 @@ const cardRef = ref<HTMLElement | null>(null)
 const props = defineProps({
   period: {
     type: String as PropType<Period>,
-    required: true
+    required: true,
   },
   range: {
     type: Object as PropType<Range>,
-    required: true
-  }
+    required: true,
+  },
 })
 
 type DataRecord = {
@@ -24,35 +24,45 @@ type DataRecord = {
 const { width } = useElementSize(cardRef)
 
 // We use `useAsyncData` here to have same random data on the client and server
-const { data } = await useAsyncData<DataRecord[]>(async () => {
-  const dates = ({
-    daily: eachDayOfInterval,
-    weekly: eachWeekOfInterval,
-    monthly: eachMonthOfInterval
-  })[props.period](props.range)
+const { data } = await useAsyncData<DataRecord[]>(
+  async () => {
+    const dates = {
+      daily: eachDayOfInterval,
+      weekly: eachWeekOfInterval,
+      monthly: eachMonthOfInterval,
+    }[props.period](props.range)
 
-  const min = 1000
-  const max = 10000
+    const min = 1000
+    const max = 10000
 
-  return dates.map(date => ({ date, amount: Math.floor(Math.random() * (max - min + 1)) + min }))
-}, {
-  watch: [() => props.period, () => props.range],
-  default: () => []
-})
+    return dates.map((date) => ({
+      date,
+      amount: Math.floor(Math.random() * (max - min + 1)) + min,
+    }))
+  },
+  {
+    watch: [() => props.period, () => props.range],
+    default: () => [],
+  }
+)
 
 const x = (_: DataRecord, i: number) => i
 const y = (d: DataRecord) => d.amount
 
 const total = computed(() => data.value.reduce((acc: number, { amount }) => acc + amount, 0))
 
-const formatNumber = new Intl.NumberFormat('en', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format
+const formatNumber = new Intl.NumberFormat('en', {
+  style: 'currency',
+  currency: 'USD',
+  maximumFractionDigits: 0,
+}).format
 
 const formatDate = (date: Date): string => {
-  return ({
+  return {
     daily: format(date, 'd MMM'),
     weekly: format(date, 'd MMM'),
-    monthly: format(date, 'MMM yyy')
-  })[props.period]
+    monthly: format(date, 'MMM yyy'),
+  }[props.period]
 }
 
 const xTicks = (i: number) => {
@@ -67,49 +77,23 @@ const template = (d: DataRecord) => `${formatDate(d.date)}: ${formatNumber(d.amo
 </script>
 
 <template>
-  <UDashboardCard
-    ref="cardRef"
-    :ui="{ body: { padding: '!pb-3 !px-0' } as any }"
-  >
+  <UDashboardCard ref="cardRef" :ui="{ body: { padding: '!pb-3 !px-0' } as any }">
     <template #header>
       <div>
-        <p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-1">
-          Revenue
-        </p>
+        <p class="text-sm text-gray-500 dark:text-gray-400 font-medium mb-1">Revenue</p>
         <p class="text-3xl text-gray-900 dark:text-white font-semibold">
           {{ formatNumber(total) }}
         </p>
       </div>
     </template>
 
-    <VisXYContainer
-      :data="data"
-      :padding="{ top: 10 }"
-      class="h-96"
-      :width="width"
-    >
-      <VisLine
-        :x="x"
-        :y="y"
-        color="rgb(var(--color-primary-DEFAULT))"
-      />
-      <VisArea
-        :x="x"
-        :y="y"
-        color="rgb(var(--color-primary-DEFAULT))"
-        :opacity="0.1"
-      />
+    <VisXYContainer :data="data" :padding="{ top: 10 }" class="h-96" :width="width">
+      <VisLine :x="x" :y="y" color="rgb(var(--color-primary-DEFAULT))" />
+      <VisArea :x="x" :y="y" color="rgb(var(--color-primary-DEFAULT))" :opacity="0.1" />
 
-      <VisAxis
-        type="x"
-        :x="x"
-        :tick-format="xTicks"
-      />
+      <VisAxis type="x" :x="x" :tick-format="xTicks" />
 
-      <VisCrosshair
-        color="rgb(var(--color-primary-DEFAULT))"
-        :template="template"
-      />
+      <VisCrosshair color="rgb(var(--color-primary-DEFAULT))" :template="template" />
 
       <VisTooltip />
     </VisXYContainer>

@@ -5,12 +5,12 @@ import type { Mail } from '~/types'
 defineProps({
   mail: {
     type: Object as PropType<Mail>,
-    required: true
+    required: true,
   },
   selected: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 </script>
 
@@ -18,11 +18,7 @@ defineProps({
   <UDashboardPanelContent>
     <div class="flex justify-between">
       <div class="flex items-center gap-4">
-        <UAvatar
-          v-bind="mail.from.avatar"
-          :alt="mail.from.name"
-          size="lg"
-        />
+        <UAvatar v-bind="mail.from.avatar" :alt="mail.from.name" size="lg" />
 
         <div class="min-w-0">
           <p class="text-gray-900 dark:text-white font-semibold">
@@ -35,7 +31,11 @@ defineProps({
       </div>
 
       <p class="font-medium text-gray-900 dark:text-white">
-        {{ isToday(new Date(mail.date)) ? format(new Date(mail.date), 'HH:mm') : format(new Date(mail.date), 'dd MMM') }}
+        {{
+          isToday(new Date(mail.date))
+            ? format(new Date(mail.date), 'HH:mm')
+            : format(new Date(mail.date), 'dd MMM')
+        }}
       </p>
     </div>
 

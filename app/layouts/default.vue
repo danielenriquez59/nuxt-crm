@@ -3,86 +3,103 @@ const route = useRoute()
 const appConfig = useAppConfig()
 const { isHelpSlideoverOpen } = useDashboard()
 
-const links = [{
-  id: 'home',
-  label: 'Home',
-  icon: 'i-heroicons-home',
-  to: '/',
-  tooltip: {
-    text: 'Home',
-    shortcuts: ['G', 'H']
-  }
-}, {
-  id: 'history',
-  label: 'History',
-  icon: 'i-heroicons-clock',
-  to: '/history',
-  tooltip: {
-    text: 'History',
-    shortcuts: ['G', 'I']
-  }
-}, {
-  id: 'customers',
-  label: 'Customers',
-  icon: 'i-heroicons-users',
-  to: '/customers',
-  tooltip: {
-    text: 'Customers',
-    shortcuts: ['G', 'C']
-  }
-}, {
-  id: 'companies',
-  label: 'Companies',
-  icon: 'i-heroicons-building-office',
-  to: '/companies',
-  tooltip: {
-    text: 'Companies',
-    shortcuts: ['G', 'O']
-  }
-}]
+const links = [
+  {
+    id: 'home',
+    label: 'Home',
+    icon: 'i-heroicons-home',
+    to: '/',
+    tooltip: {
+      text: 'Home',
+      shortcuts: ['G', 'H'],
+    },
+  },
+  {
+    id: 'history',
+    label: 'History',
+    icon: 'i-heroicons-clock',
+    to: '/history',
+    tooltip: {
+      text: 'History',
+      shortcuts: ['G', 'I'],
+    },
+  },
+  {
+    id: 'customers',
+    label: 'Customers',
+    icon: 'i-heroicons-users',
+    to: '/customers',
+    tooltip: {
+      text: 'Customers',
+      shortcuts: ['G', 'C'],
+    },
+  },
+  {
+    id: 'companies',
+    label: 'Companies',
+    icon: 'i-heroicons-building-office',
+    to: '/companies',
+    tooltip: {
+      text: 'Companies',
+      shortcuts: ['G', 'O'],
+    },
+  },
+]
 
-const footerLinks = [{
-  label: 'Invite people',
-  icon: 'i-heroicons-plus',
-  to: '/settings/members'
-}, {
-  label: 'Help & Support',
-  icon: 'i-heroicons-question-mark-circle',
-  click: () => isHelpSlideoverOpen.value = true
-}]
+const footerLinks = [
+  {
+    label: 'Invite people',
+    icon: 'i-heroicons-plus',
+    to: '/settings/members',
+  },
+  {
+    label: 'Help & Support',
+    icon: 'i-heroicons-question-mark-circle',
+    click: () => (isHelpSlideoverOpen.value = true),
+  },
+]
 
-const groups = [{
-  key: 'links',
-  label: 'Go to',
-  commands: links.map(link => ({ ...link, shortcuts: link.tooltip?.shortcuts }))
-}, {
-  key: 'code',
-  label: 'Code',
-  commands: [{
-    id: 'source',
-    label: 'View page source',
-    icon: 'i-simple-icons-github',
-    click: () => {
-      window.open(`https://github.com/nuxt-ui-pro/dashboard/blob/main/pages${route.path === '/' ? '/index' : route.path}.vue`, '_blank')
-    }
-  }]
-}]
+const groups = [
+  {
+    key: 'links',
+    label: 'Go to',
+    commands: links.map((link) => ({ ...link, shortcuts: link.tooltip?.shortcuts })),
+  },
+  {
+    key: 'code',
+    label: 'Code',
+    commands: [
+      {
+        id: 'source',
+        label: 'View page source',
+        icon: 'i-simple-icons-github',
+        click: () => {
+          window.open(
+            `https://github.com/nuxt-ui-pro/dashboard/blob/main/pages${route.path === '/' ? '/index' : route.path}.vue`,
+            '_blank'
+          )
+        },
+      },
+    ],
+  },
+]
 
-const defaultColors = ref(['green', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet'].map(color => ({ label: color, chip: color, click: () => appConfig.ui.primary = color })))
-const colors = computed(() => defaultColors.value.map(color => ({ ...color, active: appConfig.ui.primary === color.label })))
+const defaultColors = ref(
+  ['green', 'teal', 'cyan', 'sky', 'blue', 'indigo', 'violet'].map((color) => ({
+    label: color,
+    chip: color,
+    click: () => (appConfig.ui.primary = color),
+  }))
+)
+const colors = computed(() =>
+  defaultColors.value.map((color) => ({ ...color, active: appConfig.ui.primary === color.label }))
+)
 </script>
 
 <template>
   <UDashboardLayout>
-    <UDashboardPanel
-      :width="250"
-      :resizable="{ min: 200, max: 300 }"
-      collapsible
-    >
-      <UDashboardNavbar
-        class="!border-transparent"
-        :ui="{ left: 'flex-1' }"
-      >
+    <UDashboardPanel :width="250" :resizable="{ min: 200, max: 300 }" collapsible>
+      <UDashboardNavbar class="!border-transparent" :ui="{ left: 'flex-1' }">
         <template #left>
           <TeamsDropdown />
         </template>

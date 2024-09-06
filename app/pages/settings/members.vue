@@ -8,7 +8,10 @@ const isInviteModalOpen = ref(false)
 
 const filteredMembers = computed(() => {
   return members.value.filter((member) => {
-    return member.name.search(new RegExp(q.value, 'i')) !== -1 || member.username.search(new RegExp(q.value, 'i')) !== -1
+    return (
+      member.name.search(new RegExp(q.value, 'i')) !== -1 ||
+      member.username.search(new RegExp(q.value, 'i')) !== -1
+    )
   })
 })
 </script>
@@ -22,17 +25,10 @@ const filteredMembers = computed(() => {
       :ui="{ container: 'lg:sticky top-2' }"
     >
       <template #links>
-        <UButton
-          label="Invite people"
-          color="black"
-          @click="isInviteModalOpen = true"
-        />
+        <UButton label="Invite people" color="black" @click="isInviteModalOpen = true" />
       </template>
 
-      <UCard
-        :ui="{ header: { padding: 'p-4 sm:px-6' }, body: { padding: '' } }"
-        class="min-w-0"
-      >
+      <UCard :ui="{ header: { padding: 'p-4 sm:px-6' }, body: { padding: '' } }" class="min-w-0">
         <template #header>
           <UInput
             v-model="q"

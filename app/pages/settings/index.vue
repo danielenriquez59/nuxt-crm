@@ -11,7 +11,7 @@ const state = reactive({
   avatar: '',
   bio: '',
   password_current: '',
-  password_new: ''
+  password_new: '',
 })
 
 const toast = useToast()
@@ -20,7 +20,11 @@ function validate(state: any): FormError[] {
   const errors = []
   if (!state.name) errors.push({ path: 'name', message: 'Please enter your name.' })
   if (!state.email) errors.push({ path: 'email', message: 'Please enter your email.' })
-  if ((state.password_current && !state.password_new) || (!state.password_current && state.password_new)) errors.push({ path: 'password', message: 'Please enter a valid password.' })
+  if (
+    (state.password_current && !state.password_new) ||
+    (!state.password_current && state.password_new)
+  )
+    errors.push({ path: 'password', message: 'Please enter a valid password.' })
   return errors
 }
 
@@ -48,10 +52,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
 
 <template>
   <UDashboardPanelContent class="pb-24">
-    <UDashboardSection
-      title="Theme"
-      description="Customize the look and feel of your dashboard."
-    >
+    <UDashboardSection title="Theme" description="Customize the look and feel of your dashboard.">
       <template #links>
         <UColorModeSelect color="gray" />
       </template>
@@ -59,22 +60,13 @@ async function onSubmit(event: FormSubmitEvent<any>) {
 
     <UDivider class="mb-4" />
 
-    <UForm
-      :state="state"
-      :validate="validate"
-      :validate-on="['submit']"
-      @submit="onSubmit"
-    >
+    <UForm :state="state" :validate="validate" :validate-on="['submit']" @submit="onSubmit">
       <UDashboardSection
         title="Profile"
         description="This information will be displayed publicly so be careful what you share."
       >
         <template #links>
-          <UButton
-            type="submit"
-            label="Save changes"
-            color="black"
-          />
+          <UButton type="submit" label="Save changes" color="black" />
         </template>
 
         <UFormGroup
@@ -85,12 +77,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
           class="grid grid-cols-2 gap-2 items-center"
           :ui="{ container: '' }"
         >
-          <UInput
-            v-model="state.name"
-            autocomplete="off"
-            icon="i-heroicons-user"
-            size="md"
-          />
+          <UInput v-model="state.name" autocomplete="off" icon="i-heroicons-user" size="md" />
         </UFormGroup>
 
         <UFormGroup
@@ -138,18 +125,9 @@ async function onSubmit(event: FormSubmitEvent<any>) {
           help="JPG, GIF or PNG. 1MB Max."
           :ui="{ container: 'flex flex-wrap items-center gap-3', help: 'mt-0' }"
         >
-          <UAvatar
-            :src="state.avatar"
-            :alt="state.name"
-            size="lg"
-          />
+          <UAvatar :src="state.avatar" :alt="state.name" size="lg" />
 
-          <UButton
-            label="Choose"
-            color="white"
-            size="md"
-            @click="onFileClick"
-          />
+          <UButton label="Choose" color="white" size="md" @click="onFileClick" />
 
           <input
             ref="fileRef"
@@ -157,7 +135,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
             class="hidden"
             accept=".jpg, .jpeg, .png, .gif"
             @change="onFileChange"
-          >
+          />
         </UFormGroup>
 
         <UFormGroup
@@ -167,12 +145,7 @@ async function onSubmit(event: FormSubmitEvent<any>) {
           class="grid grid-cols-2 gap-2"
           :ui="{ container: '' }"
         >
-          <UTextarea
-            v-model="state.bio"
-            :rows="5"
-            autoresize
-            size="md"
-          />
+          <UTextarea v-model="state.bio" :rows="5" autoresize size="md" />
         </UFormGroup>
 
         <UFormGroup

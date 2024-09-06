@@ -1,9 +1,5 @@
 <template>
-    <div>
-        Customers
-    </div>
+  <div>Customers</div>
 </template>
 
-<script setup>
-
-</script>
+<script setup></script>

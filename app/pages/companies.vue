@@ -1,9 +1,5 @@
 <template>
-  <div>
-    Companies
-  </div>
+  <div>Companies</div>
 </template>
 
-<script setup>
-
-</script>
+<script setup></script>
