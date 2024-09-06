@@ -37,9 +37,10 @@ export default eventHandler(async (event) => {
         const newNote = await prisma.notes.create({
           data: {
             body: body.body,
-            relatedCustomerIds: body.relatedCustomerIds,
+            relatedCustomerIds: body.relatedCustomerIds || [],
           },
         })
+        console.log("sucess creating note")
         return newNote
       } catch (error) {
         console.error('Error creating note:', error)

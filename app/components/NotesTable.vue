@@ -1,6 +1,6 @@
 <script setup>
 // Computed property to format the notes for the table
-const { notes, loading, error, fetchNotes, addNotes, updateNotes, deleteNote } = useNotes()
+const { notes, loading, error, fetchNotes, addNote, updateNote, deleteNote } = useNotes()
 
 onMounted(() => {
 // Fetch notes when the component is mounted
@@ -9,10 +9,6 @@ onMounted(() => {
 
 // Table columns definition
 const columns = [
-  {
-    key: 'id',
-    label: 'ID',
-  },
   {
     key: 'body',
     label: 'Note',
@@ -69,8 +65,63 @@ const handleDeleteItem = async (item) => {
   }
 }
 
+const handleAddRow = async (newRowData) => {
+  try {
+    // Validate and prepare the data
+    if (typeof newRowData.body !== 'string' || newRowData.body.trim() === '') {
+        toast.add({
+            title: 'Error',
+            message: 'Note body must be a non-empty string',
+            color: 'red',
+        })
+      throw new Error('Note body must be a non-empty string')
+    }
+
+    // Convert relatedCustomerIds to an array of strings
+    if (newRowData.relatedCustomerIds) {
+      newRowData.relatedCustomerIds = newRowData.relatedCustomerIds
+        .split(',')
+        .map(id => {
+          const trimmedId = id.trim()
+          if (trimmedId === '') {
+            toast.add({
+              title: 'Error',
+              message: 'Invalid customer ID: empty string',
+              color: 'red',
+            })
+            throw new Error('Invalid customer ID: empty string')
+          }
+          return trimmedId
+        })
+    } else {
+      newRowData.relatedCustomerIds = []
+    }
+
+    // Prepare the validated data for submission
+    const validatedData = {
+      body: newRowData.body.trim(),
+      relatedCustomerIds: newRowData.relatedCustomerIds
+    }
+    await addNote(validatedData)
+    toast.add({
+      title: 'Note added',
+      message: 'The note has been added successfully',
+      color: 'green',
+    })
+    await fetchNotes()
+  } catch (error) {
+    console.error('Failed to add note:', error)
+    toast.add({
+      title: 'Error',
+      message: 'Failed to add note',
+      color: 'red',
+    })
+  }
+}
+
 
 </script>
+
 <template>
     <BaseTable 
       :columns="columns" 
@@ -79,6 +130,7 @@ const handleDeleteItem = async (item) => {
       v-model="page"
       :page-count="pageCount"
       @delete-item="handleDeleteItem"
+      @add-row="handleAddRow"
     >
       <template #header>
         <h2>Notes</h2>

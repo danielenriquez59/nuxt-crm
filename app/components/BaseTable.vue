@@ -57,9 +57,7 @@ const toggleTableVisibility = () => {
 const tooltipText = computed(() => isTableVisible.value ? 'Hide' : 'Show')
 
 const handleAddRow = (newRowData) => {
-  // Placeholder for row addition logic
-  console.log('New row data:', newRowData)
-  // You might want to emit an event here or call a method passed as a prop
+  emit('add-row', newRowData)
 }
 
 const columnsWithDelete = computed(() => [

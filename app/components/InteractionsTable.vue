@@ -11,10 +11,6 @@ onMounted(() => {
 // Table columns definition
 const columns = [
   {
-    key: 'id',
-    label: 'ID',
-  },
-  {
     key: 'method',
     label: 'Method',
   },
