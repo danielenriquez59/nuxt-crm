@@ -1,5 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  serverDir: 'server',
+  devtools: {
+    enabled: true
+  },
   runtimeConfig: {
     public: {
       supabaseUrl: process.env.SUPABASE_URL,
@@ -30,9 +34,6 @@ export default defineNuxtConfig({
     '/': { prerender: true }
   },
 
-  devtools: {
-    enabled: true
-  },
 
   typescript: {
     strict: false
