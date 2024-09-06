@@ -25,8 +25,6 @@
   </template>
   
   <script setup>
-  import { useCustomers } from '~/composables/useCustomers'
-  
   // Use the composable
   const { 
     customers, 

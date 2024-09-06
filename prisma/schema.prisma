@@ -1,51 +1,39 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-// use to "npx prisma migrate dev --name init" to migrate
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
-}
+// ... existing datasource and generator blocks ...
 
 model Companies {
-  name String
-  id String @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  city          String   @default("")        // Empty string as default for city
-  country       String                       // Required field for country
-  employeeIds   String[]                     // Array of employee IDs
-  isEvaluation  Boolean  @default(false)     // Default value for evaluation flag
-  websiteUrl    String                       // Required field for the website URL
+  name          String   @default("")
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  city          String?  @default("")
+  country       String?  @default("")
+  employeeIds   String[] @default([])
+  isEvaluation  Boolean  @default(false)
+  websiteUrl    String?  @default("")
 }
 
 model Customers {
-  id              Int      @id @default(autoincrement()) // Assuming 'id' as a unique identifier
-  companyId       String                                 // Foreign key or reference to the company (assuming a String type for Firebase's id format)
-  createdAt       DateTime @default(now())               // Automatically sets the current timestamp
+  id              Int      @id @default(autoincrement())
+  companyId       String?  @default("")
+  createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  email           String                                 // Email field, required
-  name            String                                 // The name of the customer, required
-  status          String                                 // The status of the customer, required
+  email           String   @default("")
+  name            String   @default("")
+  status          String   @default("Pending")
 }
 
 model Interactions {
-  id                 Int      @id @default(autoincrement()) // Assuming 'id' as a unique identifier
-  method             String                                 // The method of interaction (e.g., "call")
-  relatedCustomerIds String[]                               // An array of related customer IDs (assuming they are strings)
+  id                 Int      @id @default(autoincrement())
+  method             String   @default("Unknown")
+  relatedCustomerIds String[] @default([])
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
 
 model Notes {
-  id                 Int      @id @default(autoincrement()) // Assuming 'id' as a unique identifier
-  body               String                                 // The content of the note (e.g., "this is a message")
-  relatedCustomerIds String[]                               // An array of related customer IDs (assuming they are strings)
+  id                 Int      @id @default(autoincrement())
+  body               String   @default("")
+  relatedCustomerIds String[] @default([])
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 }
-
-
-

@@ -90,7 +90,7 @@ const colors = computed(() => defaultColors.value.map(color => ({ ...color, acti
 
       <UDashboardSidebar>
         <template #header>
-          <UDashboardSearchButton />
+          <!-- <UDashboardSearchButton /> -->
         </template>
 
         <UDashboardSidebarLinks :links="links" />
