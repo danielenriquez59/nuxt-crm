@@ -1,9 +1,11 @@
 <script setup>
-import { ref, computed } from 'vue'
-
 const props = defineProps({
   columns: {
     type: Array,
+    required: true
+  },
+  type: {
+    type: String,
     required: true
   }
 })
@@ -40,8 +42,8 @@ const editableColumns = computed(() => {
     <UTooltip text="Add Item">
       <UButton
         icon="i-heroicons-plus"
-        color="primary"
-        variant="soft"
+        color="gray"
+        variant="solid"
         @click="openModal"
       >
       </UButton>

@@ -87,7 +87,7 @@ const handleDeleteClick = (item) => {
       :page-count="pageCount"
       :total="totalItems"
         />
-        <AddRow :columns="columns" @add-row="handleAddRow" />
+        <BaseAddRow :columns="columns" @add-row="handleAddRow" />
         <p class="opacity-70">Total Items: {{ totalItems }}</p>
         <UTooltip :text="tooltipText" class="ml-auto">
             <UButton
