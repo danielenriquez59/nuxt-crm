@@ -1,6 +1,6 @@
 <script setup>
 // Computed property to format the notes for the table
-const { notes, loading, error, fetchNotes, addNotes, updateNotes, deleteNotes } = useNotes()
+const { notes, loading, error, fetchNotes, addNotes, updateNotes, deleteNote } = useNotes()
 
 onMounted(() => {
 // Fetch notes when the component is mounted
@@ -48,13 +48,27 @@ const rows = computed(() => {
 
 const page = ref(1)
 const pageCount = 5
+const toast = useToast()
 
-const handleDeleteItem = (item) => {
-  // Implement your deletion logic here
-  console.log('Delete item:', item)
-  // You might want to call a method from your useNotes composable here
-  // For example: deleteNote(item.id)
+const handleDeleteItem = async (item) => {
+  try {
+    await deleteNote(item.id)
+    toast.add({
+      title: 'Note deleted',
+      message: 'The note has been deleted successfully',
+      color: 'green',
+    })
+    fetchNotes()
+  } catch (error) {
+    console.error('Failed to delete note:', error)
+    toast.add({
+      title: 'Error',
+      message: 'Failed to delete note',
+      color: 'red',
+    })
+  }
 }
+
 
 </script>
 <template>
