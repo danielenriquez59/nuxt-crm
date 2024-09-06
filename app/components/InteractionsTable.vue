@@ -60,7 +60,7 @@ const rows = computed(() => {
       :page-count="pageCount"
     >
       <template #header>
-        <h2>Interactions Table</h2>
+        <h2>Interactions</h2>
       </template>
       <template #loading-text>
         <p class="ml-2">Loading interactions...</p>

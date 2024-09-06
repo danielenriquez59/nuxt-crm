@@ -19,7 +19,9 @@ export default defineNuxtConfig({
   ui: {
     safelistColors: ['primary', 'red', 'orange', 'green'],
   },
-
+  imports: {
+    dirs: ['constants']
+  },
   colorMode: {
     disableTransition: true,
   },

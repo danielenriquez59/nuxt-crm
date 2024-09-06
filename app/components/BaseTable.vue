@@ -56,6 +56,12 @@ const toggleTableVisibility = () => {
 
 const tooltipText = computed(() => isTableVisible.value ? 'Hide' : 'Show')
 
+const handleAddRow = (newRowData) => {
+  // Placeholder for row addition logic
+  console.log('New row data:', newRowData)
+  // You might want to emit an event here or call a method passed as a prop
+}
+
 </script>
 
 <template>
@@ -68,6 +74,7 @@ const tooltipText = computed(() => isTableVisible.value ? 'Hide' : 'Show')
       :page-count="pageCount"
       :total="totalItems"
         />
+        <AddRow :columns="columns" @add-row="handleAddRow" />
         <p class="opacity-70">Total Items: {{ totalItems }}</p>
         <UTooltip :text="tooltipText" class="ml-auto">
             <UButton
@@ -111,6 +118,9 @@ const tooltipText = computed(() => isTableVisible.value ? 'Hide' : 'Show')
             <slot name="empty-text"></slot>
           </div>
         </template>
+        <template #default-cell="{ row, column }">
+           {{ formatCase(row[column.key]) }}
+          </template>
           </UTable>
     </UCard>
 
