@@ -1,11 +1,56 @@
-<script setup lang="ts">
-import { sub } from 'date-fns'
-import type { Period, Range } from '~/types'
+<script setup>
+ const { 
+    notes, 
+    loading, 
+    error, 
+    fetchNotes, 
+    addNotes, 
+    updateNotes, 
+    deleteNotes 
+  } = useNotes()
 
+// Fetch notes when the component is mounted
+onMounted(() => {
+  fetchNotes()
+})
 
+// Table columns definition
+const columns = [
+  {
+    key: 'id',
+    label: 'ID',
+  },
+  {
+    key: 'body',
+    label: 'Note',
+  },
+  {
+    key: 'relatedCustomerIds',
+    label: 'Related Customers',
+  },
+  {
+    key: 'createdAt',
+    label: 'Created At',
+  },
+  {
+    key: 'updatedAt',
+    label: 'Updated At',
+  },
+]
 
-const range = ref<Range>({ start: sub(new Date(), { days: 14 }), end: new Date() })
-const period = ref<Period>('daily')
+// Computed property to format the notes for the table
+const rows = computed(() => {
+  if (!Array.isArray(notes.value)) {
+    return []
+  }
+  return notes.value.map(note => ({
+    id: note.id,
+    body: note.body,
+    relatedCustomerIds: Array.isArray(note.relatedCustomerIds) ? note.relatedCustomerIds.join(', ') : '',
+    createdAt: note.createdAt ? new Date(note.createdAt).toLocaleString() : '',
+    updatedAt: note.updatedAt ? new Date(note.updatedAt).toLocaleString() : '',
+  }))
+})
 </script>
 
 <template>
@@ -15,29 +60,29 @@ const period = ref<Period>('daily')
 
       <UDashboardToolbar>
         <template #left>
-          <!-- ~/components/home/HomeDateRangePicker.vue -->
-          <HomeDateRangePicker
-            v-model="range"
-            class="-ml-2.5"
-          />
-
-          <!-- ~/components/home/HomePeriodSelect.vue -->
-          <HomePeriodSelect
-            v-model="period"
-            :range="range"
-          />
+          <h1 class="text-2xl font-bold">Notes Dashboard</h1>
         </template>
       </UDashboardToolbar>
 
       <UDashboardPanelContent>
-        <!-- ~/components/home/HomeChart.vue -->
-        <HomeChart
-          :period="period"
-          :range="range"
-        />
-
-        <div class="grid lg:grid-cols-2 lg:items-start gap-8 mt-8">
-
+        <div class="mt-4">
+          <UTable
+            :columns="columns"
+            :rows="rows"
+            :loading="loading"
+          >
+            <template #loading-state>
+              <div class="flex items-center justify-center h-32">
+                <ULoadingIcon />
+                <p class="ml-2">Loading notes...</p>
+              </div>
+            </template>
+            <template #empty-state>
+              <div class="flex flex-col items-center justify-center h-32">
+                <p class="text-gray-500">No notes found.</p>
+              </div>
+            </template>
+          </UTable>
         </div>
       </UDashboardPanelContent>
     </UDashboardPanel>

@@ -15,6 +15,8 @@ async function main() {
         employeeIds: [faker.string.uuid(), faker.string.uuid()],
         isEvaluation: faker.datatype.boolean(),
         websiteUrl: faker.internet.url(),
+        createdAt: faker.date.recent(),
+        updatedAt: faker.date.recent(),
       },
     })
     companies.push(company)
@@ -29,6 +31,8 @@ async function main() {
         email: faker.internet.email(),
         name: faker.person.fullName(),
         status: faker.helpers.arrayElement(['active', 'inactive', 'pending']),
+        createdAt: faker.date.recent(),
+        updatedAt: faker.date.recent(),
       },
     })
     customers.push(customer)
@@ -40,6 +44,8 @@ async function main() {
       data: {
         method: faker.helpers.arrayElement(['call', 'email', 'meeting']),
         relatedCustomerIds: faker.helpers.arrayElements(customers, { min: 1, max: 3 }).map(c => c.id.toString()),
+        createdAt: faker.date.recent(),
+        updatedAt: faker.date.recent(),
       },
     })
   }
@@ -50,6 +56,8 @@ async function main() {
       data: {
         body: faker.lorem.paragraph(),
         relatedCustomerIds: faker.helpers.arrayElements(customers, { min: 1, max: 3 }).map(c => c.id.toString()),
+        createdAt: faker.date.recent(),
+        updatedAt: faker.date.recent(),
       },
     })
   }

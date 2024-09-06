@@ -3,7 +3,7 @@ import { prisma } from '~/server/utils/prisma'
 async function getAllCustomers() {
   try {
     // This is where Prisma actually queries your Supabase database
-    const customers = await prisma.customer.findMany()
+    const customers = await prisma.customers.findMany()
     
     return customers
 
@@ -37,7 +37,7 @@ export default eventHandler(async (event) => {
             })
           }
           return customer
-          
+
         } else {
           // Get all customers
           const customers = await getAllCustomers()

@@ -2,7 +2,7 @@ import { prisma } from '~/server/utils/prisma'
 
 async function getAllNotes() {
   try {
-    const notes = await prisma.note.findMany()
+    const notes = await prisma.notes.findMany()
     return notes
   } catch (error) {
     console.error('Error fetching notes:', error)
