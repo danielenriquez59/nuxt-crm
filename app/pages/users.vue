@@ -12,10 +12,7 @@ const defaultColumns = [{
   key: 'email',
   label: 'Email',
   sortable: true
-}, {
-  key: 'location',
-  label: 'Location'
-}, {
+},  {
   key: 'status',
   label: 'Status'
 }]
@@ -105,13 +102,6 @@ defineShortcuts({
             multiple
             :options="defaultStatuses"
             :ui-menu="{ option: { base: 'capitalize' } }"
-          />
-          <USelectMenu
-            v-model="selectedLocations"
-            icon="i-heroicons-map-pin"
-            placeholder="Location"
-            :options="defaultLocations"
-            multiple
           />
         </template>
 
