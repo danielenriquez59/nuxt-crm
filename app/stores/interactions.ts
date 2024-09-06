@@ -87,3 +87,6 @@ export const useInteractionStore = defineStore('interactions', {
       } finally {
         this.loading = false
       }
+    }
+  }
+})

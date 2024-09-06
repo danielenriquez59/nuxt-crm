@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true,
   },
+  css: ['~/assets/css/global.css'],
   runtimeConfig: {
     public: {
       supabaseUrl: process.env.SUPABASE_URL,

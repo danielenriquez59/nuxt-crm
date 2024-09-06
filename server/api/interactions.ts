@@ -2,7 +2,7 @@ import { prisma } from '~/server/utils/prisma'
 
 async function getAllinteractions() {
   try {
-    const interactions = await prisma.interaction.findMany()
+    const interactions = await prisma.interactions.findMany()
     return interactions
   } catch (error) {
     console.error('Error fetching interactions:', error)
@@ -19,7 +19,7 @@ export default eventHandler(async (event) => {
         const interactionId = getRouterParam(event, 'id')
         if (interactionId) {
           // Get a single interaction
-          const interaction = await prisma.interaction.findUnique({
+          const interaction = await prisma.interactions.findUnique({
             where: { id: parseInt(interactionId) },
           })
           if (!interaction) {
@@ -48,7 +48,7 @@ export default eventHandler(async (event) => {
     case 'POST':
       try {
         const body = await readBody(event)
-        const newinteraction = await prisma.interaction.create({
+        const newinteraction = await prisma.interactions.create({
           data: {
             body: body.body,
             relatedCustomerIds: body.relatedCustomerIds,
@@ -75,7 +75,7 @@ export default eventHandler(async (event) => {
           })
         }
 
-        const updatedinteraction = await prisma.interaction.update({
+        const updatedinteraction = await prisma.interactions.update({
           where: { id: parseInt(interactionId) },
           data: {
             body: body.body,
@@ -102,7 +102,7 @@ export default eventHandler(async (event) => {
           })
         }
 
-        await prisma.interaction.delete({
+        await prisma.interactions.delete({
           where: { id: parseInt(interactionId) },
         })
 
