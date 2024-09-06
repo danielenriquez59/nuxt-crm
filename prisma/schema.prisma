@@ -1,4 +1,13 @@
-// ... existing datasource and generator blocks ...
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Your model definitions go here
 
 model Companies {
   name          String   @default("")

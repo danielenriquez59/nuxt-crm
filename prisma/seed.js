@@ -1,3 +1,4 @@
+// npx prisma migrate dev --name init
 import { PrismaClient } from '@prisma/client'
 import { faker } from '@faker-js/faker'
 
@@ -31,7 +32,7 @@ async function main() {
         email: faker.internet.email(),
         name: faker.person.fullName(),
         status: faker.helpers.arrayElement(['active', 'inactive', 'pending']),
-        createdAt: faker.date.recent(),
+        createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),
       },
     })
@@ -46,7 +47,7 @@ async function main() {
         relatedCustomerIds: faker.helpers
           .arrayElements(customers, { min: 1, max: 3 })
           .map((c) => c.id.toString()),
-        createdAt: faker.date.recent(),
+        createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),
       },
     })
@@ -60,7 +61,7 @@ async function main() {
         relatedCustomerIds: faker.helpers
           .arrayElements(customers, { min: 1, max: 3 })
           .map((c) => c.id.toString()),
-        createdAt: faker.date.recent(),
+        createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),
       },
     })
