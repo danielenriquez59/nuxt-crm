@@ -1,0 +1,111 @@
+<script setup>
+const props = defineProps({
+  columns: {
+    type: Array,
+    required: true
+  },
+  rows: {
+    type: Array,
+    required: true
+  },
+  loading: {
+    type: Boolean,
+    default: false
+  },
+  page: {
+    type: Number,
+    default: 1
+  },
+  pageCount: {
+    type: Number,
+    default: 5
+  }
+})
+
+
+const search = ref('')
+
+const filteredRows = computed(() => {
+  if (!search.value) return props.rows
+  return props.rows.filter(row => {
+    return props.columns.some(column => 
+      String(row[column.key]).toLowerCase().includes(search.value.toLowerCase())
+    )
+  })
+})
+
+
+const displayedRows = computed(() => {
+  const start = (props.page - 1) * props.pageCount
+  const end = start + props.pageCount
+  return filteredRows.value.slice(start, end)
+})
+
+const totalItems = computed(() => filteredRows.value.length * props.columns.length)
+
+const isTableVisible = ref(true)
+const toggleTableVisibility = () => {
+  isTableVisible.value = !isTableVisible.value
+}
+
+const tooltipText = computed(() => isTableVisible.value ? 'Hide' : 'Show')
+
+</script>
+
+<template>
+    <UCard class="shadow-md">
+        <div id="table-header" class="flex flex-row px-1 py-1 border-b border-gray-200 dark:border-gray-700 gap-4 justify-center">
+            <h2 class="mr-5"><slot name="header"></slot></h2>
+            <UInput v-model="search" placeholder="Filter" />
+            <UPagination
+          v-model="props.page"
+          :page-count="props.pageCount"
+          :total="totalItems"
+        />
+        <p class="opacity-70">Total Items: {{ totalItems }}</p>
+        <UTooltip :text="tooltipText" class="ml-auto">
+            <UButton
+              @click="toggleTableVisibility"
+              color="gray"
+              variant="ghost"
+            >
+              <UIcon :name="isTableVisible ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'" />
+            </UButton>
+        </UTooltip>
+          </div>
+          <UTable
+        v-if="isTableVisible"
+        :columns="columns"
+        :rows="displayedRows"
+        :loading="loading"
+        :ui="{
+          td: {
+            base: {
+              replace: 'whitespace-nowrap py-0 px-0',
+              'text-xs min-w-content max-w-[20vw] overflow-x-auto outline outline-gray-50 outline-1': true
+            },
+          },
+          tr: {
+            base: 'hover:bg-zinc-50 dark:hover:bg-gray-800/50 py-0',
+          },
+        }"
+          >
+        <template #loading-state>
+          <div class="flex items-center justify-center h-32">
+            <USkeleton
+              v-for="i in 5"
+              :key="i"
+              class="h-8 w-full m-2"
+            />
+            <slot name="loading-text"></slot>
+          </div>
+        </template>
+        <template #empty-state>
+          <div class="flex flex-col items-center justify-center h-32">
+            <slot name="empty-text"></slot>
+          </div>
+        </template>
+          </UTable>
+    </UCard>
+
+</template>
