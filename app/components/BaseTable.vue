@@ -12,7 +12,7 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
-  page: {
+  modelValue: { // This replaces the 'page' prop
     type: Number,
     default: 1
   },
@@ -24,6 +24,12 @@ const props = defineProps({
 
 
 const search = ref('')
+const emit = defineEmits(['update:modelValue'])
+
+const page = computed({
+  get: () => props.modelValue,
+  set: (value) => emit('update:modelValue', value)
+})
 
 const filteredRows = computed(() => {
   if (!search.value) return props.rows
@@ -36,12 +42,12 @@ const filteredRows = computed(() => {
 
 
 const displayedRows = computed(() => {
-  const start = (props.page - 1) * props.pageCount
+  const start = (page.value - 1) * props.pageCount
   const end = start + props.pageCount
   return filteredRows.value.slice(start, end)
 })
 
-const totalItems = computed(() => filteredRows.value.length * props.columns.length)
+const totalItems = computed(() => filteredRows.value.length)
 
 const isTableVisible = ref(true)
 const toggleTableVisibility = () => {
@@ -58,9 +64,9 @@ const tooltipText = computed(() => isTableVisible.value ? 'Hide' : 'Show')
             <h2 class="mr-5"><slot name="header"></slot></h2>
             <UInput v-model="search" placeholder="Filter" />
             <UPagination
-          v-model="props.page"
-          :page-count="props.pageCount"
-          :total="totalItems"
+            v-model="page"
+      :page-count="pageCount"
+      :total="totalItems"
         />
         <p class="opacity-70">Total Items: {{ totalItems }}</p>
         <UTooltip :text="tooltipText" class="ml-auto">
