@@ -24,7 +24,7 @@ const props = defineProps({
 
 
 const search = ref('')
-const emit = defineEmits(['update:modelValue', 'delete-item'])
+const emit = defineEmits(['update:modelValue', 'delete-item', 'update-item'])
 
 const page = computed({
   get: () => props.modelValue,
@@ -73,11 +73,18 @@ const handleDeleteClick = (item) => {
   emit('delete-item', item)
 }
 
+const selected = ref([])
+
+const handleUpdateItem = (item) => {
+  emit('update-item', item)
+}
+
 </script>
 
 <template>
     <UCard class="shadow-md">
-        <div id="table-header" class="flex flex-row px-1 py-1 border-b border-gray-200 dark:border-gray-700 gap-4 justify-center">
+
+        <div id="table-header" class="flex flex-row px-1  pb-3 border-b border-gray-200 dark:border-gray-700 gap-4  items-end">
             <h2 class="mr-5"><slot name="header"></slot></h2>
             <UInput v-model="search" placeholder="Filter" />
             <UPagination
@@ -86,7 +93,8 @@ const handleDeleteClick = (item) => {
       :total="totalItems"
         />
         <BaseAddRow :columns="columns" @add-row="handleAddRow" />
-        <p class="opacity-70">Total Items: {{ totalItems }}</p>
+        <BaseEditItem :columns="columns" @update-item="handleUpdateItem" :selected="selected" />
+        <p class="opacity-70 ml-auto text-md">Total Items: {{ totalItems }}</p>
         <UTooltip :text="tooltipText" class="ml-auto">
             <UButton
               @click="toggleTableVisibility"
@@ -96,12 +104,15 @@ const handleDeleteClick = (item) => {
               <UIcon :name="isTableVisible ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'" />
             </UButton>
         </UTooltip>
+          
           </div>
+
           <UTable
       v-if="isTableVisible"
       :columns="columnsWithDelete"
       :rows="displayedRows"
       :loading="loading"
+      v-model="selected"
       :ui="{
         td: {
           base: {

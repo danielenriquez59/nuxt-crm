@@ -119,6 +119,25 @@ const handleAddRow = async (newRowData) => {
   }
 }
 
+const handleUpdateItem = async (item) => {
+  try{
+    await updateNote(item)
+    toast.add({
+      title: 'Note updated',
+      message: 'The note has been updated successfully',
+      color: 'green',
+    })
+    await fetchNotes()
+  }
+  catch (error) {
+    console.error('Failed to update note:', error)
+    toast.add({
+      title: 'Error',
+      message: 'Failed to update note',
+      color: 'red',
+    })
+  }
+}
 
 </script>
 
@@ -131,6 +150,7 @@ const handleAddRow = async (newRowData) => {
       :page-count="pageCount"
       @delete-item="handleDeleteItem"
       @add-row="handleAddRow"
+      @update-item="handleUpdateItem"
     >
       <template #header>
         <h2>Notes</h2>

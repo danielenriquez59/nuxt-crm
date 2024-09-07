@@ -19,7 +19,7 @@ export default eventHandler(async (event) => {
       // Get a single note
       try {
         const note = await prisma.notes.findUnique({
-          where: { id: parseInt(noteId) },
+          where: { id: noteId },
         })
         if (!note) {
           throw createError({
@@ -41,10 +41,14 @@ export default eventHandler(async (event) => {
       try {
         const body = await readBody(event)
         const updatedNote = await prisma.notes.update({
-          where: { id: parseInt(noteId) },
+          where: { id: noteId },
           data: {
             body: body.body,
-            relatedCustomerIds: body.relatedCustomerIds,
+            relatedCustomerIds: Array.isArray(body.relatedCustomerIds) 
+              ? body.relatedCustomerIds 
+              : (typeof body.relatedCustomerIds === 'string' 
+                ? body.relatedCustomerIds.split(',').map(id => id.trim()) 
+                : []),
           },
         })
         return updatedNote
