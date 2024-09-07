@@ -39,18 +39,27 @@ export default eventHandler(async (event) => {
       // Update a note
       try {
         const body = await readBody(event)
+        const { relatedCustomerIds, ...otherData } = body
+
+        const updateData: any = { ...otherData }
+
+        if (relatedCustomerIds !== undefined) {
+          updateData.relatedCustomerIds = {
+            set: Array.isArray(relatedCustomerIds)
+              ? relatedCustomerIds.map(id => ({ id: id.toString() }))
+              : []
+          }
+        }
+
         const updatedNote = await prisma.notes.update({
           where: { id: noteId },
-          data: {
-            body: body.body,
-            relatedCustomerIds: Array.isArray(body.relatedCustomerIds) 
-              ? body.relatedCustomerIds 
-              : (typeof body.relatedCustomerIds === 'string' 
-                ? body.relatedCustomerIds.split(',').map(id => id.trim()) 
-                : []),
-          },
+          data: updateData,
+          include: {
+            relatedCustomerIds: true
+          }
         })
-        return updatedNote
+
+  return updatedNote
       } catch (error) {
         console.error('Error updating note:', error)
         throw createError({

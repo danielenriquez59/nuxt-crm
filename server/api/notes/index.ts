@@ -4,7 +4,7 @@ async function getAllNotesWithCustomers() {
   try {
     const notes = await prisma.notes.findMany({
       include: {
-        relatedCustomers: {
+        relatedCustomerIds: {
           select: {
             id: true,
             name: true,
@@ -15,8 +15,8 @@ async function getAllNotesWithCustomers() {
     // Transform the data to include customer names and remove the full customer objects
     return notes.map(note => ({
       ...note,
-      relatedCustomerNames: note.relatedCustomers.map(customer => customer.name),
-      relatedCustomerIds: note.relatedCustomers.map(customer => customer.id),
+      relatedCustomerNames: note.relatedCustomerIds.map(customer => customer.name),
+      relatedCustomerIds: note.relatedCustomerIds.map(customer => customer.id),
       relatedCustomers: undefined // Remove the full customer objects to avoid redundancy
     }))
 

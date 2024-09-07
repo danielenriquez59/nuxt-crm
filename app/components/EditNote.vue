@@ -6,11 +6,8 @@ const props = defineProps({
     }
 })
 
+// generic const and functions
 const emit = defineEmits(['update-item'])
-
-const { customers, fetchCustomers } = useCustomers()
-fetchCustomers()
-
 const isModalOpen = ref(false)
 const editingItem = ref(null)
 
@@ -30,6 +27,10 @@ const saveEditedItem = () => {
     emit('update-item', editingItem.value)
     closeModal()
 }
+
+// note specific functions
+const { customers, fetchCustomers } = useCustomers()
+fetchCustomers()
 
 const addCustomer = (customer) => {
     if (!editingItem.value.relatedCustomerIds.includes(customer.id)) {

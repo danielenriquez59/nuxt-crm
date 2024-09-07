@@ -31,6 +31,7 @@ const rows = computed(() => {
   if (!Array.isArray(notes.value)) {
     return []
   }
+  // this will add the relatedCustomerNames to the note object
   return notes.value.map((note) => ({
     id: note.id,
     body: note.body,
@@ -120,6 +121,14 @@ const handleAddRow = async (newRowData) => {
 
 const handleUpdateItem = async (item) => {
   try{
+    // Remove the relatedCustomerNames/createdAt field before updating
+    if (item.relatedCustomerNames) {
+      delete item.relatedCustomerNames;
+      delete item.createdAt;
+      // set a correctly formatted updatedAt
+      item.updatedAt = new Date().toISOString()
+    }
+    // only the body and relatedCustomerIds should be updated
     await updateNote(item)
     toast.add({
       title: 'Note updated',
