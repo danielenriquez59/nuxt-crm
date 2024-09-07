@@ -4,23 +4,27 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  columns: {
+    type: Array,
+    required: true,
+  },
+  isOpen: {
+    type: Boolean,
+    required: true,
+  },
 })
 
 // generic const and functions
-const emit = defineEmits(['update-item'])
-const isModalOpen = ref(false)
+const emit = defineEmits(['update-item', 'close'])
 const editingItem = ref(null)
-
-const handleEditClick = () => {
-  if (props.selected.length === 1) {
-    editingItem.value = { ...props.selected[0] }
-    isModalOpen.value = true
+watch(() => props.selected, (newValue) => {
+  if (newValue) {
+    editingItem.value = { ...newValue }
   }
-}
+}, { immediate: true })
 
 const closeModal = () => {
-  isModalOpen.value = false
-  editingItem.value = null
+  emit('close')
 }
 
 const saveEditedItem = () => {
@@ -46,18 +50,7 @@ const removeCustomer = (index) => {
 </script>
 
 <template>
-  <div v-if="selected.length == 1">
-    <UTooltip text="Edit Item">
-      <UButton
-        color="gray"
-        variant="solid"
-        icon="i-heroicons-pencil"
-        size="sm"
-        @click="handleEditClick"
-      />
-    </UTooltip>
-
-    <UModal v-model="isModalOpen">
+    <UModal  :model-value="isOpen" @close="closeModal">
       <UCard>
         <template #header>
           <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Edit Note</h3>
@@ -102,5 +95,4 @@ const removeCustomer = (index) => {
         </template>
       </UCard>
     </UModal>
-  </div>
 </template>

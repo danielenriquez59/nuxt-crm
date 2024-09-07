@@ -76,15 +76,27 @@ const handleDeleteClick = (item) => {
 
 const selected = ref([])
 
-const handleUpdateItem = (item) => {
-  emit('update-item', item)
+const handleEditModalClose = () => {
+  isEditModalOpen.value = false
+  selectedForEdit.value = null
 }
+
+const handleUpdateItem = (updatedItem) => {
+  emit('update-item', updatedItem)
+  handleEditModalClose()
+}
+
+const isEditModalOpen = ref(false)
+const selectedForEdit = ref(null)
 
 const items = (row) => [
   [{
     label: 'Edit',
     icon: 'i-heroicons-pencil-square-20-solid',
-    click: () => console.log('Edit', row.id)
+    click: () => {
+      selectedForEdit.value = {...row}
+      isEditModalOpen.value = true
+    }
   },
    {
     label: 'Delete',
@@ -106,11 +118,13 @@ const items = (row) => [
       <UPagination v-model="page" :page-count="pageCount" :total="totalItems" />
       <BaseAddRow :columns="columns" @add-row="handleAddRow" />
       <EditNote
-        v-if="tableType === 'notes'"
-        :columns="columns"
-        @update-item="handleUpdateItem"
-        :selected="selected"
-      />
+      v-if="tableType === 'notes' && selectedForEdit"
+      :columns="columns"
+      @update-item="handleUpdateItem"
+      :selected="selectedForEdit"
+      :is-open="isEditModalOpen"
+      @close="handleEditModalClose"
+    />
       <p class="opacity-70 ml-auto text-md">Total Items: {{ totalItems }}</p>
       <UTooltip :text="tooltipText" class="ml-auto">
         <UButton @click="toggleTableVisibility" color="gray" variant="ghost">
