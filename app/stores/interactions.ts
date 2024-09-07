@@ -4,7 +4,7 @@ export const useInteractionStore = defineStore('interactions', {
   state: () => ({
     interactions: [],
     loading: false,
-    error: null
+    error: null,
   }),
 
   actions: {
@@ -42,7 +42,7 @@ export const useInteractionStore = defineStore('interactions', {
       try {
         const response = await $fetch('/api/interactions', {
           method: 'POST',
-          body: interaction
+          body: interaction,
         })
         this.interactions.push(response)
         return response
@@ -60,9 +60,9 @@ export const useInteractionStore = defineStore('interactions', {
       try {
         const response = await $fetch(`/api/interactions/${interaction.id}`, {
           method: 'PUT',
-          body: interaction
+          body: interaction,
         })
-        const index = this.interactions.findIndex(n => n.id === interaction.id)
+        const index = this.interactions.findIndex((n) => n.id === interaction.id)
         if (index !== -1) {
           this.interactions[index] = response
         }
@@ -80,13 +80,13 @@ export const useInteractionStore = defineStore('interactions', {
       this.error = null
       try {
         await $fetch(`/api/interactions/${id}`, { method: 'DELETE' })
-        this.interactions = this.interactions.filter(n => n.id !== id)
+        this.interactions = this.interactions.filter((n) => n.id !== id)
       } catch (e) {
         console.error(`Error deleting interaction ${id}:`, e)
         this.error = e
       } finally {
         this.loading = false
       }
-    }
-  }
+    },
+  },
 })

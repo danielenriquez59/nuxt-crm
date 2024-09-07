@@ -2,12 +2,12 @@
 const props = defineProps({
   columns: {
     type: Array,
-    required: true
+    required: true,
   },
   type: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const emit = defineEmits(['add-row'])
@@ -31,22 +31,14 @@ const handleAddRow = () => {
 
 // Filter out auto-populated columns
 const editableColumns = computed(() => {
-  return props.columns.filter(column => 
-    !['id', 'createdAt', 'updatedAt'].includes(column.key)
-  )
+  return props.columns.filter((column) => !['id', 'createdAt', 'updatedAt'].includes(column.key))
 })
 </script>
 
 <template>
   <div>
     <UTooltip text="Add Item">
-      <UButton
-        icon="i-heroicons-plus"
-        color="gray"
-        variant="solid"
-        @click="openModal"
-      >
-      </UButton>
+      <UButton icon="i-heroicons-plus" color="gray" variant="solid" @click="openModal"> </UButton>
     </UTooltip>
 
     <UModal v-model="isModalOpen">
@@ -54,7 +46,12 @@ const editableColumns = computed(() => {
         <template #header>
           <h3>Add New Item</h3>
           <div class="absolute top-1 right-1">
-           <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" @click="closeModal" />
+            <UButton
+              color="gray"
+              variant="ghost"
+              icon="i-heroicons-x-mark-20-solid"
+              @click="closeModal"
+            />
           </div>
         </template>
         <form @submit.prevent="handleAddRow">
@@ -66,12 +63,8 @@ const editableColumns = computed(() => {
             </div>
           </div>
           <div class="mt-6 flex justify-end space-x-3">
-            <UButton color="gray" variant="soft" @click="closeModal">
-              Cancel
-            </UButton>
-            <UButton type="submit" color="primary">
-              Add Row
-            </UButton>
+            <UButton color="gray" variant="soft" @click="closeModal"> Cancel </UButton>
+            <UButton type="submit" color="primary"> Add Row </UButton>
           </div>
         </form>
       </UCard>

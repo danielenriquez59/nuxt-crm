@@ -55,22 +55,22 @@ const handleDeleteItem = (item) => {
 </script>
 
 <template>
-    <BaseTable 
-      :columns="columns" 
-      :rows="rows" 
-      :loading="loading"
-      v-model="page"
-      :page-count="pageCount"
-      @delete-item="handleDeleteItem"
-    >
-      <template #header>
-        <h2>Interactions</h2>
-      </template>
-      <template #loading-text>
-        <p class="ml-2">Loading interactions...</p>
-      </template>
-      <template #empty-text>
-        <p class="ml-2">No interactions found.</p>
-      </template>
-    </BaseTable>
-  </template>
+  <BaseTable
+    :columns="columns"
+    :rows="rows"
+    :loading="loading"
+    v-model="page"
+    :page-count="pageCount"
+    @delete-item="handleDeleteItem"
+  >
+    <template #header>
+      <h2>Interactions</h2>
+    </template>
+    <template #loading-text>
+      <p class="ml-2">Loading interactions...</p>
+    </template>
+    <template #empty-text>
+      <p class="ml-2">No interactions found.</p>
+    </template>
+  </BaseTable>
+</template>

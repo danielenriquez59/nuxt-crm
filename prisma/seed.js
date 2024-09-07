@@ -28,7 +28,7 @@ async function main() {
     const customer = await prisma.customers.create({
       data: {
         company: {
-          connect: { id: faker.helpers.arrayElement(companies).id }
+          connect: { id: faker.helpers.arrayElement(companies).id },
         },
         email: faker.internet.email(),
         name: faker.person.fullName(),
@@ -47,7 +47,7 @@ async function main() {
       data: {
         body: faker.lorem.sentence(),
         relatedCustomerIds: {
-          connect: relatedCustomerIds.map(customer => ({ id: customer.id }))
+          connect: relatedCustomerIds.map((customer) => ({ id: customer.id })),
         },
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),
@@ -62,7 +62,7 @@ async function main() {
       data: {
         method: faker.helpers.arrayElement(['call', 'email', 'meeting']),
         relatedCustomerIds: {
-          connect: relatedCustomerIds.map(customer => ({ id: customer.id }))
+          connect: relatedCustomerIds.map((customer) => ({ id: customer.id })),
         },
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),

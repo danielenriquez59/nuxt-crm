@@ -55,9 +55,11 @@ export default eventHandler(async (event) => {
             name: body.name,
             email: body.email,
             status: body.status,
-            company: body.companyId ? {
-              connect: { id: body.companyId },
-            } : undefined,
+            company: body.companyId
+              ? {
+                  connect: { id: body.companyId },
+                }
+              : undefined,
           },
           include: {
             company: {

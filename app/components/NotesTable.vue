@@ -3,7 +3,7 @@
 const { notes, loading, error, fetchNotes, addNote, updateNote, deleteNote } = useNotes()
 
 onMounted(() => {
-// Fetch notes when the component is mounted
+  // Fetch notes when the component is mounted
   fetchNotes()
 })
 
@@ -69,30 +69,28 @@ const handleAddRow = async (newRowData) => {
   try {
     // Validate and prepare the data
     if (typeof newRowData.body !== 'string' || newRowData.body.trim() === '') {
-        toast.add({
-            title: 'Error',
-            message: 'Note body must be a non-empty string',
-            color: 'red',
-        })
+      toast.add({
+        title: 'Error',
+        message: 'Note body must be a non-empty string',
+        color: 'red',
+      })
       throw new Error('Note body must be a non-empty string')
     }
 
     // Convert relatedCustomerIds to an array of strings
     if (newRowData.relatedCustomerIds) {
-      newRowData.relatedCustomerIds = newRowData.relatedCustomerIds
-        .split(',')
-        .map(id => {
-          const trimmedId = id.trim()
-          if (trimmedId === '') {
-            toast.add({
-              title: 'Error',
-              message: 'Invalid customer ID: empty string',
-              color: 'red',
-            })
-            throw new Error('Invalid customer ID: empty string')
-          }
-          return trimmedId
-        })
+      newRowData.relatedCustomerIds = newRowData.relatedCustomerIds.split(',').map((id) => {
+        const trimmedId = id.trim()
+        if (trimmedId === '') {
+          toast.add({
+            title: 'Error',
+            message: 'Invalid customer ID: empty string',
+            color: 'red',
+          })
+          throw new Error('Invalid customer ID: empty string')
+        }
+        return trimmedId
+      })
     } else {
       newRowData.relatedCustomerIds = []
     }
@@ -100,7 +98,7 @@ const handleAddRow = async (newRowData) => {
     // Prepare the validated data for submission
     const validatedData = {
       body: newRowData.body.trim(),
-      relatedCustomerIds: newRowData.relatedCustomerIds
+      relatedCustomerIds: newRowData.relatedCustomerIds,
     }
     await addNote(validatedData)
     toast.add({
@@ -120,11 +118,11 @@ const handleAddRow = async (newRowData) => {
 }
 
 const handleUpdateItem = async (item) => {
-  try{
+  try {
     // Remove the relatedCustomerNames/createdAt field before updating
     if (item.relatedCustomerNames) {
-      delete item.relatedCustomerNames;
-      delete item.createdAt;
+      delete item.relatedCustomerNames
+      delete item.createdAt
       // set a correctly formatted updatedAt
       item.updatedAt = new Date().toISOString()
     }
@@ -136,8 +134,7 @@ const handleUpdateItem = async (item) => {
       color: 'green',
     })
     await fetchNotes()
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Failed to update note:', error)
     toast.add({
       title: 'Error',
@@ -146,29 +143,28 @@ const handleUpdateItem = async (item) => {
     })
   }
 }
-
 </script>
 
 <template>
-    <BaseTable 
-      :columns="columns" 
-      :rows="rows" 
-      :loading="loading"
-      v-model="page"
-      :page-count="pageCount"
-      @delete-item="handleDeleteItem"
-      @add-row="handleAddRow"
-      @update-item="handleUpdateItem"
-      type="notes"
-    >
-      <template #header>
-        <h2>Notes</h2>
-      </template>
-      <template #loading-text>
-        <p class="ml-2">Loading notes...</p>
-      </template>
-      <template #empty-text>
-        <p class="ml-2">No notes found.</p>
-      </template>
-    </BaseTable>
-  </template>
+  <BaseTable
+    :columns="columns"
+    :rows="rows"
+    :loading="loading"
+    v-model="page"
+    :page-count="pageCount"
+    @delete-item="handleDeleteItem"
+    @add-row="handleAddRow"
+    @update-item="handleUpdateItem"
+    type="notes"
+  >
+    <template #header>
+      <h2>Notes</h2>
+    </template>
+    <template #loading-text>
+      <p class="ml-2">Loading notes...</p>
+    </template>
+    <template #empty-text>
+      <p class="ml-2">No notes found.</p>
+    </template>
+  </BaseTable>
+</template>

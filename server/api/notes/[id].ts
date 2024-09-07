@@ -46,8 +46,8 @@ export default eventHandler(async (event) => {
         if (relatedCustomerIds !== undefined) {
           updateData.relatedCustomerIds = {
             set: Array.isArray(relatedCustomerIds)
-              ? relatedCustomerIds.map(id => ({ id: id.toString() }))
-              : []
+              ? relatedCustomerIds.map((id) => ({ id: id.toString() }))
+              : [],
           }
         }
 
@@ -55,11 +55,11 @@ export default eventHandler(async (event) => {
           where: { id: noteId },
           data: updateData,
           include: {
-            relatedCustomerIds: true
-          }
+            relatedCustomerIds: true,
+          },
         })
 
-  return updatedNote
+        return updatedNote
       } catch (error) {
         console.error('Error updating note:', error)
         throw createError({

@@ -4,19 +4,19 @@ import { ref, watch } from 'vue'
 const props = defineProps({
   placeholder: {
     type: String,
-    default: "Search..."
+    default: 'Search...',
   },
   optionAttribute: {
     type: String,
-    default: "name"
+    default: 'name',
   },
   idAttribute: {
     type: String,
-    default: "id"
+    default: 'id',
   },
   options: {
     type: Array,
-    default: () => []
+    default: () => [],
   },
 })
 
@@ -28,8 +28,6 @@ const selected = ref(props.modelValue)
 watch(selected, (newValue) => {
   emit('update:modelValue', newValue)
 })
-
-
 </script>
 
 <template>

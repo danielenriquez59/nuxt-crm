@@ -33,7 +33,7 @@ export default eventHandler(async (event) => {
     case 'GET':
       try {
         const customers = await getAllCustomers()
-        
+
         return customers
       } catch (error) {
         console.error('Error fetching customers:', error)

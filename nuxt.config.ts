@@ -20,7 +20,7 @@ export default defineNuxtConfig({
     safelistColors: ['primary', 'red', 'orange', 'green'],
   },
   imports: {
-    dirs: ['constants']
+    dirs: ['constants'],
   },
   colorMode: {
     disableTransition: true,
