@@ -150,6 +150,7 @@ const handleUpdateItem = async (item) => {
       @delete-item="handleDeleteItem"
       @add-row="handleAddRow"
       @update-item="handleUpdateItem"
+      type="notes"
     >
       <template #header>
         <h2>Notes</h2>

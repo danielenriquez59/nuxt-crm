@@ -86,7 +86,6 @@ const handleUpdateItem = (item) => {
 </script>
 
 <template>
-    {{ selected }}
     <UCard class="shadow-md">
         <div id="table-header" class="flex flex-row px-1  pb-3 border-b border-gray-200 dark:border-gray-700 gap-4  items-end">
             <h2 class="mr-5"><slot name="header"></slot></h2>

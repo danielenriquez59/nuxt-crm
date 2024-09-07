@@ -9,11 +9,10 @@ const props = defineProps({
 const emit = defineEmits(['update-item'])
 
 const { customers, fetchCustomers } = useCustomers()
+fetchCustomers()
 
 const isModalOpen = ref(false)
 const editingItem = ref(null)
-const customerSearch = ref('')
-const filteredCustomers = ref([])
 
 const handleEditClick = () => {
     if (props.selected.length === 1) {
@@ -25,7 +24,6 @@ const handleEditClick = () => {
 const closeModal = () => {
     isModalOpen.value = false
     editingItem.value = null
-    customerSearch.value = ''
 }
 
 const saveEditedItem = () => {
@@ -33,22 +31,11 @@ const saveEditedItem = () => {
     closeModal()
 }
 
-watch(customerSearch, (newSearch) => {
-    if (newSearch) {
-        filteredCustomers.value = customers.value.filter(customer => 
-            customer.name.toLowerCase().includes(newSearch.toLowerCase())
-        )
-    } else {
-        filteredCustomers.value = []
-    }
-})
-
 const addCustomer = (customer) => {
     if (!editingItem.value.relatedCustomerIds.includes(customer.id)) {
         editingItem.value.relatedCustomerIds.push(customer.id)
         editingItem.value.relatedCustomerNames.push(customer.name)
     }
-    customerSearch.value = ''
 }
 
 const removeCustomer = (index) => {
@@ -56,21 +43,12 @@ const removeCustomer = (index) => {
     editingItem.value.relatedCustomerNames.splice(index, 1)
 }
 
-const editableFields = computed(() => {
-    if (!editingItem.value) return {}
-    const { id, createdAt, updatedAt, ...rest } = editingItem.value
-    return rest
-})
-
-// Fetch customers when the component is mounted
-fetchCustomers()
 </script>
 
 <template>
     <div v-if="selected.length == 1">
         <UTooltip text="Edit Item">
             <UButton
-                
                 color="gray"
                 variant="solid"
                 icon="i-heroicons-pencil"
@@ -91,33 +69,32 @@ fetchCustomers()
                         <UTextarea v-model="editingItem.body" rows="4" />
                     </UFormGroup>
                     <UFormGroup label="Related Customers">
-                            <UChip 
-                                v-for="(name, index) in editingItem.relatedCustomerNames" 
-                                :key="editingItem.relatedCustomerIds[index]"
-                                :text="name"
-                                class="text-base py-2 px-3 text-lg"
-                            >
-                                <template #append>
-                                    <UButton 
-                                        color="gray" 
-                                        variant="ghost" 
-                                        icon="i-heroicons-x-mark" 
-                                        @click="removeCustomer(index)"
-                                        class="text-lg"
-                                    />
-                                </template>
-                            </UChip>
-                        <UAutocomplete
-                            v-model="customerSearch"
-                            :options="filteredCustomers"
-                            option-attribute="name"
-                            placeholder="Search customers..."
-                            @item-selected="addCustomer"
-                        >
-                            <template #item="{ item }">
-                                <span>{{ item.name }}</span>
-                            </template>
-                        </UAutocomplete>
+                            <div class="flex flex-row flex-wrap max-w-full gap-1">
+                                <div
+                                    v-if="editingItem.relatedCustomerNames.length > 0"
+                                    v-for="(name, index) in editingItem.relatedCustomerNames"
+                                    :key="editingItem.relatedCustomerIds[index]"
+                                    :text="name"
+                                    class="text-xs"
+                                >
+                                        <UButton
+                                            color="gray"
+                                            variant="ghost"
+                                            @click="removeCustomer(index)"
+                                            class=" py-2 px-3 text-md bg-primary opacity-90 rounded-full"
+                                        >{{ name }}</UButton>
+                                </div>
+                                <div v-else>
+                                    No related customers. Add one below.
+                                </div>
+                            </div>
+                            <AutoDropdown
+                                :options="customers"
+                                placeholder="Add a related customer..."
+                                option-attribute="name"
+                                @update:modelValue="addCustomer"
+                                class="mt-2"
+                            />
                     </UFormGroup>
                 </div>
                 <template #footer>
