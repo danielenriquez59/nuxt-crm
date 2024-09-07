@@ -1,6 +1,4 @@
 <script setup>
-import { ref, computed } from 'vue'
-
 const props = defineProps({
     selected: {
         type: Array,
@@ -33,15 +31,16 @@ const saveEditedItem = () => {
 const editableFields = computed(() => {
     if (!editingItem.value) return {}
     const { id, createdAt, updatedAt, ...rest } = editingItem.value
-    return rest
+    return Object.fromEntries(
+        Object.entries(rest).filter(([key]) => !key.includes('Ids') && !['id', 'createdAt', 'updatedAt'].includes(key))
+    )
 })
 </script>
 
 <template>
-    <div>
+    <div v-if="selected.length == 1">
         <UTooltip text="Edit Item">
             <UButton
-                v-if="selected.length == 1"
                 color="gray"
                 variant="solid"
                 icon="i-heroicons-pencil"

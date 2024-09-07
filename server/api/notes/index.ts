@@ -56,7 +56,7 @@ export default eventHandler(async (event) => {
             relatedCustomerIds: body.relatedCustomerIds || [],
           },
         })
-        console.log("sucess creating note")
+        console.log("success creating note")
         return newNote
       } catch (error) {
         console.error('Error creating note:', error)

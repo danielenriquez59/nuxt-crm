@@ -19,6 +19,10 @@ const props = defineProps({
   pageCount: {
     type: Number,
     default: 5
+  },
+  tableType: {
+    type: String,
+    default: 'notes'
   }
 })
 
@@ -82,8 +86,8 @@ const handleUpdateItem = (item) => {
 </script>
 
 <template>
+    {{ selected }}
     <UCard class="shadow-md">
-
         <div id="table-header" class="flex flex-row px-1  pb-3 border-b border-gray-200 dark:border-gray-700 gap-4  items-end">
             <h2 class="mr-5"><slot name="header"></slot></h2>
             <UInput v-model="search" placeholder="Filter" />
@@ -93,7 +97,7 @@ const handleUpdateItem = (item) => {
       :total="totalItems"
         />
         <BaseAddRow :columns="columns" @add-row="handleAddRow" />
-        <BaseEditItem :columns="columns" @update-item="handleUpdateItem" :selected="selected" />
+        <EditNote v-if="tableType === 'notes'" :columns="columns" @update-item="handleUpdateItem" :selected="selected" />
         <p class="opacity-70 ml-auto text-md">Total Items: {{ totalItems }}</p>
         <UTooltip :text="tooltipText" class="ml-auto">
             <UButton

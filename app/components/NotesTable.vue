@@ -31,11 +31,11 @@ const rows = computed(() => {
   if (!Array.isArray(notes.value)) {
     return []
   }
-  console.log(notes)
   return notes.value.map((note) => ({
     id: note.id,
     body: note.body,
-    relatedCustomerNames: note.relatedCustomerNames.join(', '),
+    relatedCustomerIds: note.relatedCustomerIds,
+    relatedCustomerNames: note.relatedCustomerNames,
     createdAt: note.createdAt ? new Date(note.createdAt).toLocaleString() : '',
     updatedAt: note.updatedAt ? new Date(note.updatedAt).toLocaleString() : '',
   }))
