@@ -12,18 +12,17 @@ const columns = [
   {
     key: 'body',
     label: 'Note',
+    sortable: true,
   },
   {
     key: 'relatedCustomerNames',
     label: 'Related Customers',
-  },
-  {
-    key: 'createdAt',
-    label: 'Created At',
+    sortable: true,
   },
   {
     key: 'updatedAt',
     label: 'Updated At',
+    sortable: true,
   },
 ]
 

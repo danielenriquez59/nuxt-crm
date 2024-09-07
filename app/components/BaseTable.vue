@@ -66,9 +66,7 @@ const handleAddRow = (newRowData) => {
 const columnsWithDelete = computed(() => [
   ...props.columns,
   {
-    key: 'delete',
-    label: 'Delete',
-    icon: 'i-heroicons-trash',
+    key: 'actions',
   },
 ])
 
@@ -81,6 +79,20 @@ const selected = ref([])
 const handleUpdateItem = (item) => {
   emit('update-item', item)
 }
+
+const items = (row) => [
+  [{
+    label: 'Edit',
+    icon: 'i-heroicons-pencil-square-20-solid',
+    click: () => console.log('Edit', row.id)
+  },
+   {
+    label: 'Delete',
+    icon: 'i-heroicons-trash-20-solid',
+    click: () => handleDeleteClick(row)
+  }
+]
+]
 </script>
 
 <template>
@@ -112,7 +124,6 @@ const handleUpdateItem = (item) => {
       :columns="columnsWithDelete"
       :rows="displayedRows"
       :loading="loading"
-      v-model="selected"
       :ui="{
         td: {
           base: {
@@ -125,6 +136,8 @@ const handleUpdateItem = (item) => {
         },
       }"
     >
+    <template #name-data="{ row }">
+    </template>
       <template #loading-state>
         <div class="flex flex-col items-center justify-center h-48">
           <slot name="loading-text"></slot>
@@ -137,15 +150,11 @@ const handleUpdateItem = (item) => {
           <slot name="empty-text"></slot>
         </div>
       </template>
-      <template #delete-data="{ row }">
-        <UButton
-          color="red"
-          variant="ghost"
-          icon="i-heroicons-trash"
-          size="xs"
-          @click="handleDeleteClick(row)"
-        />
-      </template>
+      <template #actions-data="{ row }">
+      <UDropdown :items="items(row)">
+        <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
+      </UDropdown>
+    </template>
     </UTable>
   </UCard>
 </template>

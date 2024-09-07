@@ -12,3 +12,11 @@ export const formatCase = (str) => {
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
   })
 }
+
+export const formatCellValue = (value) => {
+  console.log('Running formatCellValue')
+  if (Array.isArray(value)) {
+    return value.join(', ')
+  }
+  return value
+}

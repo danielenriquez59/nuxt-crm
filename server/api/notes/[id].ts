@@ -72,7 +72,7 @@ export default eventHandler(async (event) => {
       // Delete a note
       try {
         await prisma.notes.delete({
-          where: { id: parseInt(noteId) },
+          where: { id: noteId },
         })
         return { message: 'Note deleted successfully' }
       } catch (error) {
