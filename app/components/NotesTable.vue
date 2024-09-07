@@ -14,7 +14,7 @@ const columns = [
     label: 'Note',
   },
   {
-    key: 'relatedCustomerIds',
+    key: 'relatedCustomerNames',
     label: 'Related Customers',
   },
   {
@@ -31,12 +31,11 @@ const rows = computed(() => {
   if (!Array.isArray(notes.value)) {
     return []
   }
+  console.log(notes)
   return notes.value.map((note) => ({
     id: note.id,
     body: note.body,
-    relatedCustomerIds: Array.isArray(note.relatedCustomerIds)
-      ? note.relatedCustomerIds.join(', ')
-      : '',
+    relatedCustomerNames: note.relatedCustomerNames.join(', '),
     createdAt: note.createdAt ? new Date(note.createdAt).toLocaleString() : '',
     updatedAt: note.updatedAt ? new Date(note.updatedAt).toLocaleString() : '',
   }))

@@ -1,11 +1,27 @@
 import { prisma } from '~/server/utils/prisma'
 
-async function getAllNotes() {
+async function getAllNotesWithCustomers() {
   try {
-    const notes = await prisma.notes.findMany()
-    return notes
+    const notes = await prisma.notes.findMany({
+      include: {
+        relatedCustomers: {
+          select: {
+            id: true,
+            name: true,
+          }
+        }
+      }
+    })
+    // Transform the data to include customer names and remove the full customer objects
+    return notes.map(note => ({
+      ...note,
+      relatedCustomerNames: note.relatedCustomers.map(customer => customer.name),
+      relatedCustomerIds: note.relatedCustomers.map(customer => customer.id),
+      relatedCustomers: undefined // Remove the full customer objects to avoid redundancy
+    }))
+
   } catch (error) {
-    console.error('Error fetching notes:', error)
+    console.error('Error fetching notes with customer data:', error)
     throw error
   }
 }
@@ -17,7 +33,7 @@ export default eventHandler(async (event) => {
     case 'GET':
       try {
         // Get all notes
-        const notes = await getAllNotes()
+        const notes = await getAllNotesWithCustomers()
         return notes
         
       } catch (error) {

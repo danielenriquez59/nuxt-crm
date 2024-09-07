@@ -126,13 +126,18 @@ const handleUpdateItem = (item) => {
       }"
     >
       <template #loading-state>
-        <div class="flex items-center justify-center h-32">
+        <div class="flex flex-col items-center justify-center h-48">
+            <slot name="loading-text"></slot>
           <USkeleton
-            v-for="i in 5"
+            v-for="i in 3"
             :key="i"
-            class="h-8 w-full m-2"
+            class="h-1/2 w-1/3 m-2"
           />
-          <slot name="loading-text"></slot>
+          <USkeleton
+            v-for="i in 3"
+            :key="i"
+            class="h-1/2 w-1/3 m-2"
+          />
         </div>
       </template>
       <template #empty-state>

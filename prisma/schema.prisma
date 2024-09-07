@@ -10,8 +10,8 @@ generator client {
 // Your model definitions go here
 
 model Companies {
-  name          String   @default("")
   id            String   @id @default(cuid())
+  name          String   @default("")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
   city          String?  @default("")
@@ -19,6 +19,7 @@ model Companies {
   employeeIds   String[] @default([])
   isEvaluation  Boolean  @default(false)
   websiteUrl    String?  @default("")
+  customers     Customers[]
 }
 
 model Customers {
@@ -29,20 +30,23 @@ model Customers {
   email           String   @default("")
   name            String   @default("")
   status          String   @default("Pending")
-}
-
-model Interactions {
-  id                 String   @id @default(cuid())
-  method             String   @default("Unknown")
-  relatedCustomerIds String[] @default([])
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  company         Companies? @relation(fields: [companyId], references: [id])
+  notes           Notes[]
+  interactions    Interactions[]
 }
 
 model Notes {
   id                 String   @id @default(cuid())
   body               String   @default("")
-  relatedCustomerIds String[] @default([])
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+  relatedCustomers   Customers[]
+}
+
+model Interactions {
+  id                 String   @id @default(cuid())
+  method             String   @default("Unknown")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  relatedCustomers   Customers[]
 }

@@ -1,4 +1,3 @@
-// npx prisma migrate dev --name init
 import { PrismaClient } from '@prisma/client'
 import { faker } from '@faker-js/faker'
 
@@ -16,7 +15,7 @@ async function main() {
         employeeIds: [faker.string.uuid(), faker.string.uuid()],
         isEvaluation: faker.datatype.boolean(),
         websiteUrl: faker.internet.url(),
-        createdAt: faker.date.recent(),
+        createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),
       },
     })
@@ -28,7 +27,9 @@ async function main() {
   for (let i = 0; i < 20; i++) {
     const customer = await prisma.customers.create({
       data: {
-        companyId: faker.helpers.arrayElement(companies).id,
+        company: {
+          connect: { id: faker.helpers.arrayElement(companies).id }
+        },
         email: faker.internet.email(),
         name: faker.person.fullName(),
         status: faker.helpers.arrayElement(['active', 'inactive', 'pending']),
@@ -39,28 +40,30 @@ async function main() {
     customers.push(customer)
   }
 
-  // Create Interactions
-  for (let i = 0; i < 10; i++) {
-    await prisma.interactions.create({
+  // Create Notes
+  for (let i = 0; i < 15; i++) {
+    const relatedCustomers = faker.helpers.arrayElements(customers, { min: 1, max: 3 })
+    await prisma.notes.create({
       data: {
-        method: faker.helpers.arrayElement(['call', 'email', 'meeting']),
-        relatedCustomerIds: faker.helpers
-          .arrayElements(customers, { min: 1, max: 3 })
-          .map((c) => c.id.toString()),
+        body: faker.lorem.paragraph(),
+        relatedCustomers: {
+          connect: relatedCustomers.map(customer => ({ id: customer.id }))
+        },
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),
       },
     })
   }
 
-  // Create Notes
-  for (let i = 0; i < 15; i++) {
-    await prisma.notes.create({
+  // Create Interactions
+  for (let i = 0; i < 10; i++) {
+    const relatedCustomers = faker.helpers.arrayElements(customers, { min: 1, max: 3 })
+    await prisma.interactions.create({
       data: {
-        body: faker.lorem.paragraph(),
-        relatedCustomerIds: faker.helpers
-          .arrayElements(customers, { min: 1, max: 3 })
-          .map((c) => c.id.toString()),
+        method: faker.helpers.arrayElement(['call', 'email', 'meeting']),
+        relatedCustomers: {
+          connect: relatedCustomers.map(customer => ({ id: customer.id }))
+        },
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),
       },
