@@ -21,14 +21,10 @@ const props = defineProps({
     type: Number,
     default: 5,
   },
-  tableType: {
-    type: String,
-    default: 'notes',
-  },
 })
 
 const search = ref('')
-const emit = defineEmits(['update:modelValue', 'delete-item', 'update-item'])
+const emit = defineEmits(['update:modelValue', 'delete-item', 'update-item', 'add-row'])
 
 const page = computed({
   get: () => props.modelValue,
@@ -93,10 +89,7 @@ const items = (row) => [
   [{
     label: 'Edit',
     icon: 'i-heroicons-pencil-square-20-solid',
-    click: () => {
-      selectedForEdit.value = {...row}
-      isEditModalOpen.value = true
-    }
+    click: () => emit('update-item', row)
   },
    {
     label: 'Delete',
@@ -116,15 +109,7 @@ const items = (row) => [
       <h2 class="mr-5"><slot name="header"></slot></h2>
       <UInput v-model="search" placeholder="Filter" />
       <UPagination v-model="page" :page-count="pageCount" :total="totalItems" />
-      <BaseAddRow :columns="columns" @add-row="handleAddRow" />
-      <EditNote
-      v-if="tableType === 'notes' && selectedForEdit"
-      :columns="columns"
-      @update-item="handleUpdateItem"
-      :selected="selectedForEdit"
-      :is-open="isEditModalOpen"
-      @close="handleEditModalClose"
-    />
+      <BaseAddRow :columns="columns" @add-row="$emit('add-row', $event)" />
       <p class="opacity-70 ml-auto text-md">Total Items: {{ totalItems }}</p>
       <UTooltip :text="tooltipText" class="ml-auto">
         <UButton @click="toggleTableVisibility" color="gray" variant="ghost">
