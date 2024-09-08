@@ -42,12 +42,12 @@ async function main() {
 
   // Create Notes
   for (let i = 0; i < 15; i++) {
-    const relatedCustomerIds = faker.helpers.arrayElements(customers, { min: 1, max: 3 })
+    const relatedCustomers = faker.helpers.arrayElements(customers, { min: 1, max: 3 })
     await prisma.notes.create({
       data: {
         body: faker.lorem.sentence(),
-        relatedCustomerIds: {
-          connect: relatedCustomerIds.map((customer) => ({ id: customer.id })),
+        relatedCustomers: {
+          connect: relatedCustomers.map((customer) => ({ id: customer.id })),
         },
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),
@@ -57,12 +57,12 @@ async function main() {
 
   // Create Interactions
   for (let i = 0; i < 10; i++) {
-    const relatedCustomerIds = faker.helpers.arrayElements(customers, { min: 1, max: 3 })
+    const relatedCustomers = faker.helpers.arrayElements(customers, { min: 1, max: 3 })
     await prisma.interactions.create({
       data: {
         method: faker.helpers.arrayElement(['call', 'email', 'meeting']),
-        relatedCustomerIds: {
-          connect: relatedCustomerIds.map((customer) => ({ id: customer.id })),
+        relatedCustomers: {
+          connect: relatedCustomers.map((customer) => ({ id: customer.id })),
         },
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),

@@ -1,11 +1,12 @@
 <script setup>
+const page = ref(1)
+const pageCount = 5
+const toast = useToast()
+
 // Computed property to format the notes for the table
 const { notes, loading, error, fetchNotes, addNote, updateNote, deleteNote } = useNotes()
 
-onMounted(() => {
-  // Fetch notes when the component is mounted
-  fetchNotes()
-})
+fetchNotes()
 
 // Table columns definition
 const columns = [
@@ -30,20 +31,9 @@ const rows = computed(() => {
   if (!Array.isArray(notes.value)) {
     return []
   }
-  // this will add the relatedCustomerNames to the note object
-  return notes.value.map((note) => ({
-    id: note.id,
-    body: note.body,
-    relatedCustomerIds: note.relatedCustomerIds,
-    relatedCustomerNames: note.relatedCustomerNames,
-    createdAt: note.createdAt ? new Date(note.createdAt).toLocaleString() : '',
-    updatedAt: note.updatedAt ? new Date(note.updatedAt).toLocaleString() : '',
-  }))
+//   format the createdAt
+  return notes.value
 })
-
-const page = ref(1)
-const pageCount = 5
-const toast = useToast()
 
 const handleDeleteItem = async (item) => {
   try {
@@ -53,7 +43,6 @@ const handleDeleteItem = async (item) => {
       message: 'The note has been deleted successfully',
       color: 'green',
     })
-    fetchNotes()
   } catch (error) {
     console.error('Failed to delete note:', error)
     toast.add({
@@ -64,10 +53,10 @@ const handleDeleteItem = async (item) => {
   }
 }
 
-const handleAddRow = async (newRowData) => {
+const handleAddRow = async (item) => {
   try {
     // Validate and prepare the data
-    if (typeof newRowData.body !== 'string' || newRowData.body.trim() === '') {
+    if (typeof item.body !== 'string' || item.body.trim() === '') {
       toast.add({
         title: 'Error',
         message: 'Note body must be a non-empty string',
@@ -76,9 +65,9 @@ const handleAddRow = async (newRowData) => {
       throw new Error('Note body must be a non-empty string')
     }
 
-    // Convert relatedCustomerIds to an array of strings
-    if (newRowData.relatedCustomerIds) {
-      newRowData.relatedCustomerIds = newRowData.relatedCustomerIds.split(',').map((id) => {
+    // Convert relatedCustomers to an array of strings
+    if (item.relatedCustomers) {
+      item.relatedCustomers = item.relatedCustomers.split(',').map((id) => {
         const trimmedId = id.trim()
         if (trimmedId === '') {
           toast.add({
@@ -91,21 +80,21 @@ const handleAddRow = async (newRowData) => {
         return trimmedId
       })
     } else {
-      newRowData.relatedCustomerIds = []
+      item.relatedCustomers = []
     }
 
     // Prepare the validated data for submission
     const validatedData = {
-      body: newRowData.body.trim(),
-      relatedCustomerIds: newRowData.relatedCustomerIds,
+      body: item.body.trim(),
+      relatedCustomers: item.relatedCustomers,
     }
+
     await addNote(validatedData)
     toast.add({
       title: 'Note added',
       message: 'The note has been added successfully',
       color: 'green',
     })
-    await fetchNotes()
   } catch (error) {
     console.error('Failed to add note:', error)
     toast.add({
@@ -118,21 +107,13 @@ const handleAddRow = async (newRowData) => {
 
 const handleUpdateItem = async (item) => {
   try {
-    // Remove the relatedCustomerNames/createdAt field before updating
-    if (item.relatedCustomerNames) {
-      delete item.relatedCustomerNames
-      delete item.createdAt
-      // set a correctly formatted updatedAt
-      item.updatedAt = new Date().toISOString()
-    }
-    // only the body and relatedCustomerIds should be updated
     await updateNote(item)
+    console.log("at handleUpdateItem:", item)
     toast.add({
       title: 'Note updated',
       message: 'The note has been updated successfully',
       color: 'green',
     })
-    await fetchNotes()
   } catch (error) {
     console.error('Failed to update note:', error)
     toast.add({

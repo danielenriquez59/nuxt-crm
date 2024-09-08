@@ -15,7 +15,7 @@ const columns = [
     label: 'Method',
   },
   {
-    key: 'relatedCustomerIds',
+    key: 'relatedCustomers',
     label: 'Related Customers',
   },
   {
@@ -38,8 +38,8 @@ const rows = computed(() => {
   return interactions.value.map((interaction) => ({
     id: interaction.id,
     method: interaction.method,
-    relatedCustomerIds: Array.isArray(interaction.relatedCustomerIds)
-      ? interaction.relatedCustomerIds.join(', ')
+    relatedCustomers: Array.isArray(interaction.relatedCustomers)
+      ? interaction.relatedCustomers.join(', ')
       : '',
     createdAt: interaction.createdAt ? new Date(interaction.createdAt).toLocaleString() : '',
     updatedAt: interaction.updatedAt ? new Date(interaction.updatedAt).toLocaleString() : '',

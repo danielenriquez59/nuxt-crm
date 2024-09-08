@@ -1,30 +1,5 @@
 import { prisma } from '~/server/utils/prisma'
 
-async function getAllNotesWithCustomers() {
-  try {
-    const notes = await prisma.notes.findMany({
-      include: {
-        relatedCustomerIds: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-    })
-    // Transform the data to include customer names and remove the full customer objects
-    return notes.map((note) => ({
-      ...note,
-      relatedCustomerNames: note.relatedCustomerIds.map((customer) => customer.name),
-      relatedCustomerIds: note.relatedCustomerIds.map((customer) => customer.id),
-      relatedCustomers: undefined, // Remove the full customer objects to avoid redundancy
-    }))
-  } catch (error) {
-    console.error('Error fetching notes with customer data:', error)
-    throw error
-  }
-}
-
 export default eventHandler(async (event) => {
   const method = getMethod(event)
 
@@ -32,8 +7,25 @@ export default eventHandler(async (event) => {
     case 'GET':
       try {
         // Get all notes
-        const notes = await getAllNotesWithCustomers()
+        const notes = await prisma.notes.findMany({
+          include: {
+            relatedCustomers: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+          },
+        })
+        // sample return
+        // notes: [ { id: 'cm0tv3m0m000piwnoi06oyj2b',
+        //   body: 'Vorax inventore adimpleo validus voco.',
+        //   createdAt: 2024-02-09T14:55:19.956Z,
+        //   updatedAt: 2024-09-08T04:03:11.269Z,
+        //   relatedCustomers: [ [Object], [Object], [Object] ] },
+
         return notes
+
       } catch (error) {
         console.error('Error fetching note(s):', error)
         if (error.statusCode === 404) {
@@ -51,11 +43,12 @@ export default eventHandler(async (event) => {
         const newNote = await prisma.notes.create({
           data: {
             body: body.body,
-            relatedCustomerIds: body.relatedCustomerIds || [],
+            relatedCustomers: body.relatedCustomers || [],
           },
         })
-        console.log('success creating note')
+        
         return newNote
+
       } catch (error) {
         console.error('Error creating note:', error)
         throw createError({

@@ -37,14 +37,14 @@ const { customers, fetchCustomers } = useCustomers()
 fetchCustomers()
 
 const addCustomer = (customer) => {
-  if (!editingItem.value.relatedCustomerIds.includes(customer.id)) {
-    editingItem.value.relatedCustomerIds.push(customer.id)
+  if (!editingItem.value.relatedCustomers.includes(customer.id)) {
+    editingItem.value.relatedCustomers.push(customer.id)
     editingItem.value.relatedCustomerNames.push(customer.name)
   }
 }
 
 const removeCustomer = (index) => {
-  editingItem.value.relatedCustomerIds.splice(index, 1)
+  editingItem.value.relatedCustomers.splice(index, 1)
   editingItem.value.relatedCustomerNames.splice(index, 1)
 }
 </script>
@@ -64,7 +64,7 @@ const removeCustomer = (index) => {
               <div
                 v-if="editingItem.relatedCustomerNames.length > 0"
                 v-for="(name, index) in editingItem.relatedCustomerNames"
-                :key="editingItem.relatedCustomerIds[index]"
+                :key="editingItem.relatedCustomers[index]"
                 :text="name"
                 class="text-xs"
               >

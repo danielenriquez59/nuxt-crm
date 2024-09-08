@@ -12,8 +12,11 @@ export const useNoteStore = defineStore('notes', {
       this.loading = true
       this.error = null
       try {
-        const response = await $fetch('/api/notes', { method: 'GET' })
-        this.notes = Array.isArray(response) ? response : response.data || []
+        const response = await $fetch('/api/notes')
+        this.notes = response.map(note => ({
+          ...note,
+          relatedCustomerNames: note.relatedCustomers.map(customer => customer.name)
+        }))
       } catch (e) {
         console.error('Error fetching notes:', e)
         this.error = e
@@ -27,7 +30,11 @@ export const useNoteStore = defineStore('notes', {
       this.error = null
       try {
         const response = await $fetch(`/api/notes/${id}`, { method: 'GET' })
-        return response
+        const { note, relatedCustomers } = response
+        return {
+          ...note,
+          relatedCustomerNames: relatedCustomers.map(customer => customer.name)
+        }
       } catch (e) {
         console.error(`Error fetching note ${id}:`, e)
         this.error = e
@@ -57,6 +64,7 @@ export const useNoteStore = defineStore('notes', {
     async updateNote(note) {
       this.loading = true
       this.error = null
+
       try {
         const response = await $fetch(`/api/notes/${note.id}`, {
           method: 'PUT',
@@ -66,6 +74,7 @@ export const useNoteStore = defineStore('notes', {
         if (index !== -1) {
           this.notes[index] = response
         }
+
         return response
       } catch (e) {
         console.error('Error updating note:', e)

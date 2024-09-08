@@ -51,7 +51,7 @@ export default eventHandler(async (event) => {
         const newinteraction = await prisma.interactions.create({
           data: {
             body: body.body,
-            relatedCustomerIds: body.relatedCustomerIds,
+            relatedCustomers: body.relatedCustomers,
           },
         })
         return newinteraction
@@ -79,7 +79,7 @@ export default eventHandler(async (event) => {
           where: { id: parseInt(interactionId) },
           data: {
             body: body.body,
-            relatedCustomerIds: body.relatedCustomerIds,
+            relatedCustomers: body.relatedCustomers,
           },
         })
         return updatedinteraction

@@ -2,6 +2,15 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
+// function to add relatedCustomerNames to the note
+async function addRelatedCustomerNames(note) {
+  const relatedCustomerNames = await prisma.customers.findMany({
+    where: { id: { in: note.relatedCustomers } },
+    select: { name: true },
+  })
+  return { ...note, relatedCustomerNames: relatedCustomerNames.map((customer) => customer.name) }
+}
+
 export default eventHandler(async (event) => {
   const method = getMethod(event)
   const noteId = getRouterParam(event, 'id')
@@ -26,7 +35,10 @@ export default eventHandler(async (event) => {
             statusMessage: 'Note not found',
           })
         }
-        return note
+
+        const noteWithRelatedCustomerNames = await addRelatedCustomerNames(note)
+        return noteWithRelatedCustomerNames
+
       } catch (error) {
         console.error('Error fetching note:', error)
         throw createError({
@@ -39,15 +51,11 @@ export default eventHandler(async (event) => {
       // Update a note
       try {
         const body = await readBody(event)
-        const { relatedCustomerIds, ...otherData } = body
-
-        const updateData: any = { ...otherData }
-
-        if (relatedCustomerIds !== undefined) {
-          updateData.relatedCustomerIds = {
-            set: Array.isArray(relatedCustomerIds)
-              ? relatedCustomerIds.map((id) => ({ id: id.toString() }))
-              : [],
+        
+        const updateData = {
+          body: body.body,
+          relatedCustomers: {
+            set: body.relatedCustomers?.map(id => ({ id })) || []
           }
         }
 
@@ -55,11 +63,12 @@ export default eventHandler(async (event) => {
           where: { id: noteId },
           data: updateData,
           include: {
-            relatedCustomerIds: true,
-          },
+            relatedCustomers: true
+          }
         })
-
+       
         return updatedNote
+
       } catch (error) {
         console.error('Error updating note:', error)
         throw createError({
