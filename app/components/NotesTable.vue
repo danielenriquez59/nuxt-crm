@@ -9,8 +9,9 @@ const { notes, loading, error, fetchNotes, addNote, updateNote, deleteNote } = u
 fetchNotes()
 
 // New refs for EditNote functionality
-const isEditModalOpen = ref(false)
+const isEditNoteOpen = ref(false)
 const selectedForEdit = ref(null)
+const isAddNoteOpen = ref(false)
 
 // Table columns definition
 const columns = [
@@ -45,93 +46,21 @@ const rows = computed(() => {
 })
 
 const handleDeleteItem = async (item) => {
-  try {
-    await deleteNote(item.id)
-    toast.add({
-      title: 'Note deleted',
-      message: 'The note has been deleted successfully',
-      color: 'green',
-    })
-  } catch (error) {
-    console.error('Failed to delete note:', error)
-    toast.add({
-      title: 'Error',
-      message: 'Failed to delete note',
-      color: 'red',
-    })
-  }
+  await deleteNote(item)
+  errorHandler(error, 'note', 'deleted')
 }
 
-const handleAddRow = async (item) => {
-  try {
-    // Validate and prepare the data
-    if (typeof item.body !== 'string' || item.body.trim() === '') {
-      toast.add({
-        title: 'Error',
-        message: 'Note body must be a non-empty string',
-        color: 'red',
-      })
-      throw new Error('Note body must be a non-empty string')
-    }
-
-    // Convert relatedCustomers to an array of strings
-    if (item.relatedCustomers) {
-      item.relatedCustomers = item.relatedCustomers.split(',').map((id) => {
-        const trimmedId = id.trim()
-        if (trimmedId === '') {
-          toast.add({
-            title: 'Error',
-            message: 'Invalid customer ID: empty string',
-            color: 'red',
-          })
-          throw new Error('Invalid customer ID: empty string')
-        }
-        return trimmedId
-      })
-    } else {
-      item.relatedCustomers = []
-    }
-
-    // Prepare the validated data for submission
-    const validatedData = {
-      body: item.body.trim(),
-      relatedCustomers: item.relatedCustomers,
-    }
-
-    await addNote(validatedData)
-    toast.add({
-      title: 'Note added',
-      message: 'The note has been added successfully',
-      color: 'green',
-    })
-  } catch (error) {
-    console.error('Failed to add note:', error)
-    toast.add({
-      title: 'Error',
-      message: 'Failed to add note',
-      color: 'red',
-    })
-  }
+const addNewNote = async (item) => {
+    await addNote(item)
+    isAddNoteOpen.value = false
+    errorHandler(error, 'note', 'added')
 }
 
 const handleUpdateItem = async (item) => {
-  try {
     await updateNote(item)
-    isEditModalOpen.value = false
+    isEditNoteOpen.value = false
     selectedForEdit.value = null
-    toast.add({
-      title: 'Note updated',
-      message: 'The note has been updated successfully',
-      color: 'green',
-    })
-  } catch (error) {
-    console.error('Failed to update note:', error)
-    toast.add({
-      title: 'Error',
-      message: 'Failed to update note',
-      color: 'red',
-    })
-  }
+    errorHandler(error, 'note', 'updated')
 }
 
 const openEditModal = (item) => {
@@ -140,13 +69,22 @@ const openEditModal = (item) => {
     item.relatedCustomerNames = item.relatedCustomerNames.split(',').map(name => name.trim());
   }
   selectedForEdit.value = { ...item }
-  isEditModalOpen.value = true
+  isEditNoteOpen.value = true
 }
 
-const closeEditModal = () => {
-  isEditModalOpen.value = false
+const closeEditNote = () => {
+  isEditNoteOpen.value = false
   selectedForEdit.value = null
 }
+
+const handleAddItem = () => {
+  isAddNoteOpen.value = true
+}
+
+const closeAddNote = () => {
+  isAddNoteOpen.value = false
+}
+
 </script>
 
 <template>
@@ -158,7 +96,7 @@ const closeEditModal = () => {
       v-model="page"
       :page-count="pageCount"
       @delete-item="handleDeleteItem"
-      @add-row="handleAddRow"
+      @add-row="handleAddItem"
       @update-item="openEditModal"
       type="notes"
     >
@@ -174,11 +112,18 @@ const closeEditModal = () => {
     </BaseTable>
 
     <EditNote
-      v-if="isEditModalOpen"
+      v-if="isEditNoteOpen"
       :selected="selectedForEdit"
-      :is-open="isEditModalOpen"
+      :is-open="isEditNoteOpen"
       @update-item="handleUpdateItem"
-      @close="closeEditModal"
+      @close="closeEditNote"
+    />
+
+    <AddNote
+      v-if="isAddNoteOpen"
+      :is-open="isAddNoteOpen"
+      @add-row="addNewNote"
+      @close="closeAddNote"
     />
   </div>
 </template>

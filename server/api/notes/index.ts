@@ -17,12 +17,6 @@ export default eventHandler(async (event) => {
             },
           },
         })
-        // sample return
-        // notes: [ { id: 'cm0tv3m0m000piwnoi06oyj2b',
-        //   body: 'Vorax inventore adimpleo validus voco.',
-        //   createdAt: 2024-02-09T14:55:19.956Z,
-        //   updatedAt: 2024-09-08T04:03:11.269Z,
-        //   relatedCustomers: [ [Object], [Object], [Object] ] },
 
         return notes
 
@@ -37,17 +31,26 @@ export default eventHandler(async (event) => {
         })
       }
 
-    case 'POST':
-      try {
-        const body = await readBody(event)
-        const newNote = await prisma.notes.create({
-          data: {
+      case 'POST':
+        try {
+          const body = await readBody(event)
+          
+          // Prepare the data for Prisma
+          const noteData = {
             body: body.body,
-            relatedCustomers: body.relatedCustomers || [],
-          },
-        })
-        
-        return newNote
+            relatedCustomers: {
+              connect: body.relatedCustomers.map(customer => ({ id: customer.id }))
+            }
+          }
+  
+          const newNote = await prisma.notes.create({
+            data: noteData,
+            include: {
+              relatedCustomers: true
+            }
+          })
+          
+          return newNote
 
       } catch (error) {
         console.error('Error creating note:', error)

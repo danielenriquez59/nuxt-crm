@@ -51,11 +51,12 @@ export default eventHandler(async (event) => {
       // Update a note
       try {
         const body = await readBody(event)
-        
+        console.log('body', body)
+        // Prepare the update data
         const updateData = {
           body: body.body,
           relatedCustomers: {
-            set: body.relatedCustomers?.map(id => ({ id })) || []
+            set: body.relatedCustomers.map(customerId => ({ id: customerId }))
           }
         }
 

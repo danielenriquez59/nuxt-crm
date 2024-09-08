@@ -60,15 +60,17 @@ const removeCustomer = (index) => {
             <UTextarea v-model="editingItem.body" rows="4" />
           </UFormGroup>
           <UFormGroup label="Related Customers">
-            <div class="flex flex-row flex-wrap max-w-full gap-1">
+            <div 
+            v-if="editingItem.relatedCustomerNames?.length > 0"
+            class="flex flex-row flex-wrap max-w-full gap-1">
               <div
-                v-if="editingItem.relatedCustomerNames.length > 0"
                 v-for="(name, index) in editingItem.relatedCustomerNames"
                 :key="editingItem.relatedCustomers[index]"
                 :text="name"
                 class="text-xs"
               >
                 <UButton
+            v-if="editingItem.relatedCustomerNames?.length > 0"
                   color="gray"
                   variant="ghost"
                   @click="removeCustomer(index)"
@@ -76,8 +78,8 @@ const removeCustomer = (index) => {
                   >{{ name }}</UButton
                 >
               </div>
-              <div v-else>No related customers. Add one below.</div>
             </div>
+            <div v-else>No related customers. Add one below.</div>
             <AutoDropdown
               :options="customers"
               placeholder="Add a related customer..."

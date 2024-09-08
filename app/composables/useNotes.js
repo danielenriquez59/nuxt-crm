@@ -17,8 +17,8 @@ export const useNotes = () => {
     store.updateNote(note)
   }
 
-  const deleteNote = (noteId) => {
-    store.deleteNote(noteId)
+  const deleteNote = (note) => {
+    store.deleteNote(note)
   }
 
   const getNoteById = (id) => {

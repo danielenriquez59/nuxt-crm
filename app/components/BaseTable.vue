@@ -109,7 +109,9 @@ const items = (row) => [
       <h2 class="mr-5"><slot name="header"></slot></h2>
       <UInput v-model="search" placeholder="Filter" />
       <UPagination v-model="page" :page-count="pageCount" :total="totalItems" />
-      <BaseAddRow :columns="columns" @add-row="$emit('add-row', $event)" />
+      <UTooltip text="Add Item">
+          <UButton icon="i-heroicons-plus" color="gray" @click="handleAddRow"></UButton>
+      </UTooltip>
       <p class="opacity-70 ml-auto text-md">Total Items: {{ totalItems }}</p>
       <UTooltip :text="tooltipText" class="ml-auto">
         <UButton @click="toggleTableVisibility" color="gray" variant="ghost">

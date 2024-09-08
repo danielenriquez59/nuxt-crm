@@ -64,7 +64,7 @@ export const useNoteStore = defineStore('notes', {
     async updateNote(note) {
       this.loading = true
       this.error = null
-
+      
       try {
         const response = await $fetch(`/api/notes/${note.id}`, {
           method: 'PUT',
@@ -84,14 +84,15 @@ export const useNoteStore = defineStore('notes', {
       }
     },
 
-    async deleteNote(id) {
+    async deleteNote(item) {
       this.loading = true
       this.error = null
+      
       try {
-        await $fetch(`/api/notes/${id}`, { method: 'DELETE' })
-        this.notes = this.notes.filter((n) => n.id !== id)
+        await $fetch(`/api/notes/${item.id}`, { method: 'DELETE' })
+        this.notes = this.notes.filter((n) => n.id !== item.id)
       } catch (e) {
-        console.error(`Error deleting note ${id}:`, e)
+        console.error(`Error deleting note ${item.id}:`, e)
         this.error = e
       } finally {
         this.loading = false
