@@ -15,8 +15,6 @@ export default defineEventHandler(async (event) => {
               select: {
                 id: true,
                 name: true,
-                email: true,
-                status: true,
               },
             },
           },

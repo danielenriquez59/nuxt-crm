@@ -32,12 +32,6 @@ const saveEditedItem = () => {
 const { companies, fetchCompanies } = useCompanies()
 fetchCompanies()
 
-// Customer status options
-const statusOptions = [
-  { label: 'Pending', value: 'Pending' },
-  { label: 'Active', value: 'Active' },
-  { label: 'Inactive', value: 'Inactive' },
-]
 </script>
 
 <template>

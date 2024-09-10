@@ -29,13 +29,13 @@ const saveEditedItem = () => {
 }
 
 // Company-specific functions
-const addCustomer = (employee) => {
+const addEmployee = (employee) => {
   if (!editingItem.value.employeeIds.includes(employee.id)) {
     editingItem.value.employeeIds.push(employee.id)
   }
 }
 
-const removeCustomer = (index) => {
+const removeEmployee = (index) => {
   editingItem.value.employeeIds.splice(index, 1)
 }
 
@@ -76,7 +76,7 @@ fetchCustomers()
               <UButton
                 color="gray"
                 variant="ghost"
-                @click="removeCustomer(index)"
+                @click="removeEmployee(index)"
                 class="py-2 px-3 text-md bg-primary opacity-90 rounded-full"
               >
                 {{ customers.find(c => c.id === employeeId)?.name || employeeId }}
@@ -85,9 +85,9 @@ fetchCustomers()
           </div>
           <AutoDropdown
             :options="customers"
-            placeholder="Add a customer..."
+            placeholder="Add a employee..."
             option-attribute="name"
-            @update:modelValue="addCustomer"
+            @update:modelValue="addEmployee"
             class="mt-2"
           />
         </UFormGroup>

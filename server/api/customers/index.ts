@@ -15,7 +15,6 @@ async function getAllCustomers() {
         },
       },
     })
-    console.log(customers)
     return customers
   } catch (error) {
     console.error('Error fetching customers:', error)

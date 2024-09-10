@@ -6,8 +6,8 @@
       <AppNav />
       <UDashboardPanelContent class="bg-zinc-50 m-0 py-0 px-1 p-2">
         <div class="grid grid-cols-2 gap-4">
-          <!-- <AddCompanyForm  /> -->
-          <!-- <AddCustomerForm  /> -->
+          <AddCompanyForm  />
+          <AddCustomerForm  />
           <CustomersTable class="col-span-2" />
           <CompaniesTable class="col-span-2" />
         </div>

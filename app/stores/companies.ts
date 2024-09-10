@@ -17,6 +17,7 @@ export const useCompanyStore = defineStore('companies', {
           ...company,
           employeeIds: company.employeeIds || [],
         }))
+        
       } catch (e) {
         console.error('Error fetching companies:', e)
         this.error = e

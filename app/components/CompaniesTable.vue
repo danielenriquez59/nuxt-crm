@@ -45,6 +45,11 @@ const columns = [
     label: 'Updated At',
     sortable: true,
   },
+  {
+    key: 'employeeIds',
+    label: 'Employees',
+    sortable: true,
+  },
 ]
 
 const rows = computed(() => {

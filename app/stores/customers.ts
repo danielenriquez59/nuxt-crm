@@ -50,6 +50,24 @@ export const useCustomerStore = defineStore('customers', {
           method: 'POST',
           body: customer,
         })
+        // Update the company with the new customer's ID
+        if (response.companyId) {
+          try {
+            await $fetch(`/api/companies/${response.companyId}`, {
+              method: 'PUT',
+              body: {
+                customerIds: [...(response.company?.customerIds || []), response.id]
+              }
+            })
+          } catch (companyUpdateError) {
+            console.error('Error updating company with new customer:', companyUpdateError)
+            // Consider how to handle this error. You might want to:
+            // - Rollback the customer creation
+            // - Notify the user
+            // - Retry the operation
+            // For now, we'll just log it and continue
+          }
+        }
         this.customers.push({
           ...response,
           companyName: response.company?.name || 'No Company'
