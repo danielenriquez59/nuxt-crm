@@ -54,7 +54,6 @@ const rows = computed(() => {
 
   return companies.value.map(company => ({
     ...company,
-    isEvaluation: company.isEvaluation ? 'Yes' : 'No',
     updatedAt: company.updatedAt ? new Date(company.updatedAt).toLocaleString() : '',
     createdAt: company.createdAt ? new Date(company.createdAt).toLocaleString() : '',
   }))
@@ -158,13 +157,5 @@ const handleAddCompany = async (newCompany) => {
       @update-item="handleUpdateItem"
       @close="closeEditCompany"
     />
-
-    <AddCompany
-      v-if="isAddCompanyOpen"
-      :is-open="isAddCompanyOpen"
-      @add-company="handleAddCompany"
-      @close="isAddCompanyOpen = false"
-    />
-
   </div>
 </template>

@@ -13,7 +13,10 @@ export const useCompanyStore = defineStore('companies', {
       this.error = null
       try {
         const response = await $fetch('/api/companies')
-        this.companies = response
+        this.companies = response.map(company => ({
+          ...company,
+          employeeIds: company.employeeIds || [],
+        }))
       } catch (e) {
         console.error('Error fetching companies:', e)
         this.error = e
