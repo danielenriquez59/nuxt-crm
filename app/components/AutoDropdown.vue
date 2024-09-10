@@ -18,6 +18,9 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  modelValue: {
+    default: null
+  }
 })
 
 const emit = defineEmits(['update:modelValue'])
