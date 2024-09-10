@@ -2,7 +2,6 @@
 
 const page = ref(1)
 const pageCount = 5
-const toast = useToast()
 
 const { notes, loading, error, fetchNotes, addNote, updateNote, deleteNote } = useNotes()
 
@@ -18,6 +17,11 @@ const columns = [
   {
     key: 'body',
     label: 'Note',
+    sortable: true,
+  },
+  {
+    key: 'contact_method',
+    label: 'Contact Method',
     sortable: true,
   },
   {
@@ -39,7 +43,8 @@ const rows = computed(() => {
 
   return notes.value.map(note => ({
     ...note,
-    relatedCustomerNames: note.relatedCustomers.map(customer => customer.name).join(', '),
+    contact_method: note.contact_method ? (contactMethodsMap[note.contact_method] || note.contact_method) : '',
+    relatedCustomerNames: note.relatedCustomers?.map(customer => customer?.name).join(', ') || '',
     updatedAt: note.updatedAt ? new Date(note.updatedAt).toLocaleString() : '',
     createdAt: note.createdAt ? new Date(note.createdAt).toLocaleString() : '',
   }))
@@ -48,12 +53,6 @@ const rows = computed(() => {
 const handleDeleteItem = async (item) => {
   await deleteNote(item)
   errorHandler(error, 'note', 'deleted')
-}
-
-const addNewNote = async (item) => {
-    await addNote(item)
-    isAddNoteOpen.value = false
-    errorHandler(error, 'note', 'added')
 }
 
 const handleUpdateItem = async (item) => {
@@ -77,14 +76,6 @@ const closeEditNote = () => {
   selectedForEdit.value = null
 }
 
-const handleAddItem = () => {
-  isAddNoteOpen.value = true
-}
-
-const closeAddNote = () => {
-  isAddNoteOpen.value = false
-}
-
 </script>
 
 <template>
@@ -96,7 +87,6 @@ const closeAddNote = () => {
       v-model="page"
       :page-count="pageCount"
       @delete-item="handleDeleteItem"
-      @add-row="handleAddItem"
       @update-item="openEditModal"
       type="notes"
     >
@@ -117,13 +107,6 @@ const closeAddNote = () => {
       :is-open="isEditNoteOpen"
       @update-item="handleUpdateItem"
       @close="closeEditNote"
-    />
-
-    <AddNote
-      v-if="isAddNoteOpen"
-      :is-open="isAddNoteOpen"
-      @add-row="addNewNote"
-      @close="closeAddNote"
     />
   </div>
 </template>

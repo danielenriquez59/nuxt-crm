@@ -38,6 +38,7 @@ export default eventHandler(async (event) => {
           // Prepare the data for Prisma
           const noteData = {
             body: body.body,
+            contact_method: body.contact_method,
             relatedCustomers: {
               connect: body.relatedCustomers.map(customer => ({ id: customer.id }))
             }

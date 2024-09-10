@@ -51,24 +51,11 @@ async function main() {
         },
         createdAt: faker.date.past(),
         updatedAt: faker.date.recent(),
+        contact_method: faker.helpers.arrayElement(['email', 'phone', 'e-meet', 'social-media', 'in-person', 'other']),
       },
     })
   }
 
-  // Create Interactions
-  for (let i = 0; i < 10; i++) {
-    const relatedCustomers = faker.helpers.arrayElements(customers, { min: 1, max: 3 })
-    await prisma.interactions.create({
-      data: {
-        method: faker.helpers.arrayElement(['call', 'email', 'meeting']),
-        relatedCustomers: {
-          connect: relatedCustomers.map((customer) => ({ id: customer.id })),
-        },
-        createdAt: faker.date.past(),
-        updatedAt: faker.date.recent(),
-      },
-    })
-  }
 
   console.log('Seed data created successfully!')
 }

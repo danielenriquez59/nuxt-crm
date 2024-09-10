@@ -24,7 +24,7 @@ const props = defineProps({
 })
 
 const search = ref('')
-const emit = defineEmits(['update:modelValue', 'delete-item', 'update-item', 'add-row'])
+const emit = defineEmits(['update:modelValue', 'delete-item', 'update-item'])
 
 const page = computed({
   get: () => props.modelValue,
@@ -49,15 +49,6 @@ const displayedRows = computed(() => {
 const totalItems = computed(() => filteredRows.value.length)
 
 const isTableVisible = ref(true)
-const toggleTableVisibility = () => {
-  isTableVisible.value = !isTableVisible.value
-}
-
-const tooltipText = computed(() => (isTableVisible.value ? 'Hide' : 'Show'))
-
-const handleAddRow = (newRowData) => {
-  emit('add-row', newRowData)
-}
 
 const columnsWithDelete = computed(() => [
   ...props.columns,
@@ -66,24 +57,6 @@ const columnsWithDelete = computed(() => [
   },
 ])
 
-const handleDeleteClick = (item) => {
-  emit('delete-item', item)
-}
-
-const selected = ref([])
-
-const handleEditModalClose = () => {
-  isEditModalOpen.value = false
-  selectedForEdit.value = null
-}
-
-const handleUpdateItem = (updatedItem) => {
-  emit('update-item', updatedItem)
-  handleEditModalClose()
-}
-
-const isEditModalOpen = ref(false)
-const selectedForEdit = ref(null)
 
 const items = (row) => [
   [{
@@ -94,7 +67,7 @@ const items = (row) => [
    {
     label: 'Delete',
     icon: 'i-heroicons-trash-20-solid',
-    click: () => handleDeleteClick(row)
+    click: () => emit('delete-item', row)
   }
 ]
 ]
@@ -109,15 +82,8 @@ const items = (row) => [
       <h2 class="mr-5"><slot name="header"></slot></h2>
       <UInput v-model="search" placeholder="Filter" />
       <UPagination v-model="page" :page-count="pageCount" :total="totalItems" />
-      <UTooltip text="Add Item">
-          <UButton icon="i-heroicons-plus" color="gray" @click="handleAddRow"></UButton>
-      </UTooltip>
       <p class="opacity-70 ml-auto text-md">Total Items: {{ totalItems }}</p>
-      <UTooltip :text="tooltipText" class="ml-auto">
-        <UButton @click="toggleTableVisibility" color="gray" variant="ghost">
-          <UIcon :name="isTableVisible ? 'i-heroicons-eye-slash' : 'i-heroicons-eye'" />
-        </UButton>
-      </UTooltip>
+      <ToggleVisibility @toggle-visibility="isTableVisible = !isTableVisible" />
     </div>
 
     <UTable

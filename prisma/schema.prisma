@@ -32,7 +32,6 @@ model Customers {
   status          String   @default("Pending")
   company         Companies? @relation(fields: [companyId], references: [id])
   notes           Notes[]
-  interactions    Interactions[]
 }
 
 model Notes {
@@ -40,13 +39,6 @@ model Notes {
   body               String   @default("")
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
-  relatedCustomers   Customers[]
-}
-
-model Interactions {
-  id                 String   @id @default(cuid())
-  method             String   @default("Unknown")
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  contact_method     String   @default("")
   relatedCustomers   Customers[]
 }
