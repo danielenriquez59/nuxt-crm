@@ -1,16 +1,14 @@
 <script setup>
 
 const page = ref(1)
-const pageCount = 5
 
-const { notes, loading, error, fetchNotes, addNote, updateNote, deleteNote } = useNotes()
+const { notes, loading, error, fetchNotes, updateNote, deleteNote } = useNotes()
 
 fetchNotes()
 
 // New refs for EditNote functionality
 const isEditNoteOpen = ref(false)
 const selectedForEdit = ref(null)
-const isAddNoteOpen = ref(false)
 
 // Table columns definition
 const columns = [
@@ -85,7 +83,6 @@ const closeEditNote = () => {
       :rows="rows"
       :loading="loading"
       v-model="page"
-      :page-count="pageCount"
       @delete-item="handleDeleteItem"
       @update-item="openEditModal"
       type="notes"

@@ -6,22 +6,12 @@ const { isHelpSlideoverOpen } = useDashboard()
 const links = [
   {
     id: 'home',
-    label: 'Home',
-    icon: 'i-heroicons-home',
+    label: 'Notes',
+    icon: 'i-heroicons-pencil',
     to: '/',
     tooltip: {
       text: 'Home',
       shortcuts: ['G', 'H'],
-    },
-  },
-  {
-    id: 'history',
-    label: 'History',
-    icon: 'i-heroicons-clock',
-    to: '/history',
-    tooltip: {
-      text: 'History',
-      shortcuts: ['G', 'I'],
     },
   },
   {
@@ -35,15 +25,16 @@ const links = [
     },
   },
   {
-    id: 'companies',
-    label: 'Companies',
-    icon: 'i-heroicons-building-office',
-    to: '/companies',
+    id: 'history',
+    label: 'History',
+    icon: 'i-heroicons-clock',
+    to: '/history',
     tooltip: {
-      text: 'Companies',
-      shortcuts: ['G', 'O'],
+      text: 'History',
+      shortcuts: ['G', 'I'],
     },
   },
+  
 ]
 
 const footerLinks = [

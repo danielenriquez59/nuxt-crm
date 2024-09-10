@@ -12,8 +12,8 @@ export const useCompanyStore = defineStore('companies', {
       this.loading = true
       this.error = null
       try {
-        const response = await $fetch('/api/companies', { method: 'GET' })
-        this.companies = Array.isArray(response) ? response : response.data || []
+        const response = await $fetch('/api/companies')
+        this.companies = response
       } catch (e) {
         console.error('Error fetching companies:', e)
         this.error = e
@@ -57,6 +57,7 @@ export const useCompanyStore = defineStore('companies', {
     async updateCompany(company) {
       this.loading = true
       this.error = null
+      
       try {
         const response = await $fetch(`/api/companies/${company.id}`, {
           method: 'PUT',
@@ -66,6 +67,7 @@ export const useCompanyStore = defineStore('companies', {
         if (index !== -1) {
           this.companies[index] = response
         }
+
         return response
       } catch (e) {
         console.error('Error updating company:', e)
@@ -75,24 +77,19 @@ export const useCompanyStore = defineStore('companies', {
       }
     },
 
-    async deleteCompany(id) {
+    async deleteCompany(company) {
       this.loading = true
       this.error = null
+      
       try {
-        await $fetch(`/api/companies/${id}`, { method: 'DELETE' })
-        this.companies = this.companies.filter((c) => c.id !== id)
+        await $fetch(`/api/companies/${company.id}`, { method: 'DELETE' })
+        this.companies = this.companies.filter((c) => c.id !== company.id)
       } catch (e) {
-        console.error('Error deleting company:', e)
+        console.error(`Error deleting company ${company.id}:`, e)
         this.error = e
       } finally {
         this.loading = false
       }
-    },
-  },
-
-  getters: {
-    getCompanyById: (state) => (id) => {
-      return state.companies.find((company) => company.id === id)
     },
   },
 })

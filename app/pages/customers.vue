@@ -8,8 +8,8 @@
         <div class="grid grid-cols-2 gap-4">
           <!-- <AddCompanyForm  /> -->
           <!-- <AddCustomerForm  /> -->
-          <!-- <CustomersTable class="col-span-2" /> -->
-          <!-- <CompaniesTable class="col-span-2" /> -->
+          <CustomersTable class="col-span-2" />
+          <CompaniesTable class="col-span-2" />
         </div>
       </UDashboardPanelContent>
     </UDashboardPanel>

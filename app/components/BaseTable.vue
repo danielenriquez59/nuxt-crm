@@ -17,12 +17,9 @@ const props = defineProps({
     type: Number,
     default: 1,
   },
-  pageCount: {
-    type: Number,
-    default: 5,
-  },
 })
 
+const pageCount = ref(5)
 const search = ref('')
 const emit = defineEmits(['update:modelValue', 'delete-item', 'update-item'])
 
@@ -41,8 +38,8 @@ const filteredRows = computed(() => {
 })
 
 const displayedRows = computed(() => {
-  const start = (page.value - 1) * props.pageCount
-  const end = start + props.pageCount
+  const start = (page.value - 1) * pageCount.value
+  const end = start + pageCount.value
   return filteredRows.value.slice(start, end)
 })
 
