@@ -6,11 +6,7 @@ const prisma = new PrismaClient()
 async function getAllCustomers() {
   try {
     const customers = await prisma.customers.findMany({
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        status: true,
+      include: {
         company: {
           select: {
             id: true,
@@ -19,6 +15,7 @@ async function getAllCustomers() {
         },
       },
     })
+    console.log(customers)
     return customers
   } catch (error) {
     console.error('Error fetching customers:', error)
