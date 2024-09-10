@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-export default eventHandler(async (event) => {
+export default defineEventHandler(async (event) => {
   const method = getMethod(event)
   const customerId = getRouterParam(event, 'id')
 
@@ -15,29 +15,23 @@ export default eventHandler(async (event) => {
 
   switch (method) {
     case 'GET':
+      // Get a single customer
       try {
         const customer = await prisma.customers.findUnique({
           where: { id: customerId },
           include: {
-            company: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
+            company: true,
             notes: true,
-            interactions: true,
           },
         })
-
         if (!customer) {
           throw createError({
             statusCode: 404,
             statusMessage: 'Customer not found',
           })
         }
-
         return customer
+
       } catch (error) {
         console.error('Error fetching customer:', error)
         throw createError({
@@ -47,30 +41,29 @@ export default eventHandler(async (event) => {
       }
 
     case 'PUT':
+      // Update a customer
       try {
         const body = await readBody(event)
+        
+        // Prepare the update data
+        const updateData = {
+          name: body.name,
+          email: body.email,
+          status: body.status,
+          companyId: body.companyId,
+        }
+
         const updatedCustomer = await prisma.customers.update({
           where: { id: customerId },
-          data: {
-            name: body.name,
-            email: body.email,
-            status: body.status,
-            company: body.companyId
-              ? {
-                  connect: { id: body.companyId },
-                }
-              : undefined,
-          },
+          data: updateData,
           include: {
-            company: {
-              select: {
-                id: true,
-                name: true,
-              },
-            },
-          },
+            company: true,
+            notes: true
+          }
         })
+       
         return updatedCustomer
+
       } catch (error) {
         console.error('Error updating customer:', error)
         throw createError({
@@ -80,6 +73,7 @@ export default eventHandler(async (event) => {
       }
 
     case 'DELETE':
+      // Delete a customer
       try {
         await prisma.customers.delete({
           where: { id: customerId },
