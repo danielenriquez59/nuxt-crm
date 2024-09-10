@@ -52,11 +52,14 @@ const rows = computed(() => {
   }))
 })
 
-const formatElapsedTime = (seconds) => {
-  const hours = Math.floor(seconds / 3600)
-  const minutes = Math.floor((seconds % 3600) / 60)
-  const remainingSeconds = seconds % 60
-  return `${hours}h ${minutes}m ${remainingSeconds}s`
+const formatElapsedTime = (timeInMilliseconds) => {
+  const totalSeconds = Math.floor(timeInMilliseconds / 1000)
+  const hours = Math.floor(totalSeconds / 3600)
+  const minutes = Math.floor((totalSeconds % 3600) / 60)
+  const seconds = totalSeconds % 60
+  const milliseconds = timeInMilliseconds % 1000
+
+  return `${hours}h ${minutes}m ${seconds}s`
 }
 
 const handleDeleteItem = async (item) => {

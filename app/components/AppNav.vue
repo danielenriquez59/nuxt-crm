@@ -1,6 +1,6 @@
 <script setup lang="ts">
 </script>
 <template>
-  <UDashboardNavbar title="Home">
+  <UDashboardNavbar title="Nuxt CRM Dasboard">
   </UDashboardNavbar>
 </template>

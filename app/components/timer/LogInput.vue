@@ -1,8 +1,16 @@
 <script setup>
 const props = defineProps({
+  modelValue: {
+    type: Object,
+    default: () => ({
+      companyId: null,
+      projectId: null,
+      taskId: null
+    })
+  }
 })
 
-const emit = defineEmits(['selection-change'])
+const emit = defineEmits(['update:modelValue'])
 
 const { companies, fetchCompanies } = useCompanies()
 const { projects, fetchProjects } = useProjects()
@@ -23,17 +31,15 @@ const selectedProject = ref(null)
 const selectedTask = ref(null)
 
 watch([selectedCompany, selectedProject, selectedTask], ([company, project, task]) => {
-  logItems.value = {
+  const newLogItems = {
     companyId: company?.id || null,
     projectId: project?.id || null,
     taskId: task?.id || null
   }
-  emitSelection()
+  logItems.value = newLogItems
+  emit('update:modelValue', newLogItems)
 }, { deep: true })
 
-const emitSelection = () => {
-  emit('selection-change', logItems.value)
-}
 </script>
 
 <template>

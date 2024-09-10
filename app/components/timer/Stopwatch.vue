@@ -19,10 +19,7 @@ const formattedTime = computed(() => {
 const startStop = () => {
   if (isRunning.value) {
     clearInterval(timerInterval)
-    emit('logged', {
-      type: 'stopwatch',
-      time: elapsedTime.value,
-    })
+    emit('logged', elapsedTime.value )
   } else {
     startTime.value = Date.now() - elapsedTime.value
     timerInterval = setInterval(updateTimer, 10)
@@ -35,8 +32,10 @@ const updateTimer = () => {
 }
 
 const reset = () => {
-  clearInterval(timerInterval)
-  isRunning.value = false
+  if (isRunning.value) {
+    clearInterval(timerInterval)
+    isRunning.value = false
+  }
   elapsedTime.value = 0
 }
 </script>
@@ -49,9 +48,9 @@ const reset = () => {
         <h2 class="text-center">Stopwatch</h2>
       </div>
     </template>
-    <div class="text-center">
+    <div class="flex flex-col h-full space-y-4 mt-5 text-center">
       <div class="text-4xl font-mono mb-4">{{ formattedTime }}</div>
-      <div class="flex justify-center space-x-2">
+      <div class="flex flex-row justify-center space-x-2">
         <UButton
           :color="isRunning ? 'red' : 'green'"
           @click="startStop"
@@ -62,7 +61,6 @@ const reset = () => {
         <UButton
           color="gray"
           @click="reset"
-          :disabled="isRunning"
           class="text-lg"
         >
           Reset
