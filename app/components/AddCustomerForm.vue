@@ -43,8 +43,13 @@ const isFormVisible = ref(true)
   <UCard :ui="{ header: {padding: 'p-2 sm:px-4'} }">
     <template #header>
       <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white flex flex-row justify-between">
-        Add New Customer
-        <ToggleVisibility @toggle-visibility="isFormVisible = !isFormVisible" key="add-customer-form"/>
+        <div class="flex flex-row items-center justify-between w-full">
+          <div class="flex flex-row items-center">
+            <UIcon name="i-heroicons-user" class="mr-2" />
+            Add New Person
+          </div>
+          <ToggleVisibility @toggle-visibility="isFormVisible = !isFormVisible" key="add-customer-form"/>
+        </div>
       </h3>
     </template>
     <form v-if="isFormVisible" @submit.prevent="handleSubmit">

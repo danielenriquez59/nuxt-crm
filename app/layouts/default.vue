@@ -104,10 +104,6 @@ const colors = computed(() =>
 
     <slot />
 
-    <!-- ~/components/HelpSlideover.vue -->
-    <HelpSlideover />
-    <!-- ~/components/NotificationsSlideover.vue -->
-    <NotificationsSlideover />
 
     <ClientOnly>
       <LazyUDashboardSearch :groups="groups" />

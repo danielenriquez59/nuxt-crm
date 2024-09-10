@@ -54,7 +54,10 @@ const isFormVisible = ref(true)
   <UCard :ui="{ header: {padding: 'p-2 sm:px-4'} }">
     <template #header>
       <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white flex flex-row justify-between">
-        Add New Company
+        <div class="flex items-center flex-row">
+            <UIcon name="i-heroicons-building-office" class="mr-2" />
+            Add New Company
+        </div>
         <ToggleVisibility @toggle-visibility="isFormVisible = !isFormVisible" key="add-company-form"/>
       </h3>
     </template>
