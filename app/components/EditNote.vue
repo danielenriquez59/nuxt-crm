@@ -4,10 +4,6 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  columns: {
-    type: Array,
-    required: true,
-  },
   isOpen: {
     type: Boolean,
     required: true,

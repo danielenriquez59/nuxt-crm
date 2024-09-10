@@ -100,25 +100,6 @@ const closeEditCustomer = () => {
   selectedForEdit.value = null
 }
 
-const handleAddCustomer = async (newCustomer) => {
-  try {
-    await addCustomer(newCustomer)
-    isAddCustomerOpen.value = false
-    toast.add({
-      title: 'Success',
-      message: 'Customer added successfully',
-      color: 'green'
-    })
-  } catch (error) {
-    console.error('Error adding customer:', error)
-    toast.add({
-      title: 'Error',
-      message: 'Failed to add customer',
-      color: 'red'
-    })
-  }
-}
-
 </script>
 
 <template>
@@ -143,13 +124,13 @@ const handleAddCustomer = async (newCustomer) => {
       </template>
     </BaseTable>
 
-    <!-- <EditCustomer
+    <EditCustomer
       v-if="isEditCustomerOpen"
       :selected="selectedForEdit"
       :is-open="isEditCustomerOpen"
       @update-item="handleUpdateItem"
       @close="closeEditCustomer"
-    /> -->
+    />
 
   </div>
 </template>

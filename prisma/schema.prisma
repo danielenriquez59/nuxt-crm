@@ -29,7 +29,7 @@ model Customers {
   updatedAt       DateTime @updatedAt
   email           String   @default("")
   name            String   @default("")
-  status          String   @default("Pending")
+  status          String   @default("Pending") // delete this
   company         Companies? @relation(fields: [companyId], references: [id])
   notes           Notes[]
 }
