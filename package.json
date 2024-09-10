@@ -10,9 +10,10 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck",
-    "seed": "node prisma/seed.js",
-    "cleardb": "node prisma/cleardb.js",
-    "format": "prettier --write '**/*.{js,ts,vue,md,json}'"
+    "db:seed": "node prisma/seed.js",
+    "db:clear": "node prisma/cleardb.js",
+    "db:format": "prettier --write '**/*.{js,ts,vue,md,json}'",
+    "db:migrate": "npx prisma migrate dev --name init"
   },
   "dependencies": {
     "@faker-js/faker": "^9.0.0",
@@ -36,8 +37,13 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^0.5.1",
+    "electron": "^32.0.2",
+    "electron-builder": "^25.0.5",
     "eslint": "^9.9.0",
+    "nuxt-electron": "^0.7.0",
     "prettier": "^3.3.3",
+    "vite-plugin-electron": "^0.28.7",
+    "vite-plugin-electron-renderer": "^0.14.5",
     "vue-tsc": "^2.0.29"
   }
 }

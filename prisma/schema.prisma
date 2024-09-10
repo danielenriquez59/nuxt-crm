@@ -20,6 +20,8 @@ model Companies {
   isEvaluation  Boolean  @default(false)
   websiteUrl    String?  @default("")
   customers     Customers[]
+  projects Projects[]  // Add this line
+  logs        Logs[]
 }
 
 model Customers {
@@ -42,3 +44,40 @@ model Notes {
   contact_method     String   @default("")
   relatedCustomers   Customers[]
 }
+
+model Projects {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  companyId   String
+  company     Companies @relation(fields: [companyId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tasks       Tasks[]
+  logs        Logs[]
+}
+
+model Tasks {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  projectId   String
+  project     Projects @relation(fields: [projectId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  logs        Logs[]
+}
+
+model Logs {
+  id          String   @id @default(cuid())
+  elapsedTime Int      // Storing time in seconds
+  projectId   String
+  project     Projects @relation(fields: [projectId], references: [id])
+  companyId   String
+  company     Companies @relation(fields: [companyId], references: [id])
+  taskId      String
+  task        Tasks @relation(fields: [taskId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+

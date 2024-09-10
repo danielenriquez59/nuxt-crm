@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
 const appConfig = useAppConfig()
-const { isHelpSlideoverOpen } = useDashboard()
 
 const links = [
   {
@@ -25,9 +24,19 @@ const links = [
     },
   },
   {
+    id: 'timer',
+    label: 'Timer',
+    icon: 'i-heroicons-clock',
+    to: '/timer',
+    tooltip: {
+      text: 'Timer',
+      shortcuts: ['G', 'T'],
+    },
+  },
+  {
     id: 'history',
     label: 'History',
-    icon: 'i-heroicons-clock',
+    icon: 'i-heroicons-clipboard',
     to: '/history',
     tooltip: {
       text: 'History',
@@ -80,7 +89,6 @@ const colors = computed(() =>
     <UDashboardPanel :width="250" :resizable="{ min: 200, max: 300 }" collapsible>
       <UDashboardNavbar class="!border-transparent" :ui="{ left: 'flex-1' }">
         <template #left>
-          <TeamsDropdown />
         </template>
       </UDashboardNavbar>
 
