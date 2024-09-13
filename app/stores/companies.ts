@@ -13,11 +13,10 @@ export const useCompanyStore = defineStore('companies', {
       this.error = null
       try {
         const response = await $fetch('/api/companies')
-        this.companies = response.map(company => ({
+        this.companies = response.map((company) => ({
           ...company,
           employeeIds: company.employeeIds || [],
         }))
-        
       } catch (e) {
         console.error('Error fetching companies:', e)
         this.error = e
@@ -61,7 +60,7 @@ export const useCompanyStore = defineStore('companies', {
     async updateCompany(company) {
       this.loading = true
       this.error = null
-      
+
       try {
         const response = await $fetch(`/api/companies/${company.id}`, {
           method: 'PUT',
@@ -84,7 +83,7 @@ export const useCompanyStore = defineStore('companies', {
     async deleteCompany(company) {
       this.loading = true
       this.error = null
-      
+
       try {
         await $fetch(`/api/companies/${company.id}`, { method: 'DELETE' })
         this.companies = this.companies.filter((c) => c.id !== company.id)

@@ -43,7 +43,7 @@ const rows = computed(() => {
     return []
   }
 
-  return logs.value.map(log => ({
+  return logs.value.map((log) => ({
     ...log,
     elapsedTime: formatElapsedTime(log.elapsedTime),
     updatedAt: log.updatedAt ? new Date(log.updatedAt).toLocaleString() : '',
@@ -51,15 +51,15 @@ const rows = computed(() => {
   }))
 })
 
-const { setLastUpdate } = useLastUpdateStore();
+const { setLastUpdate } = useLastUpdateStore()
 watchEffect(() => {
   if (rows.value.length > 0) {
     const lastUpdatedItem = rows.value.reduce((latest, current) => {
-      return new Date(current.updatedAt) > new Date(latest.updatedAt) ? current : latest;
-    });
-    setLastUpdate(lastUpdatedItem);
+      return new Date(current.updatedAt) > new Date(latest.updatedAt) ? current : latest
+    })
+    setLastUpdate(lastUpdatedItem)
   }
-});
+})
 
 const handleDeleteItem = async (item) => {
   await deleteLog(item)
@@ -67,11 +67,11 @@ const handleDeleteItem = async (item) => {
 }
 
 const handleUpdateItem = async (item) => {
-    await updateLog(item)
-    isEditLogOpen.value = false
-    selectedForEdit.value = null
-    setLastUpdate(item);
-    errorHandler(error, 'log', 'updated')
+  await updateLog(item)
+  isEditLogOpen.value = false
+  selectedForEdit.value = null
+  setLastUpdate(item)
+  errorHandler(error, 'log', 'updated')
 }
 
 const openEditModal = (item) => {
@@ -83,7 +83,6 @@ const closeEditLog = () => {
   isEditLogOpen.value = false
   selectedForEdit.value = null
 }
-
 </script>
 
 <template>

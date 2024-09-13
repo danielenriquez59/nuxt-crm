@@ -56,7 +56,7 @@ const rows = computed(() => {
     return []
   }
 
-  return companies.value.map(company => ({
+  return companies.value.map((company) => ({
     ...company,
     updatedAt: company.updatedAt ? new Date(company.updatedAt).toLocaleString() : '',
     createdAt: company.createdAt ? new Date(company.createdAt).toLocaleString() : '',
@@ -69,14 +69,14 @@ const handleDeleteItem = async (item) => {
     toast.add({
       title: 'Success',
       message: 'Company deleted successfully',
-      color: 'green'
+      color: 'green',
     })
   } catch (error) {
     console.error('Error deleting company:', error)
     toast.add({
       title: 'Error',
       message: 'Failed to delete company',
-      color: 'red'
+      color: 'red',
     })
   }
 }
@@ -89,14 +89,14 @@ const handleUpdateItem = async (item) => {
     toast.add({
       title: 'Success',
       message: 'Company updated successfully',
-      color: 'green'
+      color: 'green',
     })
   } catch (error) {
     console.error('Error updating company:', error)
     toast.add({
       title: 'Error',
       message: 'Failed to update company',
-      color: 'red'
+      color: 'red',
     })
   }
 }
@@ -118,18 +118,17 @@ const handleAddCompany = async (newCompany) => {
     toast.add({
       title: 'Success',
       message: 'Company added successfully',
-      color: 'green'
+      color: 'green',
     })
   } catch (error) {
     console.error('Error adding company:', error)
     toast.add({
       title: 'Error',
       message: 'Failed to add company',
-      color: 'red'
+      color: 'red',
     })
   }
 }
-
 </script>
 
 <template>

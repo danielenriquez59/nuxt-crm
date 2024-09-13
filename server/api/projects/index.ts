@@ -20,7 +20,6 @@ export default eventHandler(async (event) => {
         })
 
         return projects
-
       } catch (error) {
         console.error('Error fetching project(s):', error)
         if (error.statusCode === 404) {
@@ -35,7 +34,7 @@ export default eventHandler(async (event) => {
     case 'POST':
       try {
         const body = await readBody(event)
-        
+
         // Prepare the data for Prisma
         const projectData = {
           name: body.name,
@@ -55,9 +54,8 @@ export default eventHandler(async (event) => {
             tasks: true,
           },
         })
-        
-        return newProject
 
+        return newProject
       } catch (error) {
         console.error('Error creating project:', error)
         throw createError({

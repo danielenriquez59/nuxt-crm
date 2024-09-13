@@ -38,7 +38,6 @@ export default eventHandler(async (event) => {
 
         const projectWithCompanyName = await addCompanyName(project)
         return projectWithCompanyName
-
       } catch (error) {
         console.error('Error fetching project:', error)
         throw createError({
@@ -65,9 +64,8 @@ export default eventHandler(async (event) => {
           where: { id: projectId },
           data: updateData,
         })
-       
-        return updatedProject
 
+        return updatedProject
       } catch (error) {
         console.error('Error updating project:', error)
         throw createError({

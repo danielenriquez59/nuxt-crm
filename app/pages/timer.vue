@@ -7,7 +7,7 @@ const { addLog, fetchLogs } = useLogs()
 const logItems = ref({
   companyId: null,
   projectId: null,
-  taskId: null
+  taskId: null,
 })
 
 const handleLogged = async (time) => {
@@ -16,7 +16,6 @@ const handleLogged = async (time) => {
   errorHandler(error, 'log', 'added')
   fetchLogs()
 }
-
 </script>
 
 <template>
@@ -24,12 +23,12 @@ const handleLogged = async (time) => {
     <UDashboardPanel grow>
       <AppNav />
       <UDashboardPanelContent class="bg-zinc-50 m-0 p-2">
-      <div class=" grid grid-cols-2 gap-4">
-        <LogInput  v-model="logItems" />
-        <Stopwatch @logged="handleLogged" />
-        <LogsTable class="col-span-2" />
-      </div>
-    </UDashboardPanelContent>
+        <div class="grid grid-cols-2 gap-4">
+          <LogInput v-model="logItems" />
+          <Stopwatch @logged="handleLogged" />
+          <LogsTable class="col-span-2" />
+        </div>
+      </UDashboardPanelContent>
     </UDashboardPanel>
   </UDashboardPage>
 </template>

@@ -1,5 +1,4 @@
 <script setup>
-
 const { tasks, loading, error, fetchTasks, updateTask, deleteTask } = useTasks()
 
 fetchTasks()
@@ -37,7 +36,7 @@ const rows = computed(() => {
     return []
   }
 
-  return tasks.value.map(task => ({
+  return tasks.value.map((task) => ({
     ...task,
     projectName: task.project?.name || '',
     updatedAt: task.updatedAt ? new Date(task.updatedAt).toLocaleString() : '',
@@ -66,7 +65,6 @@ const closeEditTask = () => {
   isEditTaskOpen.value = false
   selectedForEdit.value = null
 }
-
 </script>
 
 <template>

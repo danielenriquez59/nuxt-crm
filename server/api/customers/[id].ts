@@ -31,7 +31,6 @@ export default defineEventHandler(async (event) => {
           })
         }
         return customer
-
       } catch (error) {
         console.error('Error fetching customer:', error)
         throw createError({
@@ -44,7 +43,7 @@ export default defineEventHandler(async (event) => {
       // Update a customer
       try {
         const body = await readBody(event)
-        
+
         // Prepare the update data
         const updateData = {
           name: body.name,
@@ -58,12 +57,11 @@ export default defineEventHandler(async (event) => {
           data: updateData,
           include: {
             company: true,
-            notes: true
-          }
+            notes: true,
+          },
         })
-       
-        return updatedCustomer
 
+        return updatedCustomer
       } catch (error) {
         console.error('Error updating customer:', error)
         throw createError({

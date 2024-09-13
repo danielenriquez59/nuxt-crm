@@ -13,11 +13,15 @@ const props = defineProps({
 const emit = defineEmits(['update-item', 'close'])
 
 const editingItem = ref(null)
-watch(() => props.selected, (newValue) => {
-  if (newValue) {
-    editingItem.value = { ...newValue }
-  }
-}, { immediate: true })
+watch(
+  () => props.selected,
+  (newValue) => {
+    if (newValue) {
+      editingItem.value = { ...newValue }
+    }
+  },
+  { immediate: true }
+)
 
 const closeModal = () => {
   emit('close')
@@ -48,7 +52,9 @@ fetchCustomers()
     {{ editingItem.isEvaluation }}
     <UCard>
       <template #header>
-        <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Edit Company</h3>
+        <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+          Edit Company
+        </h3>
       </template>
       <div v-if="editingItem" class="mt-2 space-y-4">
         <UFormGroup label="Company Name">
@@ -79,7 +85,7 @@ fetchCustomers()
                 @click="removeEmployee(index)"
                 class="py-2 px-3 text-md bg-primary opacity-90 rounded-full"
               >
-                {{ customers.find(c => c.id === employeeId)?.name || employeeId }}
+                {{ customers.find((c) => c.id === employeeId)?.name || employeeId }}
               </UButton>
             </div>
           </div>

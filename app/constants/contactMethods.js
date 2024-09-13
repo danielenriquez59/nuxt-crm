@@ -10,9 +10,9 @@ export const contactMethods = [
 ]
 
 export const contactMethodsMap = contactMethods.reduce((acc, method) => {
-  acc[method.value] = method.label;
-  return acc;
-}, {});
+  acc[method.value] = method.label
+  return acc
+}, {})
 
 // Then you can access the label like this:
 // const methodLabel = contactMethodsMap['email']; // Returns 'Email'

@@ -18,7 +18,6 @@ const addNewProject = async (item) => {
   await addProject(item)
   errorHandler(error, 'project', 'added')
 }
-
 </script>
 
 <template>
@@ -30,9 +29,9 @@ const addNewProject = async (item) => {
       <UTextarea v-model="newProject.description" />
     </UFormGroup>
     <UFormGroup label="Company">
-      <USelect 
-        v-model="newProject.companyId" 
-        :options="companies.map(company => ({ label: company.name, value: company.id }))" 
+      <USelect
+        v-model="newProject.companyId"
+        :options="companies.map((company) => ({ label: company.name, value: company.id }))"
         required
       />
     </UFormGroup>

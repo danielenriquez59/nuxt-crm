@@ -46,7 +46,6 @@ const addEmployee = (employee) => {
 const removeEmployee = (index) => {
   newCompany.value.employeeIds.splice(index, 1)
 }
-
 </script>
 
 <template>
@@ -68,18 +67,14 @@ const removeEmployee = (index) => {
     </UFormGroup>
     <UFormGroup label="Employees">
       <div class="flex flex-row flex-wrap max-w-full gap-1">
-        <div
-          v-for="employeeId in newCompany.employeeIds"
-          :key="employeeId"
-          class="text-xs"
-        >
+        <div v-for="employeeId in newCompany.employeeIds" :key="employeeId" class="text-xs">
           <UButton
             color="gray"
             variant="ghost"
             @click="removeEmployee(newCompany.employeeIds.indexOf(employeeId))"
             class="py-2 px-3 text-md bg-primary opacity-90 rounded-full"
           >
-            {{ customers.find(c => c.id === employeeId)?.name || employeeId }}
+            {{ customers.find((c) => c.id === employeeId)?.name || employeeId }}
           </UButton>
         </div>
       </div>

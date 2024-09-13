@@ -13,11 +13,15 @@ const props = defineProps({
 const emit = defineEmits(['update-item', 'close'])
 
 const editingItem = ref(null)
-watch(() => props.selected, (newValue) => {
-  if (newValue) {
-    editingItem.value = { ...newValue }
-  }
-}, { immediate: true })
+watch(
+  () => props.selected,
+  (newValue) => {
+    if (newValue) {
+      editingItem.value = { ...newValue }
+    }
+  },
+  { immediate: true }
+)
 
 const closeModal = () => {
   emit('close')
@@ -31,7 +35,6 @@ const saveEditedItem = () => {
 // Fetch companies for the company dropdown
 const { companies, fetchCompanies } = useCompanies()
 fetchCompanies()
-
 </script>
 
 <template>
@@ -39,7 +42,9 @@ fetchCompanies()
     {{ editingItem }}
     <UCard>
       <template #header>
-        <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Edit Customer</h3>
+        <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+          Edit Customer
+        </h3>
       </template>
       <div v-if="editingItem" class="mt-2 space-y-4">
         <UFormGroup label="Name">
@@ -48,7 +53,9 @@ fetchCompanies()
         <UFormGroup label="Email">
           <UInput v-model="editingItem.email" type="email" />
         </UFormGroup>
-        <UFormGroup :label="`Current Status: ${editingItem.status.charAt(0).toUpperCase() + editingItem.status.slice(1)}`">
+        <UFormGroup
+          :label="`Current Status: ${editingItem.status.charAt(0).toUpperCase() + editingItem.status.slice(1)}`"
+        >
           <USelect v-model="editingItem.status" :options="statusOptions" />
         </UFormGroup>
         <UFormGroup label="Company">

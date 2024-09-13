@@ -19,7 +19,6 @@ export default eventHandler(async (event) => {
         })
 
         return notes
-
       } catch (error) {
         console.error('Error fetching note(s):', error)
         if (error.statusCode === 404) {
@@ -31,28 +30,27 @@ export default eventHandler(async (event) => {
         })
       }
 
-      case 'POST':
-        try {
-          const body = await readBody(event)
-          
-          // Prepare the data for Prisma
-          const noteData = {
-            body: body.body,
-            contact_method: body.contact_method,
-            relatedCustomers: {
-              connect: body.relatedCustomers.map(customer => ({ id: customer.id }))
-            }
-          }
-  
-          const newNote = await prisma.notes.create({
-            data: noteData,
-            include: {
-              relatedCustomers: true
-            }
-          })
-          
-          return newNote
+    case 'POST':
+      try {
+        const body = await readBody(event)
 
+        // Prepare the data for Prisma
+        const noteData = {
+          body: body.body,
+          contact_method: body.contact_method,
+          relatedCustomers: {
+            connect: body.relatedCustomers.map((customer) => ({ id: customer.id })),
+          },
+        }
+
+        const newNote = await prisma.notes.create({
+          data: noteData,
+          include: {
+            relatedCustomers: true,
+          },
+        })
+
+        return newNote
       } catch (error) {
         console.error('Error creating note:', error)
         throw createError({

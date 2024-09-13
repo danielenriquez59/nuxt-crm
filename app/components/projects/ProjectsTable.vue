@@ -1,5 +1,4 @@
 <script setup>
-
 const { projects, loading, error, fetchProjects, updateProject, deleteProject } = useProjects()
 
 fetchProjects()
@@ -37,7 +36,7 @@ const rows = computed(() => {
     return []
   }
 
-  return projects.value.map(project => ({
+  return projects.value.map((project) => ({
     ...project,
     companyName: project.company?.name || '',
     updatedAt: project.updatedAt ? new Date(project.updatedAt).toLocaleString() : '',
@@ -66,36 +65,35 @@ const closeEditProject = () => {
   isEditProjectOpen.value = false
   selectedForEdit.value = null
 }
-
 </script>
 
 <template>
-    <div>
-      <BaseTable
-        :columns="columns"
-        :rows="rows"
-        :loading="loading"
-        @delete-item="handleDeleteItem"
-        @update-item="openEditModal"
-        type="projects"
-      >
-        <template #header>
-          <h2 class="text-xl font-bold">Projects</h2>
-        </template>
-        <template #loading-text>
-          <p class="ml-2">Loading projects...</p>
-        </template>
-        <template #empty-text>
-          <p class="ml-2">No projects found.</p>
-        </template>
-      </BaseTable>
-  
-      <EditProject
-        v-if="isEditProjectOpen"
-        :selected="selectedForEdit"
-        :is-open="isEditProjectOpen"
-        @update-item="handleUpdateItem"
-        @close="closeEditProject"
-      />
-    </div>
-  </template>
+  <div>
+    <BaseTable
+      :columns="columns"
+      :rows="rows"
+      :loading="loading"
+      @delete-item="handleDeleteItem"
+      @update-item="openEditModal"
+      type="projects"
+    >
+      <template #header>
+        <h2 class="text-xl font-bold">Projects</h2>
+      </template>
+      <template #loading-text>
+        <p class="ml-2">Loading projects...</p>
+      </template>
+      <template #empty-text>
+        <p class="ml-2">No projects found.</p>
+      </template>
+    </BaseTable>
+
+    <EditProject
+      v-if="isEditProjectOpen"
+      :selected="selectedForEdit"
+      :is-open="isEditProjectOpen"
+      @update-item="handleUpdateItem"
+      @close="closeEditProject"
+    />
+  </div>
+</template>

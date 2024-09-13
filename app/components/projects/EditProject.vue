@@ -2,12 +2,12 @@
 const props = defineProps({
   selected: {
     type: Object,
-    required: true
+    required: true,
   },
   isOpen: {
     type: Boolean,
-    required: true
-  }
+    required: true,
+  },
 })
 
 const emit = defineEmits(['update-item', 'close'])
@@ -16,9 +16,12 @@ const editedProject = ref({ ...props.selected })
 const { companies, fetchCompanies } = useCompanies()
 fetchCompanies()
 
-watch(() => props.selected, (newValue) => {
-  editedProject.value = { ...newValue }
-})
+watch(
+  () => props.selected,
+  (newValue) => {
+    editedProject.value = { ...newValue }
+  }
+)
 
 const handleSubmit = () => {
   emit('update-item', editedProject.value)
@@ -47,7 +50,7 @@ const handleClose = () => {
         <UFormGroup label="Company">
           <USelect
             v-model="editedProject.companyId"
-            :options="companies.map(company => ({ label: company.name, value: company.id }))"
+            :options="companies.map((company) => ({ label: company.name, value: company.id }))"
             required
           />
         </UFormGroup>

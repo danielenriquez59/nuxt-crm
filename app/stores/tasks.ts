@@ -13,10 +13,10 @@ export const useTaskStore = defineStore('tasks', {
       this.error = null
       try {
         const response = await $fetch('/api/tasks')
-        this.tasks = response.map(task => ({
+        this.tasks = response.map((task) => ({
           ...task,
           projectName: task.project.name,
-          companyName: task.project.company.name
+          companyName: task.project.company.name,
         }))
       } catch (e) {
         console.error('Error fetching tasks:', e)
@@ -34,7 +34,7 @@ export const useTaskStore = defineStore('tasks', {
         return {
           ...response,
           projectName: response.project.name,
-          companyName: response.project.company.name
+          companyName: response.project.company.name,
         }
       } catch (e) {
         console.error(`Error fetching task ${id}:`, e)
@@ -65,7 +65,7 @@ export const useTaskStore = defineStore('tasks', {
     async updateTask(task) {
       this.loading = true
       this.error = null
-      
+
       try {
         const response = await $fetch(`/api/tasks/${task.id}`, {
           method: 'PUT',
@@ -88,7 +88,7 @@ export const useTaskStore = defineStore('tasks', {
     async deleteTask(item) {
       this.loading = true
       this.error = null
-      
+
       try {
         await $fetch(`/api/tasks/${item.id}`, { method: 'DELETE' })
         this.tasks = this.tasks.filter((t) => t.id !== item.id)

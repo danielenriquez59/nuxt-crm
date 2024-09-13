@@ -13,9 +13,9 @@ export const useProjectStore = defineStore('projects', {
       this.error = null
       try {
         const response = await $fetch('/api/projects')
-        this.projects = response.map(project => ({
+        this.projects = response.map((project) => ({
           ...project,
-          companyName: project.company.name
+          companyName: project.company.name,
         }))
       } catch (e) {
         console.error('Error fetching projects:', e)
@@ -32,7 +32,7 @@ export const useProjectStore = defineStore('projects', {
         const response = await $fetch(`/api/projects/${id}`, { method: 'GET' })
         return {
           ...response,
-          companyName: response.company.name
+          companyName: response.company.name,
         }
       } catch (e) {
         console.error(`Error fetching project ${id}:`, e)
@@ -63,7 +63,7 @@ export const useProjectStore = defineStore('projects', {
     async updateProject(project) {
       this.loading = true
       this.error = null
-      
+
       try {
         const response = await $fetch(`/api/projects/${project.id}`, {
           method: 'PUT',
@@ -86,7 +86,7 @@ export const useProjectStore = defineStore('projects', {
     async deleteProject(item) {
       this.loading = true
       this.error = null
-      
+
       try {
         await $fetch(`/api/projects/${item.id}`, { method: 'DELETE' })
         this.projects = this.projects.filter((p) => p.id !== item.id)

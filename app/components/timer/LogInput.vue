@@ -5,9 +5,9 @@ const props = defineProps({
     default: () => ({
       companyId: null,
       projectId: null,
-      taskId: null
-    })
-  }
+      taskId: null,
+    }),
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -20,7 +20,7 @@ const { lastUpdate } = useLastUpdateStore()
 const logItems = ref({
   companyId: null,
   projectId: null,
-  taskId: null
+  taskId: null,
 })
 // Fetch initial data
 fetchCompanies()
@@ -31,15 +31,19 @@ const selectedCompany = ref(null)
 const selectedProject = ref(null)
 const selectedTask = ref(null)
 
-watch([selectedCompany, selectedProject, selectedTask], ([company, project, task]) => {
-  const newLogItems = {
-    companyId: company?.id || null,
-    projectId: project?.id || null,
-    taskId: task?.id || null
-  }
-  logItems.value = newLogItems
-  emit('update:modelValue', newLogItems)
-}, { deep: true })
+watch(
+  [selectedCompany, selectedProject, selectedTask],
+  ([company, project, task]) => {
+    const newLogItems = {
+      companyId: company?.id || null,
+      projectId: project?.id || null,
+      taskId: task?.id || null,
+    }
+    logItems.value = newLogItems
+    emit('update:modelValue', newLogItems)
+  },
+  { deep: true }
+)
 
 const updateSelectionsFromLastUpdate = () => {
   if (lastUpdate?.value) {
@@ -61,15 +65,17 @@ watch(lastUpdate, () => {
 </script>
 
 <template>
-  <UCard class="space-y-0" >
+  <UCard class="space-y-0">
     <template #header>
-        <h3 class="text-base font-semibold text-gray-900 dark:text-white flex flex-row justify-between">
-            <div class="flex flex-row items-center">
-                <UIcon name="i-heroicons-pencil" class="mr-2" />
-                Select Task to Log
-            </div>
-        </h3>
-      </template>
+      <h3
+        class="text-base font-semibold text-gray-900 dark:text-white flex flex-row justify-between"
+      >
+        <div class="flex flex-row items-center">
+          <UIcon name="i-heroicons-pencil" class="mr-2" />
+          Select Task to Log
+        </div>
+      </h3>
+    </template>
     <UFormGroup label="Company">
       <AutoDropdown
         v-model="selectedCompany"

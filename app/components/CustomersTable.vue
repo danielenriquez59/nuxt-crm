@@ -1,7 +1,8 @@
 <script setup>
 const toast = useToast()
 
-const { customers, loading, error, fetchCustomers, addCustomer, updateCustomer, deleteCustomer } = useCustomers()
+const { customers, loading, error, fetchCustomers, addCustomer, updateCustomer, deleteCustomer } =
+  useCustomers()
 fetchCustomers()
 
 // Refs for EditCustomer and AddCustomer functionality
@@ -43,7 +44,7 @@ const rows = computed(() => {
     return []
   }
 
-  return customers.value.map(customer => ({
+  return customers.value.map((customer) => ({
     ...customer,
     companyName: customer.company?.name || '',
     updatedAt: customer.updatedAt ? new Date(customer.updatedAt).toLocaleString() : '',
@@ -57,14 +58,14 @@ const handleDeleteItem = async (item) => {
     toast.add({
       title: 'Success',
       message: 'Customer deleted successfully',
-      color: 'green'
+      color: 'green',
     })
   } catch (error) {
     console.error('Error deleting customer:', error)
     toast.add({
       title: 'Error',
       message: 'Failed to delete customer',
-      color: 'red'
+      color: 'red',
     })
   }
 }
@@ -77,14 +78,14 @@ const handleUpdateItem = async (item) => {
     toast.add({
       title: 'Success',
       message: 'Customer updated successfully',
-      color: 'green'
+      color: 'green',
     })
   } catch (error) {
     console.error('Error updating customer:', error)
     toast.add({
       title: 'Error',
       message: 'Failed to update customer',
-      color: 'red'
+      color: 'red',
     })
   }
 }
@@ -98,7 +99,6 @@ const closeEditCustomer = () => {
   isEditCustomerOpen.value = false
   selectedForEdit.value = null
 }
-
 </script>
 
 <template>
@@ -130,6 +130,5 @@ const closeEditCustomer = () => {
       @update-item="handleUpdateItem"
       @close="closeEditCustomer"
     />
-
   </div>
 </template>

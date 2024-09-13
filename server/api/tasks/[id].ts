@@ -41,7 +41,6 @@ export default eventHandler(async (event) => {
 
         const taskWithAssigneeName = await addAssigneeName(task)
         return taskWithAssigneeName
-
       } catch (error) {
         console.error('Error fetching task:', error)
         throw createError({
@@ -69,10 +68,9 @@ export default eventHandler(async (event) => {
           where: { id: taskId },
           data: updateData,
         })
-       
+
         const taskWithAssigneeName = await addAssigneeName(updatedTask)
         return taskWithAssigneeName
-
       } catch (error) {
         console.error('Error updating task:', error)
         throw createError({

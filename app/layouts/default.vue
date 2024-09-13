@@ -3,7 +3,7 @@ const route = useRoute()
 const appConfig = useAppConfig()
 
 const links = [
-{
+  {
     id: 'timer',
     label: 'Timer',
     icon: 'i-heroicons-clock',
@@ -53,9 +53,7 @@ const links = [
       shortcuts: ['G', 'I'],
     },
   },
-  
 ]
-
 
 const groups = [
   {
@@ -98,8 +96,7 @@ const colors = computed(() =>
   <UDashboardLayout>
     <UDashboardPanel :width="250" :resizable="{ min: 200, max: 300 }" collapsible>
       <UDashboardNavbar class="!border-transparent" :ui="{ left: 'flex-1' }">
-        <template #left>
-        </template>
+        <template #left> </template>
       </UDashboardNavbar>
 
       <UDashboardSidebar>
@@ -113,15 +110,11 @@ const colors = computed(() =>
 
         <div class="flex-1" />
 
-
         <UDivider class="sticky bottom-0" />
-
-
       </UDashboardSidebar>
     </UDashboardPanel>
 
     <slot />
-
 
     <ClientOnly>
       <LazyUDashboardSearch :groups="groups" />

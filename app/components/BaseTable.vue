@@ -14,8 +14,8 @@ const props = defineProps({
   },
   modelValue: {
     type: Number,
-    default: 5
-  }
+    default: 5,
+  },
 })
 
 const emit = defineEmits(['update:modelValue', 'delete-item', 'update-item'])
@@ -56,21 +56,20 @@ const columnsWithDelete = computed(() => [
   },
 ])
 
-
 const items = (row) => [
-  [{
-    label: 'Edit',
-    icon: 'i-heroicons-pencil-square-20-solid',
-    click: () => emit('update-item', row)
-  },
-   {
-    label: 'Delete',
-    icon: 'i-heroicons-trash-20-solid',
-    click: () => emit('delete-item', row)
-  }
+  [
+    {
+      label: 'Edit',
+      icon: 'i-heroicons-pencil-square-20-solid',
+      click: () => emit('update-item', row),
+    },
+    {
+      label: 'Delete',
+      icon: 'i-heroicons-trash-20-solid',
+      click: () => emit('delete-item', row),
+    },
+  ],
 ]
-]
-
 </script>
 
 <template>
@@ -83,10 +82,10 @@ const items = (row) => [
       <UInput v-model="search" placeholder="Filter" />
       <UPagination v-model="page" :page-count="pageCount" :total="totalItems" />
       <USelect
-      v-model="pageCount"
-      :options="pageCountOptions"
-      placeholder="Items per page"
-      class="w-36"
+        v-model="pageCount"
+        :options="pageCountOptions"
+        placeholder="Items per page"
+        class="w-36"
       />
       <p class="opacity-70 text-md">Total: {{ totalItems }}</p>
       <ToggleVisibility @toggle-visibility="isTableVisible = !isTableVisible" />
@@ -109,8 +108,7 @@ const items = (row) => [
         },
       }"
     >
-    <template #name-data="{ row }">
-    </template>
+      <template #name-data="{ row }"> </template>
       <template #loading-state>
         <div class="flex flex-col items-center justify-center h-48">
           <slot name="loading-text"></slot>
@@ -124,10 +122,10 @@ const items = (row) => [
         </div>
       </template>
       <template #actions-data="{ row }">
-      <UDropdown :items="items(row)">
-        <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
-      </UDropdown>
-    </template>
+        <UDropdown :items="items(row)">
+          <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
+        </UDropdown>
+      </template>
     </UTable>
   </UCard>
 </template>

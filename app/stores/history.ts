@@ -6,14 +6,13 @@ interface TableHistory {
 }
 
 export const useHistoryStore = defineStore('history', {
-  state: () => ({
-  }),
+  state: () => ({}),
 
   actions: {
     async fetchHistory() {
       try {
         const { data } = await useFetch('/api/history')
-        console.log("this is the data", data.value)
+        console.log('this is the data', data.value)
         if (data.value) {
           this.tableHistories = (data.value as TableHistory[]).filter(Boolean)
           this.lastFetched = new Date()
@@ -26,10 +25,10 @@ export const useHistoryStore = defineStore('history', {
 
   getters: {
     getHistoryForTable: (state) => {
-      return (tableName: string) => state.tableHistories.find(th => th.tableName === tableName)
+      return (tableName: string) => state.tableHistories.find((th) => th.tableName === tableName)
     },
     getAllTableNames: (state) => {
-      return state.tableHistories.map(th => th.tableName)
+      return state.tableHistories.map((th) => th.tableName)
     },
   },
 })

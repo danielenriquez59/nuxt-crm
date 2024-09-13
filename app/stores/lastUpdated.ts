@@ -20,6 +20,6 @@ export const useLastUpdateStore = defineStore('lastUpdate', () => {
   return {
     lastUpdate,
     setLastUpdate,
-    getLastUpdate
+    getLastUpdate,
   }
 })

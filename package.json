@@ -10,9 +10,9 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck",
+    "format": "prettier --write '**/*.{js,ts,vue,md,json}'",
     "db:seed": "node prisma/seed.js",
     "db:clear": "node prisma/cleardb.js",
-    "db:format": "prettier --write '**/*.{js,ts,vue,md,json}'",
     "db:migrate": "npx prisma migrate dev --name init"
   },
   "dependencies": {

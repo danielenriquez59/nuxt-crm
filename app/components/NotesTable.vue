@@ -36,10 +36,12 @@ const rows = computed(() => {
     return []
   }
 
-  return notes.value.map(note => ({
+  return notes.value.map((note) => ({
     ...note,
-    contact_method: note.contact_method ? (contactMethodsMap[note.contact_method] || note.contact_method) : '',
-    relatedCustomerNames: note.relatedCustomers?.map(customer => customer?.name).join(', ') || '',
+    contact_method: note.contact_method
+      ? contactMethodsMap[note.contact_method] || note.contact_method
+      : '',
+    relatedCustomerNames: note.relatedCustomers?.map((customer) => customer?.name).join(', ') || '',
     updatedAt: note.updatedAt ? new Date(note.updatedAt).toLocaleString() : '',
     createdAt: note.createdAt ? new Date(note.createdAt).toLocaleString() : '',
   }))
@@ -51,16 +53,16 @@ const handleDeleteItem = async (item) => {
 }
 
 const handleUpdateItem = async (item) => {
-    await updateNote(item)
-    isEditNoteOpen.value = false
-    selectedForEdit.value = null
-    errorHandler(error, 'note', 'updated')
+  await updateNote(item)
+  isEditNoteOpen.value = false
+  selectedForEdit.value = null
+  errorHandler(error, 'note', 'updated')
 }
 
 const openEditModal = (item) => {
   // Convert relatedCustomerNames string back to an array
   if (typeof item.relatedCustomerNames === 'string') {
-    item.relatedCustomerNames = item.relatedCustomerNames.split(',').map(name => name.trim());
+    item.relatedCustomerNames = item.relatedCustomerNames.split(',').map((name) => name.trim())
   }
   selectedForEdit.value = { ...item }
   isEditNoteOpen.value = true
@@ -70,7 +72,6 @@ const closeEditNote = () => {
   isEditNoteOpen.value = false
   selectedForEdit.value = null
 }
-
 </script>
 
 <template>

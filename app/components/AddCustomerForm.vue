@@ -34,7 +34,6 @@ const resetForm = () => {
     status: 'Pending',
   }
 }
-
 </script>
 
 <template>
@@ -46,11 +45,7 @@ const resetForm = () => {
       <UInput v-model="newCustomer.email" type="email" required />
     </UFormGroup>
     <UFormGroup label="Status">
-      <USelect
-        v-model="newCustomer.status"
-        :options="statusOptions"
-        required
-      />
+      <USelect v-model="newCustomer.status" :options="statusOptions" required />
     </UFormGroup>
     <UFormGroup label="Company">
       <USelect

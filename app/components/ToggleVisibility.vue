@@ -1,5 +1,4 @@
 <script setup>
-
 const emit = defineEmits(['toggle-visibility'])
 const isComponentVisible = ref(true)
 const tooltipText = computed(() => (isComponentVisible.value ? 'Hide' : 'Show'))

@@ -13,11 +13,15 @@ const props = defineProps({
 // generic const and functions
 const emit = defineEmits(['update-item', 'close'])
 const editingItem = ref(null)
-watch(() => props.selected, (newValue) => {
-  if (newValue) {
-    editingItem.value = { ...newValue }
-  }
-}, { immediate: true })
+watch(
+  () => props.selected,
+  (newValue) => {
+    if (newValue) {
+      editingItem.value = { ...newValue }
+    }
+  },
+  { immediate: true }
+)
 
 const closeModal = () => {
   emit('close')
@@ -46,51 +50,52 @@ const removeCustomer = (index) => {
 </script>
 
 <template>
-    <UModal  :model-value="isOpen" @close="closeModal">
-      <UCard>
-        <template #header>
-          <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Edit Note</h3>
-        </template>
-        <div v-if="editingItem" class="mt-2 space-y-4">
-          <UFormGroup label="Note Body">
-            <UTextarea v-model="editingItem.body" rows="4" />
-          </UFormGroup>
-          <UFormGroup label="Related Customers">
-            <div 
+  <UModal :model-value="isOpen" @close="closeModal">
+    <UCard>
+      <template #header>
+        <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">Edit Note</h3>
+      </template>
+      <div v-if="editingItem" class="mt-2 space-y-4">
+        <UFormGroup label="Note Body">
+          <UTextarea v-model="editingItem.body" rows="4" />
+        </UFormGroup>
+        <UFormGroup label="Related Customers">
+          <div
             v-if="editingItem.relatedCustomerNames?.length > 0"
-            class="flex flex-row flex-wrap max-w-full gap-1">
-              <div
-                v-for="(name, index) in editingItem.relatedCustomerNames"
-                :key="editingItem.relatedCustomers[index]"
-                :text="name"
-                class="text-xs"
+            class="flex flex-row flex-wrap max-w-full gap-1"
+          >
+            <div
+              v-for="(name, index) in editingItem.relatedCustomerNames"
+              :key="editingItem.relatedCustomers[index]"
+              :text="name"
+              class="text-xs"
+            >
+              <UButton
+                v-if="editingItem.relatedCustomerNames?.length > 0"
+                color="gray"
+                variant="ghost"
+                @click="removeCustomer(index)"
+                class="py-2 px-3 text-md bg-primary opacity-90 rounded-full"
+                >{{ name }}</UButton
               >
-                <UButton
-            v-if="editingItem.relatedCustomerNames?.length > 0"
-                  color="gray"
-                  variant="ghost"
-                  @click="removeCustomer(index)"
-                  class="py-2 px-3 text-md bg-primary opacity-90 rounded-full"
-                  >{{ name }}</UButton
-                >
-              </div>
             </div>
-            <div v-else>No related customers. Add one below.</div>
-            <AutoDropdown
-              :options="customers"
-              placeholder="Add a related customer..."
-              option-attribute="name"
-              @update:modelValue="addCustomer"
-              class="mt-2"
-            />
-          </UFormGroup>
-        </div>
-        <template #footer>
-          <div class="flex justify-end space-x-2">
-            <UButton color="gray" @click="closeModal"> Cancel </UButton>
-            <UButton color="primary" @click="saveEditedItem"> Save Changes </UButton>
           </div>
-        </template>
-      </UCard>
-    </UModal>
+          <div v-else>No related customers. Add one below.</div>
+          <AutoDropdown
+            :options="customers"
+            placeholder="Add a related customer..."
+            option-attribute="name"
+            @update:modelValue="addCustomer"
+            class="mt-2"
+          />
+        </UFormGroup>
+      </div>
+      <template #footer>
+        <div class="flex justify-end space-x-2">
+          <UButton color="gray" @click="closeModal"> Cancel </UButton>
+          <UButton color="primary" @click="saveEditedItem"> Save Changes </UButton>
+        </div>
+      </template>
+    </UCard>
+  </UModal>
 </template>

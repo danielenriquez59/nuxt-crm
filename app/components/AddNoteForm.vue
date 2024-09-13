@@ -5,7 +5,7 @@ const newNote = ref({
   relatedCustomers: [],
 })
 
-const {addNote, error} = useNotes()
+const { addNote, error } = useNotes()
 const { customers, fetchCustomers } = useCustomers()
 fetchCustomers()
 
@@ -15,7 +15,7 @@ const handleSubmit = () => {
 }
 
 const addCustomer = (customer) => {
-  if (!newNote.value.relatedCustomers.some(c => c.id === customer.id)) {
+  if (!newNote.value.relatedCustomers.some((c) => c.id === customer.id)) {
     newNote.value.relatedCustomers.push(customer)
   }
 }
@@ -25,10 +25,9 @@ const removeCustomer = (index) => {
 }
 
 const addNewNote = async (item) => {
-    await addNote(item)
-    errorHandler(error, 'note', 'added')
+  await addNote(item)
+  errorHandler(error, 'note', 'added')
 }
-
 </script>
 
 <template>
@@ -36,22 +35,19 @@ const addNewNote = async (item) => {
     <UFormGroup label="Message">
       <UTextarea v-model="newNote.body" required />
     </UFormGroup>
-    <UDivider 
-      label="optional"
-      :ui="{ label: 'opacity-60' }"
-    />
+    <UDivider label="optional" :ui="{ label: 'opacity-60' }" />
     <UFormGroup label="Contact Method" class="">
       <div class="flex flex-row gap-x-0">
         <URadioGroup
           :options="contactMethods"
           v-model="newNote.contact_method"
           :ui="{
-            fieldset: 'grid grid-cols-2 gap-x-5'
+            fieldset: 'grid grid-cols-2 gap-x-5',
           }"
         />
-        <UButton 
-          @click="newNote.contact_method = ''" 
-          class="text-xs max-h-8" 
+        <UButton
+          @click="newNote.contact_method = ''"
+          class="text-xs max-h-8"
           v-if="newNote.contact_method"
           variant="ghost"
         >

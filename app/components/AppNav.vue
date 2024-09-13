@@ -1,6 +1,4 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 <template>
-  <UDashboardNavbar title="Nuxt CRM Dasboard">
-  </UDashboardNavbar>
+  <UDashboardNavbar title="Nuxt CRM Dasboard"> </UDashboardNavbar>
 </template>

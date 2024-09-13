@@ -19,7 +19,7 @@ const formattedTime = computed(() => {
 const startStop = () => {
   if (isRunning.value) {
     clearInterval(timerInterval)
-    emit('logged', elapsedTime.value )
+    emit('logged', elapsedTime.value)
   } else {
     startTime.value = Date.now() - elapsedTime.value
     timerInterval = setInterval(updateTimer, 10)
@@ -51,20 +51,10 @@ const reset = () => {
     <div class="flex flex-col h-full space-y-4 mt-5 text-center">
       <div class="text-4xl font-mono mb-4">{{ formattedTime }}</div>
       <div class="flex flex-row justify-center space-x-2">
-        <UButton
-          :color="isRunning ? 'red' : 'green'"
-          @click="startStop"
-          class="text-lg"
-        >
+        <UButton :color="isRunning ? 'red' : 'green'" @click="startStop" class="text-lg">
           {{ isRunning ? 'Stop' : 'Start' }}
         </UButton>
-        <UButton
-          color="gray"
-          @click="reset"
-          class="text-lg"
-        >
-          Reset
-        </UButton>
+        <UButton color="gray" @click="reset" class="text-lg"> Reset </UButton>
       </div>
     </div>
   </UCard>

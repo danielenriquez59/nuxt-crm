@@ -13,9 +13,9 @@ export const useCustomerStore = defineStore('customers', {
       this.error = null
       try {
         const response = await $fetch('/api/customers')
-        this.customers = response.map(customer => ({
+        this.customers = response.map((customer) => ({
           ...customer,
-          companyName: customer.company?.name || 'No Company'
+          companyName: customer.company?.name || 'No Company',
         }))
       } catch (e) {
         console.error('Error fetching customers:', e)
@@ -32,7 +32,7 @@ export const useCustomerStore = defineStore('customers', {
         const response = await $fetch(`/api/customers/${id}`, { method: 'GET' })
         return {
           ...response,
-          companyName: response.company?.name || 'No Company'
+          companyName: response.company?.name || 'No Company',
         }
       } catch (e) {
         console.error(`Error fetching customer ${id}:`, e)
@@ -56,8 +56,8 @@ export const useCustomerStore = defineStore('customers', {
             await $fetch(`/api/companies/${response.companyId}`, {
               method: 'PUT',
               body: {
-                customerIds: [...(response.company?.customerIds || []), response.id]
-              }
+                customerIds: [...(response.company?.customerIds || []), response.id],
+              },
             })
           } catch (companyUpdateError) {
             console.error('Error updating company with new customer:', companyUpdateError)
@@ -70,7 +70,7 @@ export const useCustomerStore = defineStore('customers', {
         }
         this.customers.push({
           ...response,
-          companyName: response.company?.name || 'No Company'
+          companyName: response.company?.name || 'No Company',
         })
         return response
       } catch (e) {
@@ -84,7 +84,7 @@ export const useCustomerStore = defineStore('customers', {
     async updateCustomer(customer) {
       this.loading = true
       this.error = null
-      
+
       try {
         const response = await $fetch(`/api/customers/${customer.id}`, {
           method: 'PUT',
@@ -94,7 +94,7 @@ export const useCustomerStore = defineStore('customers', {
         if (index !== -1) {
           this.customers[index] = {
             ...response,
-            companyName: response.company?.name || 'No Company'
+            companyName: response.company?.name || 'No Company',
           }
         }
 
@@ -110,7 +110,7 @@ export const useCustomerStore = defineStore('customers', {
     async deleteCustomer(customer) {
       this.loading = true
       this.error = null
-      
+
       try {
         await $fetch(`/api/customers/${customer.id}`, { method: 'DELETE' })
         this.customers = this.customers.filter((c) => c.id !== customer.id)

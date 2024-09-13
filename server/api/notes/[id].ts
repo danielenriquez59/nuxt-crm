@@ -38,7 +38,6 @@ export default eventHandler(async (event) => {
 
         const noteWithRelatedCustomerNames = await addRelatedCustomerNames(note)
         return noteWithRelatedCustomerNames
-
       } catch (error) {
         console.error('Error fetching note:', error)
         throw createError({
@@ -56,20 +55,19 @@ export default eventHandler(async (event) => {
         const updateData = {
           body: body.body,
           relatedCustomers: {
-            set: body.relatedCustomers.map(customerId => ({ id: customerId }))
-          }
+            set: body.relatedCustomers.map((customerId) => ({ id: customerId })),
+          },
         }
 
         const updatedNote = await prisma.notes.update({
           where: { id: noteId },
           data: updateData,
           include: {
-            relatedCustomers: true
-          }
+            relatedCustomers: true,
+          },
         })
-       
-        return updatedNote
 
+        return updatedNote
       } catch (error) {
         console.error('Error updating note:', error)
         throw createError({

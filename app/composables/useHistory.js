@@ -12,17 +12,19 @@ export function useHistory() {
   const sortedEvents = computed(() => {
     if (!historyStore.tableHistories) return []
 
-    return historyStore.tableHistories.flatMap(table => 
-      table.updatedAt.map(date => ({
-        tableName: table.tableName,
-        updatedAt: new Date(date)
+    return historyStore.tableHistories
+      .flatMap((table) =>
+        table.updatedAt.map((date) => ({
+          tableName: table.tableName,
+          updatedAt: new Date(date),
+        }))
+      )
+      .sort((a, b) => b.updatedAt - a.updatedAt)
+      .slice(0, loadedCount.value)
+      .map((event) => ({
+        description: `${event.tableName.slice(0, -1)} updated`,
+        time: event.updatedAt.toLocaleString(),
       }))
-    ).sort((a, b) => b.updatedAt - a.updatedAt)
-     .slice(0, loadedCount.value)
-     .map(event => ({
-       description: `${event.tableName.slice(0, -1)} updated`,
-       time: event.updatedAt.toLocaleString()
-     }))
   })
 
   const loadMore = () => {
@@ -30,7 +32,8 @@ export function useHistory() {
   }
 
   const hasMoreEvents = computed(() => {
-    const totalEvents = historyStore.tableHistories?.reduce((sum, table) => sum + table.updatedAt.length, 0) || 0
+    const totalEvents =
+      historyStore.tableHistories?.reduce((sum, table) => sum + table.updatedAt.length, 0) || 0
     return loadedCount.value < totalEvents
   })
 
@@ -52,6 +55,6 @@ export function useHistory() {
     tableHistories,
     sortedEvents,
     loadMore,
-    hasMoreEvents
+    hasMoreEvents,
   }
 }

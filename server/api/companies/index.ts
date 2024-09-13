@@ -21,7 +21,6 @@ export default defineEventHandler(async (event) => {
         })
 
         return companies
-
       } catch (error) {
         console.error('Error fetching company(ies):', error)
         throw createError({
@@ -33,7 +32,7 @@ export default defineEventHandler(async (event) => {
     case 'POST':
       try {
         const body = await readBody(event)
-        
+
         // Prepare the data for Prisma
         const companyData = {
           name: body.name,
@@ -47,12 +46,11 @@ export default defineEventHandler(async (event) => {
         const newCompany = await prisma.companies.create({
           data: companyData,
           include: {
-            customers: true
-          }
+            customers: true,
+          },
         })
-        
-        return newCompany
 
+        return newCompany
       } catch (error) {
         console.error('Error creating company:', error)
         throw createError({

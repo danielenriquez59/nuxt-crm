@@ -1,7 +1,6 @@
-
 export interface NoteData {
-  body: string;
-  relatedCustomers: string[];
+  body: string
+  relatedCustomers: string[]
 }
 
 export function validateNote(note: NoteData): { isValid: boolean; validatedData?: NoteData } {
@@ -14,7 +13,7 @@ export function validateNote(note: NoteData): { isValid: boolean; validatedData?
   }
 
   if (errors.length > 0) {
-    errors.forEach(error => {
+    errors.forEach((error) => {
       toast.add({
         title: 'Validation Error',
         message: error,
@@ -29,6 +28,6 @@ export function validateNote(note: NoteData): { isValid: boolean; validatedData?
     validatedData: {
       body: note.body.trim(),
       relatedCustomers: note.relatedCustomers,
-    }
+    },
   }
 }

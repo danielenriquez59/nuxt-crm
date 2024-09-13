@@ -13,11 +13,15 @@ const props = defineProps({
 // generic const and functions
 const emit = defineEmits(['update-item', 'close'])
 const editingItem = ref(null)
-watch(() => props.selected, (newValue) => {
-  if (newValue) {
-    editingItem.value = { ...newValue }
-  }
-}, { immediate: true })
+watch(
+  () => props.selected,
+  (newValue) => {
+    if (newValue) {
+      editingItem.value = { ...newValue }
+    }
+  },
+  { immediate: true }
+)
 
 const closeModal = () => {
   emit('close')
@@ -80,7 +84,7 @@ const parseTime = (timeString) => {
         </UFormGroup>
         <UFormGroup label="Task">
           <AutoDropdown
-            :options="tasks.filter(task => task.projectId === editingItem.projectId)"
+            :options="tasks.filter((task) => task.projectId === editingItem.projectId)"
             :modelValue="editingItem.taskName"
             placeholder="Select a task..."
             option-attribute="name"
@@ -88,17 +92,10 @@ const parseTime = (timeString) => {
           />
         </UFormGroup>
         <UFormGroup label="Elapsed Time">
-          <UInput
-            v-model="editingItem.elapsedTime"
-            :formatter="formatTime"
-            :parser="parseTime"
-          />
+          <UInput v-model="editingItem.elapsedTime" :formatter="formatTime" :parser="parseTime" />
         </UFormGroup>
         <UFormGroup label="Date">
-          <UInput
-            v-model="editingItem.createdAt"
-            type="date"
-          />
+          <UInput v-model="editingItem.createdAt" type="date" />
         </UFormGroup>
       </div>
       <template #footer>

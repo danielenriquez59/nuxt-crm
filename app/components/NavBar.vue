@@ -1,6 +1,5 @@
 <template>
-  <UDashboardNavbar title="Home">
-  </UDashboardNavbar>
+  <UDashboardNavbar title="Home"> </UDashboardNavbar>
 </template>
 
 <script lang="ts" setup>

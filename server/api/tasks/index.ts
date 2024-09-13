@@ -25,7 +25,6 @@ export default eventHandler(async (event) => {
         })
 
         return tasks
-
       } catch (error) {
         console.error('Error fetching task(s):', error)
         if (error.statusCode === 404) {
@@ -40,14 +39,14 @@ export default eventHandler(async (event) => {
     case 'POST':
       try {
         const body = await readBody(event)
-        
+
         // Prepare the data for Prisma
         const taskData = {
           name: body.name,
           description: body.description,
           project: {
-            connect: { id: body.projectId }
-          }
+            connect: { id: body.projectId },
+          },
         }
 
         const newTask = await prisma.tasks.create({
@@ -55,14 +54,13 @@ export default eventHandler(async (event) => {
           include: {
             project: {
               include: {
-                company: true
-              }
-            }
-          }
+                company: true,
+              },
+            },
+          },
         })
-        
-        return newTask
 
+        return newTask
       } catch (error) {
         console.error('Error creating task:', error)
         throw createError({
