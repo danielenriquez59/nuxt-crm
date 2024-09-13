@@ -47,66 +47,52 @@ const removeEmployee = (index) => {
   newCompany.value.employeeIds.splice(index, 1)
 }
 
-const isFormVisible = ref(true)
 </script>
 
 <template>
-  <UCard :ui="{ header: {padding: 'p-2 sm:px-4'} }">
-    <template #header>
-      <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white flex flex-row justify-between">
-        <div class="flex items-center flex-row">
-            <UIcon name="i-heroicons-building-office" class="mr-2" />
-            Add New Company
+  <BaseAddCard title="Add New Company" icon="i-heroicons-building-office" @submit="handleSubmit">
+    <UFormGroup label="Company Name">
+      <UInput v-model="newCompany.name" required />
+    </UFormGroup>
+    <UFormGroup label="City">
+      <UInput v-model="newCompany.city" />
+    </UFormGroup>
+    <UFormGroup label="Country">
+      <UInput v-model="newCompany.country" />
+    </UFormGroup>
+    <UFormGroup label="Website URL">
+      <UInput v-model="newCompany.websiteUrl" />
+    </UFormGroup>
+    <UFormGroup label="Is Evaluation?" class="flex flex-row gap-2 items-center">
+      <UCheckbox v-model="newCompany.isEvaluation" />
+    </UFormGroup>
+    <UFormGroup label="Employees">
+      <div class="flex flex-row flex-wrap max-w-full gap-1">
+        <div
+          v-for="employeeId in newCompany.employeeIds"
+          :key="employeeId"
+          class="text-xs"
+        >
+          <UButton
+            color="gray"
+            variant="ghost"
+            @click="removeEmployee(newCompany.employeeIds.indexOf(employeeId))"
+            class="py-2 px-3 text-md bg-primary opacity-90 rounded-full"
+          >
+            {{ customers.find(c => c.id === employeeId)?.name || employeeId }}
+          </UButton>
         </div>
-        <ToggleVisibility @toggle-visibility="isFormVisible = !isFormVisible" key="add-company-form"/>
-      </h3>
+      </div>
+      <AutoDropdown
+        :options="customers"
+        placeholder="Add an employee..."
+        option-attribute="name"
+        @update:modelValue="addEmployee"
+        class="mt-2"
+      />
+    </UFormGroup>
+    <template #actions>
+      <UButton color="primary" type="submit">Add Company</UButton>
     </template>
-    <form v-if="isFormVisible" @submit.prevent="handleSubmit">
-      <div class="space-y-4">
-        <UFormGroup label="Company Name">
-          <UInput v-model="newCompany.name" required />
-        </UFormGroup>
-        <UFormGroup label="City">
-          <UInput v-model="newCompany.city" />
-        </UFormGroup>
-        <UFormGroup label="Country">
-          <UInput v-model="newCompany.country" />
-        </UFormGroup>
-        <UFormGroup label="Website URL">
-          <UInput v-model="newCompany.websiteUrl" />
-        </UFormGroup>
-        <UFormGroup label="Is Evaluation?" class="flex flex-row gap-2 items-center">
-          <UCheckbox v-model="newCompany.isEvaluation" />
-        </UFormGroup>
-        <UFormGroup label="Employees">
-          <div class="flex flex-row flex-wrap max-w-full gap-1">
-            <div
-              v-for="(employeeId, index) in newCompany.employeeIds"
-              :key="employeeId"
-              class="text-xs"
-            >
-              <UButton
-                color="gray"
-                variant="ghost"
-                @click="removeEmployee(index)"
-                class="py-2 px-3 text-md bg-primary opacity-90 rounded-full"
-              >
-                {{ customers.find(c => c.id === employeeId)?.name || employeeId }}
-              </UButton>
-            </div>
-          </div>
-          <AutoDropdown
-            :options="customers"
-            placeholder="Add an employee..."
-            option-attribute="name"
-            @update:modelValue="addEmployee"
-            class="mt-2"
-          />
-        </UFormGroup>
-      </div>
-      <div class="flex justify-end space-x-2 mt-3">
-        <UButton color="primary" type="submit">Add Company</UButton>
-      </div>
-    </form>
-  </UCard>
+  </BaseAddCard>
 </template>

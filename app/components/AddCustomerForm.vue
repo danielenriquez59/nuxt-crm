@@ -35,51 +35,35 @@ const resetForm = () => {
   }
 }
 
-const isFormVisible = ref(true)
-
 </script>
 
 <template>
-  <UCard :ui="{ header: {padding: 'p-2 sm:px-4'} }">
-    <template #header>
-      <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white flex flex-row justify-between">
-        <div class="flex flex-row items-center justify-between w-full">
-          <div class="flex flex-row items-center">
-            <UIcon name="i-heroicons-user" class="mr-2" />
-            Add New Person
-          </div>
-          <ToggleVisibility @toggle-visibility="isFormVisible = !isFormVisible" key="add-customer-form"/>
-        </div>
-      </h3>
+  <BaseAddCard title="Add New Customer" icon="i-heroicons-user" @submit="handleSubmit">
+    <UFormGroup label="Name">
+      <UInput v-model="newCustomer.name" required />
+    </UFormGroup>
+    <UFormGroup label="Email">
+      <UInput v-model="newCustomer.email" type="email" required />
+    </UFormGroup>
+    <UFormGroup label="Status">
+      <USelect
+        v-model="newCustomer.status"
+        :options="statusOptions"
+        required
+      />
+    </UFormGroup>
+    <UFormGroup label="Company">
+      <USelect
+        v-model="newCustomer.companyId"
+        :options="companies"
+        option-attribute="name"
+        value-attribute="id"
+        placeholder="Select a company..."
+        required
+      />
+    </UFormGroup>
+    <template #actions>
+      <UButton color="primary" type="submit">Add Customer</UButton>
     </template>
-    <form v-if="isFormVisible" @submit.prevent="handleSubmit">
-      <div class="space-y-4">
-        <UFormGroup label="Name">
-          <UInput v-model="newCustomer.name" required />
-        </UFormGroup>
-        <UFormGroup label="Email">
-          <UInput v-model="newCustomer.email" type="email" required />
-        </UFormGroup>
-        <UFormGroup label="Status">
-          <USelect
-            v-model="newCustomer.status"
-            :options="statusOptions"
-            required
-          />
-        </UFormGroup>
-        <UFormGroup label="Company">
-          <USelect
-            v-model="newCustomer.companyId"
-            :options="companies"
-            option-attribute="name"
-            value-attribute="id"
-            placeholder="Select a company..."
-          />
-        </UFormGroup>
-      </div>
-      <div class="flex justify-end space-x-2 mt-3">
-        <UButton color="primary" type="submit">Add Customer</UButton>
-      </div>
-    </form>
-  </UCard>
+  </BaseAddCard>
 </template>

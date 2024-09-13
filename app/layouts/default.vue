@@ -3,6 +3,16 @@ const route = useRoute()
 const appConfig = useAppConfig()
 
 const links = [
+{
+    id: 'timer',
+    label: 'Timer',
+    icon: 'i-heroicons-clock',
+    to: '/timer',
+    tooltip: {
+      text: 'Timer',
+      shortcuts: ['G', 'T'],
+    },
+  },
   {
     id: 'home',
     label: 'Notes',
@@ -15,7 +25,7 @@ const links = [
   },
   {
     id: 'customers',
-    label: 'Customers',
+    label: 'Customers / Companies',
     icon: 'i-heroicons-users',
     to: '/customers',
     tooltip: {
@@ -24,13 +34,13 @@ const links = [
     },
   },
   {
-    id: 'timer',
-    label: 'Timer',
-    icon: 'i-heroicons-clock',
-    to: '/timer',
+    id: 'projects',
+    label: 'Projects / Tasks',
+    icon: 'i-heroicons-briefcase',
+    to: '/projects',
     tooltip: {
-      text: 'Timer',
-      shortcuts: ['G', 'T'],
+      text: 'Projects',
+      shortcuts: ['G', 'P'],
     },
   },
   {

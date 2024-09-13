@@ -12,13 +12,23 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  modelValue: {
+    type: Number,
+    default: 5
+  }
 })
 
 const emit = defineEmits(['update:modelValue', 'delete-item', 'update-item'])
 
+const pageCount = ref(10)
 const search = ref('')
-const pageCount = ref(7) // items per page
 const page = ref(1)
+
+const pageCountOptions = [
+  { label: '5 per page', value: 5 },
+  { label: '10 per page', value: 10 },
+  { label: '15 per page', value: 15 },
+]
 
 const filteredRows = computed(() => {
   if (!search.value) return props.rows
@@ -60,18 +70,25 @@ const items = (row) => [
   }
 ]
 ]
+
 </script>
 
 <template>
   <UCard class="shadow-md">
     <div
       id="table-header"
-      class="flex flex-row px-1 pb-3 border-b border-gray-200 dark:border-gray-700 gap-4 items-end"
+      class="flex flex-row px-1 pb-3 border-b border-gray-200 dark:border-gray-700 gap-4 items-end items-center"
     >
-      <h2 class="mr-5"><slot name="header"></slot></h2>
+      <h2 class="mr-8"><slot name="header"></slot></h2>
       <UInput v-model="search" placeholder="Filter" />
       <UPagination v-model="page" :page-count="pageCount" :total="totalItems" />
-      <p class="opacity-70 ml-auto text-md">Total Items: {{ totalItems }}</p>
+      <USelect
+      v-model="pageCount"
+      :options="pageCountOptions"
+      placeholder="Items per page"
+      class="w-36"
+      />
+      <p class="opacity-70 text-md">Total: {{ totalItems }}</p>
       <ToggleVisibility @toggle-visibility="isTableVisible = !isTableVisible" />
     </div>
 
