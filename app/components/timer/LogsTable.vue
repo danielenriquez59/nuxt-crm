@@ -52,6 +52,16 @@ const rows = computed(() => {
   }))
 })
 
+const { setLastUpdate } = useLastUpdateStore();
+watchEffect(() => {
+  if (rows.value.length > 0) {
+    const lastUpdatedItem = rows.value.reduce((latest, current) => {
+      return new Date(current.updatedAt) > new Date(latest.updatedAt) ? current : latest;
+    });
+    setLastUpdate(lastUpdatedItem);
+  }
+});
+
 const formatElapsedTime = (timeInMilliseconds) => {
   const totalSeconds = Math.floor(timeInMilliseconds / 1000)
   const hours = Math.floor(totalSeconds / 3600)
@@ -71,6 +81,7 @@ const handleUpdateItem = async (item) => {
     await updateLog(item)
     isEditLogOpen.value = false
     selectedForEdit.value = null
+    setLastUpdate(item);
     errorHandler(error, 'log', 'updated')
 }
 

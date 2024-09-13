@@ -17,6 +17,8 @@ const handleLogged = async (time) => {
   fetchLogs()
 }
 
+const { lastUpdate } = useLastUpdateStore()
+
 </script>
 
 <template>

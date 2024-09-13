@@ -15,6 +15,7 @@ const emit = defineEmits(['update:modelValue'])
 const { companies, fetchCompanies } = useCompanies()
 const { projects, fetchProjects } = useProjects()
 const { tasks, fetchTasks } = useTasks()
+const { lastUpdate } = useLastUpdateStore()
 
 const logItems = ref({
   companyId: null,
@@ -40,6 +41,23 @@ watch([selectedCompany, selectedProject, selectedTask], ([company, project, task
   emit('update:modelValue', newLogItems)
 }, { deep: true })
 
+const updateSelectionsFromLastUpdate = () => {
+  if (lastUpdate?.value) {
+    selectedCompany.value = lastUpdate.value.company
+    selectedProject.value = lastUpdate.value.project
+    selectedTask.value = lastUpdate.value.task
+  }
+}
+
+// Update selections when component is mounted
+onMounted(() => {
+  updateSelectionsFromLastUpdate()
+})
+
+// Watch for changes in lastUpdate
+watch(lastUpdate, () => {
+  updateSelectionsFromLastUpdate()
+})
 </script>
 
 <template>
