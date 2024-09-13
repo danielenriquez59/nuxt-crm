@@ -1,5 +1,4 @@
 <script setup>
-const page = ref(1)
 const toast = useToast()
 
 const companyStore = useCompanyStore()
@@ -139,7 +138,6 @@ const handleAddCompany = async (newCompany) => {
       :columns="columns"
       :rows="rows"
       :loading="loading"
-      v-model="page"
       @delete-item="handleDeleteItem"
       @update-item="openEditModal"
       type="companies"

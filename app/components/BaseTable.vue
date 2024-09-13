@@ -12,21 +12,13 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  modelValue: {
-    // This replaces the 'page' prop
-    type: Number,
-    default: 1,
-  },
 })
 
-const pageCount = ref(5)
-const search = ref('')
 const emit = defineEmits(['update:modelValue', 'delete-item', 'update-item'])
 
-const page = computed({
-  get: () => props.modelValue,
-  set: (value) => emit('update:modelValue', value),
-})
+const search = ref('')
+const pageCount = ref(7) // items per page
+const page = ref(1)
 
 const filteredRows = computed(() => {
   if (!search.value) return props.rows

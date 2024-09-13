@@ -1,5 +1,4 @@
 <script setup>
-const page = ref(1)
 const toast = useToast()
 
 const { customers, loading, error, fetchCustomers, addCustomer, updateCustomer, deleteCustomer } = useCustomers()

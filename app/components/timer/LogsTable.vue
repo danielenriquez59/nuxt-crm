@@ -1,6 +1,5 @@
 <script setup>
 import EditLog from '@/components/timer/EditLog.vue'
-const page = ref(1)
 
 const { logs, loading, error, fetchLogs, updateLog, deleteLog } = useLogs()
 
@@ -62,16 +61,6 @@ watchEffect(() => {
   }
 });
 
-const formatElapsedTime = (timeInMilliseconds) => {
-  const totalSeconds = Math.floor(timeInMilliseconds / 1000)
-  const hours = Math.floor(totalSeconds / 3600)
-  const minutes = Math.floor((totalSeconds % 3600) / 60)
-  const seconds = totalSeconds % 60
-  const milliseconds = timeInMilliseconds % 1000
-
-  return `${hours}h ${minutes}m ${seconds}s`
-}
-
 const handleDeleteItem = async (item) => {
   await deleteLog(item)
   errorHandler(error, 'log', 'deleted')
@@ -103,7 +92,6 @@ const closeEditLog = () => {
       :columns="columns"
       :rows="rows"
       :loading="loading"
-      v-model="page"
       @delete-item="handleDeleteItem"
       @update-item="openEditModal"
       type="logs"

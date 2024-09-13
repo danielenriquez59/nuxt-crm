@@ -1,7 +1,4 @@
 <script setup>
-
-const page = ref(1)
-
 const { notes, loading, error, fetchNotes, updateNote, deleteNote } = useNotes()
 
 fetchNotes()
@@ -82,7 +79,6 @@ const closeEditNote = () => {
       :columns="columns"
       :rows="rows"
       :loading="loading"
-      v-model="page"
       @delete-item="handleDeleteItem"
       @update-item="openEditModal"
       type="notes"
