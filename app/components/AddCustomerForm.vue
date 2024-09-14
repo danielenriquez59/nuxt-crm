@@ -37,7 +37,11 @@ const resetForm = () => {
 </script>
 
 <template>
-  <BaseAddCard title="Add New Customer" icon="i-heroicons-user" @submit="handleSubmit">
+  <BaseAddCard 
+  title="Add New Customer" 
+  icon="i-heroicons-user" 
+  helpText="Customer is also an employee of the selected company." 
+  @submit="handleSubmit">
     <UFormGroup label="Name">
       <UInput v-model="newCustomer.name" required />
     </UFormGroup>
