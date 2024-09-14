@@ -15,10 +15,8 @@ export const useLogStore = defineStore('logs', {
         const response = await $fetch('/api/logs')
         this.logs = response.map((log) => ({
           ...log,
-          projectName: log.project.name,
-          companyName: log.company.name,
-          taskName: log.task.name,
         }))
+
       } catch (e) {
         console.error('Error fetching logs:', e)
         this.error = e
@@ -34,10 +32,8 @@ export const useLogStore = defineStore('logs', {
         const response = await $fetch(`/api/logs/${id}`, { method: 'GET' })
         return {
           ...response,
-          projectName: response.project.name,
-          companyName: response.company.name,
-          taskName: response.task.name,
         }
+
       } catch (e) {
         console.error(`Error fetching log ${id}:`, e)
         this.error = e
@@ -50,12 +46,18 @@ export const useLogStore = defineStore('logs', {
       this.loading = true
       this.error = null
       try {
+
         const response = await $fetch('/api/logs', {
           method: 'POST',
           body: log,
         })
-        this.logs.push(response)
-        return response
+        
+        const mappedResponse = {
+          ...response,
+        }
+        this.logs.push(mappedResponse)
+
+        return mappedResponse
       } catch (e) {
         console.error('Error adding log:', e)
         this.error = e

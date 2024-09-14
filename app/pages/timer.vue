@@ -3,7 +3,8 @@ import Stopwatch from '@/components/timer/Stopwatch.vue'
 import LogInput from '@/components/timer/LogInput.vue'
 import LogsTable from '@/components/timer/LogsTable.vue'
 
-const { addLog, fetchLogs } = useLogs()
+const toast = useToast()
+const { addLog, fetchLogs, error } = useLogs()
 const logItems = ref({
   companyId: null,
   projectId: null,
@@ -11,10 +12,18 @@ const logItems = ref({
 })
 
 const handleLogged = async (time) => {
+  if (!logItems.value.companyId || !logItems.value.projectId || !logItems.value.taskId) {
+    toast.add({
+      title: 'Error',
+      description: 'Please select a company, project, and task before logging time.',
+      color: 'red'
+    })
+    return
+  }
+
   logItems.value.elapsedTime = time
   await addLog(logItems.value)
   errorHandler(error, 'log', 'added')
-  fetchLogs()
 }
 </script>
 

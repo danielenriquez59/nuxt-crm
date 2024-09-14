@@ -17,17 +17,17 @@ const columns = [
     sortable: true,
   },
   {
-    key: 'projectName',
+    key: 'project.name',
     label: 'Project',
     sortable: true,
   },
   {
-    key: 'companyName',
+    key: 'company.name',
     label: 'Company',
     sortable: true,
   },
   {
-    key: 'taskName',
+    key: 'task.name',
     label: 'Task',
     sortable: true,
   },
@@ -67,6 +67,7 @@ const handleDeleteItem = async (item) => {
 }
 
 const handleUpdateItem = async (item) => {
+  item.elapsedTime = parseElapsedTime(item.elapsedTime)
   await updateLog(item)
   isEditLogOpen.value = false
   selectedForEdit.value = null

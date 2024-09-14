@@ -40,15 +40,15 @@ fetchTasks()
 
 const updateProject = (project) => {
   editingItem.value.projectId = project.id
-  editingItem.value.projectName = project.name
+  editingItem.value.project.name = project.name
   // Reset task when project changes
   editingItem.value.taskId = null
-  editingItem.value.taskName = ''
+  editingItem.value.task.name = ''
 }
 
 const updateTask = (task) => {
   editingItem.value.taskId = task.id
-  editingItem.value.taskName = task.name
+  editingItem.value.task.name = task.name
 }
 
 // Function to format seconds to HH:MM:SS
@@ -76,7 +76,7 @@ const parseTime = (timeString) => {
         <UFormGroup label="Project">
           <AutoDropdown
             :options="projects"
-            :modelValue="editingItem.projectName"
+            :modelValue="editingItem.project.name"
             placeholder="Select a project..."
             option-attribute="name"
             @update:modelValue="updateProject"
@@ -85,7 +85,7 @@ const parseTime = (timeString) => {
         <UFormGroup label="Task">
           <AutoDropdown
             :options="tasks.filter((task) => task.projectId === editingItem.projectId)"
-            :modelValue="editingItem.taskName"
+            :modelValue="editingItem.task.name"
             placeholder="Select a task..."
             option-attribute="name"
             @update:modelValue="updateTask"
