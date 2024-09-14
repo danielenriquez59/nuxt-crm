@@ -3,11 +3,7 @@ const EditCompany = defineAsyncComponent(() => import('~/components/EditCompany.
 
 const toast = useToast()
 
-const companyStore = useCompanyStore()
-const { companies, loading, error } = storeToRefs(companyStore)
-const { fetchCompanies, addCompany, updateCompany, deleteCompany } = companyStore
-
-fetchCompanies()
+const {  companies, loading, updateCompany, deleteCompany } = useCompanies()
 
 // Refs for EditCompany and AddCompany functionality
 const isEditCompanyOpen = ref(false)
@@ -47,7 +43,7 @@ const columns = [
     sortable: true,
   },
   {
-    key: 'employeeIds',
+    key: 'employeeNames',
     label: 'Employees',
     sortable: true,
   },
@@ -62,6 +58,7 @@ const rows = computed(() => {
     ...company,
     updatedAt: company.updatedAt ? new Date(company.updatedAt).toLocaleString() : '',
     createdAt: company.createdAt ? new Date(company.createdAt).toLocaleString() : '',
+    employeeNames: company.employeeNames.join(', '),
   }))
 })
 

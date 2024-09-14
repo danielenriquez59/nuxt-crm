@@ -3,9 +3,7 @@ const EditCustomer = defineAsyncComponent(() => import('~/components/EditCustome
 
 const toast = useToast()
 
-const { customers, loading, error, fetchCustomers, addCustomer, updateCustomer, deleteCustomer } =
-  useCustomers()
-fetchCustomers()
+const { customers, loading, updateCustomer, deleteCustomer } =  useCustomers()
 
 // Refs for EditCustomer and AddCustomer functionality
 const isEditCustomerOpen = ref(false)

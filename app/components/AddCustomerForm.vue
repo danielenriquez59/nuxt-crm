@@ -6,7 +6,7 @@ const newCustomer = ref({
   companyId: '',
 })
 
-const { addCustomer, error } = useCustomers()
+const { addCustomer } = useCustomers()
 const { companies } = useCompanyStore()
 
 

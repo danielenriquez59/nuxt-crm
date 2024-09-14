@@ -15,7 +15,9 @@ export const useCompanyStore = defineStore('companies', {
         const response = await $fetch('/api/companies')
         this.companies = response.map((company) => ({
           ...company,
-          employeeIds: company.employeeIds || [],
+          employeeNames: company.customers && Array.isArray(company.customers)
+            ? company.customers.map(customer => customer.name)
+            : []
         }))
         
       } catch (e) {

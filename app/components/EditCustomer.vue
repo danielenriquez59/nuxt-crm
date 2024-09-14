@@ -33,13 +33,11 @@ const saveEditedItem = () => {
 }
 
 // Fetch companies for the company dropdown
-const { companies, fetchCompanies } = useCompanies()
-fetchCompanies()
+const { companies } = useCompanies()
 </script>
 
 <template>
   <UModal :model-value="isOpen" @close="closeModal">
-    {{ editingItem }}
     <UCard>
       <template #header>
         <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
