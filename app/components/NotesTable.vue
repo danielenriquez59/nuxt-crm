@@ -1,9 +1,7 @@
 <script setup>
 const EditNote = defineAsyncComponent(() => import('~/components/EditNote.vue'))
 
-const { notes, loading, error, fetchNotes, updateNote, deleteNote } = useNotes()
-
-fetchNotes()
+const { notes, loading, error, deleteNote } = useNotes()
 
 // New refs for EditNote functionality
 const isEditNoteOpen = ref(false)

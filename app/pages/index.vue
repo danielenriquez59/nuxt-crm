@@ -1,4 +1,10 @@
-<script setup></script>
+<script setup>
+const { fetchNotes} = useNotes()
+const {  fetchCustomers } = useCustomers()
+fetchCustomers()
+fetchNotes()
+
+</script>
 
 <template>
   <UDashboardPage>
