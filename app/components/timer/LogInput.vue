@@ -15,7 +15,7 @@ const emit = defineEmits(['update:modelValue'])
 const { companies, fetchCompanies } = useCompanies()
 const { projects, fetchProjects } = useProjects()
 const { tasks, fetchTasks } = useTasks()
-const { lastUpdate } = useLastUpdateStore()
+const { logs } = useLogs()
 
 const logItems = ref({
   companyId: null,
@@ -31,6 +31,23 @@ const selectedCompany = ref(null)
 const selectedProject = ref(null)
 const selectedTask = ref(null)
 
+const mostRecentLog = computed(() => {
+  if (logs.value && logs.value.length > 0) {
+    return logs.value.reduce((latest, current) => {
+      return new Date(current.updatedAt) > new Date(latest.updatedAt) ? current : latest
+    })
+  }
+  return null
+})
+
+const updateSelectionsFromRecentLog = () => {
+  if (mostRecentLog.value) {
+    selectedCompany.value = mostRecentLog.value.company
+    selectedProject.value = mostRecentLog.value.project
+    selectedTask.value = mostRecentLog.value.task
+  }
+}
+
 watch(
   [selectedCompany, selectedProject, selectedTask],
   ([company, project, task]) => {
@@ -45,23 +62,13 @@ watch(
   { deep: true }
 )
 
-const updateSelectionsFromLastUpdate = () => {
-  if (lastUpdate?.value) {
-    selectedCompany.value = lastUpdate.value.company
-    selectedProject.value = lastUpdate.value.project
-    selectedTask.value = lastUpdate.value.task
-  }
-}
+updateSelectionsFromRecentLog()
 
-// Update selections when component is mounted
-onMounted(() => {
-  updateSelectionsFromLastUpdate()
-})
+// Watch for changes in logs
+watch(() => logs.value, () => {
+  updateSelectionsFromRecentLog()
+}, { deep: true })
 
-// Watch for changes in lastUpdate
-watch(lastUpdate, () => {
-  updateSelectionsFromLastUpdate()
-})
 </script>
 
 <template>
