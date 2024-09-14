@@ -6,8 +6,7 @@ const newProject = ref({
 })
 
 const { addProject, error } = useProjects()
-const { companies, fetchCompanies } = useCompanies()
-fetchCompanies()
+const { companies } = useCompanies()
 
 const handleSubmit = () => {
   addNewProject(newProject.value)

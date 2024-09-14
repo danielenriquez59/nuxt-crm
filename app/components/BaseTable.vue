@@ -87,7 +87,7 @@ const items = (row) => [
         placeholder="Items per page"
         class="w-36"
       />
-      <p class="opacity-70 text-md">Total: {{ totalItems }}</p>
+      <p class="opacity-70 text-md" v-if="totalItems > 0">Total: {{ totalItems }}</p>
       <ToggleVisibility @toggle-visibility="isTableVisible = !isTableVisible" />
     </div>
 

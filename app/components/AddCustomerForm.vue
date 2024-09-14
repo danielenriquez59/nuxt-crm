@@ -7,8 +7,8 @@ const newCustomer = ref({
 })
 
 const { addCustomer, error } = useCustomers()
-const { companies, fetchCompanies } = useCompanyStore()
-fetchCompanies()
+const { companies } = useCompanyStore()
+
 
 const handleSubmit = async () => {
   if (!newCustomer.value.companyId) {

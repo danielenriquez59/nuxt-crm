@@ -9,11 +9,8 @@ const newCompany = ref({
 })
 
 const { addCompany } = useCompanyStore()
-const { customers, fetchCustomers } = useCustomers()
+const { customers } = useCustomers()
 const toast = useToast()
-
-// Fetch customers to use as potential employees
-fetchCustomers()
 
 const handleSubmit = async () => {
   try {

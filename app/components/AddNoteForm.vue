@@ -6,8 +6,7 @@ const newNote = ref({
 })
 
 const { addNote, error } = useNotes()
-const { customers, fetchCustomers } = useCustomers()
-fetchCustomers()
+const { customers } = useCustomers()
 
 const handleSubmit = () => {
   addNewNote(newNote.value)

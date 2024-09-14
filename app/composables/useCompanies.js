@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 export const useCompanies = () => {
   const store = useCompanyStore()
   const { companies, loading, error } = storeToRefs(store)
-
+  
   const fetchCompanies = async () => {
     await store.fetchCompanies()
   }

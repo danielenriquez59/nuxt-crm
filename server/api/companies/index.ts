@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
             },
           },
         })
-
+        
         return companies
       } catch (error) {
         console.error('Error fetching company(ies):', error)

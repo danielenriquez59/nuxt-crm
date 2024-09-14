@@ -6,8 +6,7 @@ const newTask = ref({
 })
 
 const { addTask, error } = useTasks()
-const { projects, fetchProjects } = useProjects()
-fetchProjects()
+const { projects } = useProjects()
 
 const handleSubmit = () => {
   addNewTask(newTask.value)
