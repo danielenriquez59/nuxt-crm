@@ -13,8 +13,7 @@ const props = defineProps({
 const emit = defineEmits(['update-item', 'close'])
 
 const editedProject = ref({ ...props.selected })
-const { companies, fetchCompanies } = useCompanies()
-fetchCompanies()
+const { companies } = useCompanies()
 
 watch(
   () => props.selected,

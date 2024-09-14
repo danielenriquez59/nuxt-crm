@@ -1,9 +1,7 @@
 <script setup>
 const EditTask = defineAsyncComponent(() => import('~/components/projects/EditTask.vue'))
 
-const { tasks, loading, error, fetchTasks, updateTask, deleteTask } = useTasks()
-
-fetchTasks()
+const { tasks, loading, error, updateTask, deleteTask } = useTasks()
 
 // Refs for EditTask functionality
 const isEditTaskOpen = ref(false)

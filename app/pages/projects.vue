@@ -3,6 +3,14 @@ import AddProjectForm from '~/components/projects/AddProjectForm.vue'
 import AddTaskForm from '~/components/projects/AddTaskForm.vue'
 import ProjectsTable from '~/components/projects/ProjectsTable.vue'
 import TasksTable from '~/components/projects/TasksTable.vue'
+
+const { projects, fetchProjects, updateProject, deleteProject } = useProjects()
+const { companies, fetchCompanies } = useCompanies()
+const { tasks, fetchTasks, updateTask, deleteTask } = useTasks()
+fetchProjects()
+fetchTasks()
+fetchCompanies()
+fetchProjects()
 </script>
 
 <template>

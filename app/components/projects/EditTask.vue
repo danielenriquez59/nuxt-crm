@@ -34,7 +34,7 @@ const saveEditedItem = () => {
 
 // Task specific functions
 const { projects, fetchProjects } = useProjects()
-fetchProjects()
+
 </script>
 
 <template>

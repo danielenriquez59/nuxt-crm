@@ -1,9 +1,7 @@
 <script setup>
 const EditProject = defineAsyncComponent(() => import('~/components/projects/EditProject.vue'))
 
-const { projects, loading, error, fetchProjects, updateProject, deleteProject } = useProjects()
-
-fetchProjects()
+const { projects, loading, error, updateProject, deleteProject } = useProjects()
 
 // Refs for EditProject functionality
 const isEditProjectOpen = ref(false)
