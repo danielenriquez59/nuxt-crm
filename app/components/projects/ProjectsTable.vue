@@ -88,6 +88,7 @@ const closeEditProject = () => {
     </BaseTable>
 
     <EditProject
+      v-if="isEditProjectOpen"
       :selected="selectedForEdit"
       :is-open="isEditProjectOpen"
       @update-item="handleUpdateItem"
