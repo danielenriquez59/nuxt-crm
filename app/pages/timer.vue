@@ -5,6 +5,15 @@ import LogsTable from '@/components/timer/LogsTable.vue'
 
 const toast = useToast()
 const { addLog, fetchLogs, error } = useLogs()
+const {  fetchCompanies } = useCompanies()
+const {  fetchProjects } = useProjects()
+const {  fetchTasks } = useTasks()
+// Fetch initial data
+fetchCompanies()
+fetchProjects()
+fetchTasks()
+fetchLogs()
+
 const logItems = ref({
   companyId: null,
   projectId: null,

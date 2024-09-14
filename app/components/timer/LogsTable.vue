@@ -1,9 +1,8 @@
 <script setup>
-import EditLog from '@/components/timer/EditLog.vue'
+const EditLog = defineAsyncComponent(() => import('@/components/timer/EditLog.vue'))
 
-const { logs, loading, error, fetchLogs, updateLog, deleteLog } = useLogs()
+const { logs, loading, error} = useLogs()
 
-fetchLogs()
 
 // New refs for EditLog functionality
 const isEditLogOpen = ref(false)

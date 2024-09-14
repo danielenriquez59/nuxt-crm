@@ -12,9 +12,9 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const { companies, fetchCompanies } = useCompanies()
-const { projects, fetchProjects } = useProjects()
-const { tasks, fetchTasks } = useTasks()
+const { companies } = useCompanies()
+const { projects } = useProjects()
+const { tasks } = useTasks()
 const { logs } = useLogs()
 
 const logItems = ref({
@@ -22,10 +22,7 @@ const logItems = ref({
   projectId: null,
   taskId: null,
 })
-// Fetch initial data
-fetchCompanies()
-fetchProjects()
-fetchTasks()
+
 
 const selectedCompany = ref(null)
 const selectedProject = ref(null)
