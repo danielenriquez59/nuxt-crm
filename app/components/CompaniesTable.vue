@@ -1,4 +1,6 @@
 <script setup>
+const EditCompany = defineAsyncComponent(() => import('~/components/EditCompany.vue'))
+
 const toast = useToast()
 
 const companyStore = useCompanyStore()

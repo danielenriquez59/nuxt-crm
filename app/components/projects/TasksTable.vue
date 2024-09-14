@@ -1,4 +1,6 @@
 <script setup>
+const EditTask = defineAsyncComponent(() => import('~/components/projects/EditTask.vue'))
+
 const { tasks, loading, error, fetchTasks, updateTask, deleteTask } = useTasks()
 
 fetchTasks()
@@ -20,7 +22,7 @@ const columns = [
     sortable: true,
   },
   {
-    key: 'projectName',
+    key: 'project.name',
     label: 'Project',
     sortable: true,
   },
@@ -38,7 +40,6 @@ const rows = computed(() => {
 
   return tasks.value.map((task) => ({
     ...task,
-    projectName: task.project?.name || '',
     updatedAt: task.updatedAt ? new Date(task.updatedAt).toLocaleString() : '',
     createdAt: task.createdAt ? new Date(task.createdAt).toLocaleString() : '',
   }))

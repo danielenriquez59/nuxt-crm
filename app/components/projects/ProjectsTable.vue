@@ -1,4 +1,6 @@
 <script setup>
+const EditProject = defineAsyncComponent(() => import('~/components/projects/EditProject.vue'))
+
 const { projects, loading, error, fetchProjects, updateProject, deleteProject } = useProjects()
 
 fetchProjects()
@@ -20,7 +22,7 @@ const columns = [
     sortable: true,
   },
   {
-    key: 'companyName',
+    key: 'company.name',
     label: 'Company',
     sortable: true,
   },
@@ -38,7 +40,6 @@ const rows = computed(() => {
 
   return projects.value.map((project) => ({
     ...project,
-    companyName: project.company?.name || '',
     updatedAt: project.updatedAt ? new Date(project.updatedAt).toLocaleString() : '',
     createdAt: project.createdAt ? new Date(project.createdAt).toLocaleString() : '',
   }))
@@ -89,7 +90,6 @@ const closeEditProject = () => {
     </BaseTable>
 
     <EditProject
-      v-if="isEditProjectOpen"
       :selected="selectedForEdit"
       :is-open="isEditProjectOpen"
       @update-item="handleUpdateItem"

@@ -1,4 +1,6 @@
 <script setup>
+const EditNote = defineAsyncComponent(() => import('~/components/EditNote.vue'))
+
 const { notes, loading, error, fetchNotes, updateNote, deleteNote } = useNotes()
 
 fetchNotes()

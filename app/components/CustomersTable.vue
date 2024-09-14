@@ -1,4 +1,6 @@
 <script setup>
+const EditCustomer = defineAsyncComponent(() => import('~/components/EditCustomer.vue'))
+
 const toast = useToast()
 
 const { customers, loading, error, fetchCustomers, addCustomer, updateCustomer, deleteCustomer } =

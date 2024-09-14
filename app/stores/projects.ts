@@ -15,7 +15,6 @@ export const useProjectStore = defineStore('projects', {
         const response = await $fetch('/api/projects')
         this.projects = response.map((project) => ({
           ...project,
-          companyName: project.company.name,
         }))
       } catch (e) {
         console.error('Error fetching projects:', e)
@@ -32,7 +31,6 @@ export const useProjectStore = defineStore('projects', {
         const response = await $fetch(`/api/projects/${id}`, { method: 'GET' })
         return {
           ...response,
-          companyName: response.company.name,
         }
       } catch (e) {
         console.error(`Error fetching project ${id}:`, e)
